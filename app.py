@@ -68,6 +68,9 @@ class User(UserMixin, db.Model):
         nullable=False
     )
 
+    display_name = db.Column
+    (db.String(50))
+
     password_hash = db.Column(
         db.String(255),
         nullable=False
