@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Entry{% endblock %}
+
+{% block content %}
+
+<div class="content-wrapper">
+
+    <div class="card">
+
+        <div class="mb-5">
+
+            <h1>✏️ Edit Journal Entry</h1>
+
+            <p class="text-muted">
+
+                {{ entry.created_at.strftime('%A %d %B %Y') }}
+
+            </p>
+
+        </div>
+
+        <form method="POST">
+
+            <!-- Mood -->
+
+            <div class="mb-5">
+
+                <label class="form-label mb-3">
+
+                    How are you feeling?
+
+                </label>
+
+                <select
+                    name="mood_score"
+                    class="form-select"
+                    required>
+
+                    <option value="8" {% if entry.mood_score == 8 %}selected{% endif %}>😊 Happy</option>
+
+                    <option value="7" {% if entry.mood_score == 7 %}selected{% endif %}>😌 Calm</option>
+
+                    <option value="6" {% if entry.mood_score == 6 %}selected{% endif %}>😟 Anxious</option>
+
+                    <option value="5" {% if entry.mood_score == 5 %}selected{% endif %}>😠 Angry</option>
+
+                    <option value="4" {% if entry.mood_score == 4 %}selected{% endif %}>😔 Sad</option>
+
+                    <option value="3" {% if entry.mood_score == 3 %}selected{% endif %}>😤 Frustrated</option>
+
+                    <option value="2" {% if entry.mood_score == 2 %}selected{% endif %}>❤️ Grateful</option>
+
+                    <option value="1" {% if entry.mood_score == 1 %}selected{% endif %}>😨 Fearful</option>
+
+                </select>
+
+            </div>
+
+            <!-- Tags -->
+
+            <div class="mb-5">
+
+                <label class="form-label">
+
+                    Tags
+
+                </label>
+
+                <input
+                    type="text"
+                    name="tags"
+                    class="form-control"
+                    value="{{ entry.tags or '' }}"
+                    placeholder="Work, Family, Nicola, CBT...">
+
+                <small>
+
+                    Separate tags with commas.
+
+                </small>
+
+            </div>
+
+            <!-- Reflection -->
+
+            <div class="mb-4">
+
+                <label class="form-label">
+
+                    Today's Reflection
+
+                </label>
+
+                <textarea
+                    name="content"
+                    class="form-control journal-editor"
+                    required>{{ entry.content }}</textarea>
+
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-4">
+
+                <small id="word-count">
+
+                    0 words
+
+                </small>
+
+                <div>
+
+                    <a href="{{ url_for('view_entry',
+                                        entry_id=entry.id) }}"
+                       class="btn btn-secondary">
+
+                        Cancel
+
+                    </a>
+
+                    <button
+                        class="btn btn-primary"
+                        type="submit">
+
+                        💾 Save Changes
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+
+const textarea = document.querySelector(".journal-editor");
+
+const counter = document.getElementById("word-count");
+
+function updateCount(){
+
+    const words = textarea.value
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean);
+
+    counter.textContent = words.length + " words";
+
+}
+
+updateCount();
+
+textarea.addEventListener("input", updateCount);
+
+</script>
+
+{% endblock %}

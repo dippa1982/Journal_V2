@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}Journal Entry{% endblock %}
+
+{% block content %}
+
+<div class="content-wrapper">
+
+    <div class="card">
+
+        <!-- Header -->
+
+        <div class="d-flex justify-content-between align-items-start mb-4">
+
+            <div>
+
+                <h1>
+
+                    {{ entry.created_at.strftime('%A %d %B %Y') }}
+
+                </h1>
+
+                <p class="text-muted">
+
+                    {{ entry.created_at.strftime('%H:%M') }}
+
+                </p>
+
+            </div>
+
+            <div class="mood-emoji">
+
+                {% if entry.mood_score == 8 %}
+                    😊
+                {% elif entry.mood_score == 7 %}
+                    😌
+                {% elif entry.mood_score == 6 %}
+                    😟
+                {% elif entry.mood_score == 5 %}
+                    😠
+                {% elif entry.mood_score == 4 %}
+                    😔
+                {% elif entry.mood_score == 3 %}
+                    😤
+                {% elif entry.mood_score == 2 %}
+                    ❤️
+                {% else %}
+                    😨
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        <hr>
+
+        <!-- Tags -->
+
+        {% if entry.tags %}
+
+        <div class="mb-4">
+
+            {% for tag in entry.tags.split(",") %}
+
+                <span class="tag">
+
+                    {{ tag.strip() }}
+
+                </span>
+
+            {% endfor %}
+
+        </div>
+
+        {% endif %}
+
+        <!-- Journal -->
+
+        <div class="journal-content">
+
+            {{ entry.content }}
+
+        </div>
+
+        <hr class="mt-5">
+
+        <!-- Buttons -->
+
+        <div class="d-flex justify-content-between">
+
+            <a href="{{ url_for('journal') }}"
+               class="btn btn-secondary">
+
+                ← Back
+
+            </a>
+
+            <div>
+
+                <a href="{{ url_for('edit_entry',
+                                    entry_id=entry.id) }}"
+                   class="btn btn-primary">
+
+                    ✏ Edit
+
+                </a>
+
+                <a href="{{ url_for('delete_entry',
+                                    entry_id=entry.id) }}"
+                   class="btn btn-danger"
+                   onclick="return confirm('Delete this entry?');">
+
+                    🗑 Delete
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

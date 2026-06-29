@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+
+{% block title %}Insights{% endblock %}
+
+{% block content %}
+
+<div class="content-wrapper">
+
+    <div class="mb-5">
+
+        <h1>📈 Insights</h1>
+
+        <p class="card-title">
+
+            Discover patterns and trends in your journal.
+
+        </p>
+
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-md-3">
+
+            <div class="card stat-card">
+
+                <div class="stat-icon">📖</div>
+
+                <div class="stat-number">
+
+                    {{ total_entries }}
+
+                </div>
+
+                <div class="stat-label">
+
+                    Total Entries
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card stat-card">
+
+                <div class="stat-icon">🔥</div>
+
+                <div class="stat-number">
+
+                    {{ streak }}
+
+                </div>
+
+                <div class="stat-label">
+
+                    Day Streak
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card stat-card">
+
+                <div class="stat-icon">😊</div>
+
+                <div class="stat-number">
+
+                    {{ average_mood }}
+
+                </div>
+
+                <div class="stat-label">
+
+                    Average Mood
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card stat-card">
+
+                <div class="stat-icon">🏷️</div>
+
+                <div class="stat-number">
+
+                    {{ total_tags }}
+
+                </div>
+
+                <div class="stat-label">
+
+                    Tags Used
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row g-4 mt-3">
+
+        <div class="col-lg-6">
+
+            <div class="card">
+
+                <h3>😊 Mood Breakdown</h3>
+
+                <hr>
+
+                <p>Happy: {{ mood_counts.happy }}</p>
+
+                <p>Calm: {{ mood_counts.calm }}</p>
+
+                <p>Anxious: {{ mood_counts.anxious }}</p>
+
+                <p>Angry: {{ mood_counts.angry }}</p>
+
+                <p>Sad: {{ mood_counts.sad }}</p>
+
+                <p>Frustrated: {{ mood_counts.frustrated }}</p>
+
+                <p>Grateful: {{ mood_counts.grateful }}</p>
+
+                <p>Fearful: {{ mood_counts.fearful }}</p>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6">
+
+            <div class="card">
+
+                <h3>🏷️ Most Used Tags</h3>
+
+                <hr>
+
+                {% if top_tags %}
+
+                    {% for tag, count in top_tags %}
+
+                        <div class="d-flex justify-content-between mb-2">
+
+                            <span>#{{ tag }}</span>
+
+                            <strong>{{ count }}</strong>
+
+                        </div>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <p>No tags yet.</p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row g-4 mt-3">
+
+        <div class="col-12">
+
+            <div class="card">
+
+                <h3>🤖 AI Reflection</h3>
+
+                <hr>
+
+                <p class="card-title">
+
+                    This section will eventually contain AI-generated summaries
+                    and reflections based on your journal entries.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

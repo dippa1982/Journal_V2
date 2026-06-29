@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block title %}New Entry{% endblock %}
+
+{% block content %}
+
+<div class="content-wrapper">
+
+    <div class="card">
+
+        <div class="mb-5">
+
+            <h1>✍️ New Journal Entry</h1>
+
+            <p class="text-muted">
+
+                {{ now.strftime('%A %d %B %Y') if now else '' }}
+
+            </p>
+
+        </div>
+
+        <form method="POST">
+
+            <!-- Mood -->
+
+            <div class="mb-5">
+
+                <label class="form-label mb-3">
+
+                    How are you feeling today?
+
+                </label>
+
+                <select
+                    name="mood_score"
+                    class="form-select"
+                    required>
+
+                    <option value="8">😊 Happy</option>
+                    <option value="7">😌 Calm</option>
+                    <option value="6">😟 Anxious</option>
+                    <option value="5">😠 Angry</option>
+                    <option value="4">😔 Sad</option>
+                    <option value="3" selected>😤 Frustrated</option>
+                    <option value="2">❤️ Grateful</option>
+                    <option value="1">😨 Fearful</option>
+
+                </select>
+
+            </div>
+
+            <!-- Tags -->
+
+            <div class="mb-5">
+
+                <label class="form-label">
+
+                    Tags
+
+                </label>
+
+                <input
+                    type="text"
+                    name="tags"
+                    class="form-control"
+                    placeholder="Work, Family, Nicola, CBT...">
+
+                <small>
+
+                    Separate tags with commas.
+
+                </small>
+
+            </div>
+
+            <!-- Journal -->
+
+            <div class="mb-4">
+
+                <label class="form-label">
+
+                    Today's Reflection
+
+                </label>
+
+                <textarea
+                    name="content"
+                    class="form-control journal-editor"
+                    placeholder="What happened today?
+
+How are you feeling?
+
+What thoughts keep coming back?
+
+What are you grateful for?
+
+What do you want to remember?"
+                    required></textarea>
+
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-4">
+
+                <small id="word-count">
+
+                    0 words
+
+                </small>
+
+                <div>
+
+                    <a href="{{ url_for('dashboard') }}"
+                       class="btn btn-secondary">
+
+                        Cancel
+
+                    </a>
+
+                    <button
+                        class="btn btn-primary"
+                        type="submit">
+
+                        💾 Save Entry
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+
+const textarea = document.querySelector(".journal-editor");
+
+const counter = document.getElementById("word-count");
+
+textarea.addEventListener("input", () => {
+
+    const words = textarea.value
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean);
+
+    counter.textContent = words.length + " words";
+
+});
+
+</script>
+
+{% endblock %}

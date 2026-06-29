@@ -1,0 +1,106 @@
+/* =====================================================
+   COLOURS
+===================================================== */
+
+:root{
+
+    /* Backgrounds */
+
+    --bg:#101418;
+
+    --sidebar:#18212d;
+
+    --card:#202938;
+
+    --card-hover:#293548;
+
+    --input:#273244;
+
+
+    /* Text */
+
+    --text:#ECEFF4;
+
+    --muted:#ffffff;
+
+    --text-muted:#ffffff;
+
+    --heading:#FFFFFF;
+
+
+    /* Brand */
+
+    --accent:#4CAF50;
+
+    --accent-hover:#43A047;
+
+    --accent-light:#6FCF70;
+
+
+    /* Status */
+
+    --success:#22C55E;
+
+    --warning:#F59E0B;
+
+    --danger:#EF4444;
+
+    --info:#3B82F6;
+
+
+    /* Borders */
+
+    --border:#2E3B4E;
+
+
+    /* Shadows */
+
+    --shadow-small:
+        0 4px 12px rgba(0,0,0,.15);
+
+    --shadow-medium:
+        0 10px 25px rgba(0,0,0,.25);
+
+    --shadow-large:
+        0 20px 40px rgba(0,0,0,.35);
+
+
+    /* Radius */
+
+    --radius-small:8px;
+
+    --radius-medium:14px;
+
+    --radius-large:20px;
+
+    --radius-round:999px;
+
+
+    /* Spacing */
+
+    --space-xs:6px;
+
+    --space-sm:12px;
+
+    --space-md:20px;
+
+    --space-lg:32px;
+
+    --space-xl:48px;
+
+
+    /* Sidebar */
+
+    --sidebar-width:260px;
+
+
+    /* Animation */
+
+    --transition-fast:.15s ease;
+
+    --transition:.25s ease;
+
+    --transition-slow:.4s ease;
+
+}
+

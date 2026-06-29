@@ -1,0 +1,242 @@
+/* -------------------------------
+   Cards
+--------------------------------*/
+
+.card{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    padding:24px;
+
+    transition:.2s ease;
+
+}
+
+.card:hover{
+
+    transform:translateY(-3px);
+
+    background:var(--card-hover);
+
+}
+
+
+/* -------------------------------
+   Buttons
+--------------------------------*/
+
+.btn{
+
+    border-radius:12px;
+
+    padding:10px 18px;
+
+    font-weight:600;
+
+    transition:.2s;
+
+}
+
+.btn-primary{
+
+    background:var(--accent);
+
+    border:none;
+
+    color:white;
+
+}
+
+.btn-primary:hover{
+
+    background:var(--accent-hover);
+
+}
+
+.btn-secondary{
+
+    background:transparent;
+
+    border:1px solid var(--border);
+
+    color:var(--text);
+
+}
+
+
+/* -------------------------------
+   Forms
+--------------------------------*/
+
+.form-control,
+.form-select{
+
+    background:#273244;
+
+    border:1px solid var(--border);
+
+    color:var(--text);
+
+    border-radius:12px;
+
+}
+
+.form-control:focus,
+.form-select:focus{
+
+    background:#273244;
+
+    color:white;
+
+    border-color:var(--accent);
+
+    box-shadow:none;
+
+}
+
+
+/* -------------------------------
+   Sidebar Navigation
+--------------------------------*/
+
+.nav-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:14px 18px;
+
+    margin-bottom:8px;
+
+    border-radius:12px;
+
+    text-decoration:none;
+
+    color:var(--text);
+
+    transition:.2s;
+
+}
+
+.nav-item:hover{
+
+    background:var(--card-hover);
+
+    color:white;
+
+}
+
+
+/* -------------------------------
+   Logo
+--------------------------------*/
+
+.logo{
+
+    font-size:1.4rem;
+
+    font-weight:700;
+
+    text-decoration:none;
+
+    color:white;
+
+}
+
+
+/* -------------------------------
+   User Card
+--------------------------------*/
+
+.user-card{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin-top:auto;
+
+}
+
+
+/* -------------------------------
+   Avatar
+--------------------------------*/
+
+.avatar{
+
+    width:48px;
+
+    height:48px;
+
+    border-radius:50%;
+
+    background:var(--accent);
+
+    color:white;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-weight:bold;
+
+}
+
+
+/* -------------------------------
+   Alerts
+--------------------------------*/
+
+.alert{
+
+    border:none;
+
+    border-radius:12px;
+
+}
+
+/* -------------------------------
+   Register
+--------------------------------*/
+
+.login-container{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    min-height:100vh;
+
+}
+
+.login-card{
+
+    width:100%;
+
+    max-width:450px;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:20px;
+
+    padding:40px;
+
+    box-shadow:var(--shadow-large);
+
+}

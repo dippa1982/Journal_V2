@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+
+{% block title %}Settings{% endblock %}
+
+{% block content %}
+
+<div class="content-wrapper">
+
+    <div class="mb-5">
+
+        <h1>⚙ Settings</h1>
+
+        <p class="text-muted">
+
+            Manage your journal and account.
+
+        </p>
+
+    </div>
+
+    <!-- Account -->
+
+    <div class="card mb-4">
+
+        <h3>👤 Account</h3>
+
+        <hr>
+
+        <p>
+
+            <strong>Username</strong>
+
+            <br>
+
+            {{ current_user.username }}
+
+        </p>
+
+    </div>
+
+    <!-- Security -->
+
+    <div class="card mb-4">
+
+        <h3>🔒 Change Password</h3>
+
+        <hr>
+
+        <form method="POST">
+
+            <div class="mb-3">
+
+                <label class="form-label">
+
+                    Current Password
+
+                </label>
+
+                <input
+                    type="password"
+                    name="current_password"
+                    class="form-control"
+                    required>
+
+            </div>
+
+            <div class="mb-3">
+
+                <label class="form-label">
+
+                    New Password
+
+                </label>
+
+                <input
+                    type="password"
+                    name="new_password"
+                    class="form-control"
+                    required>
+
+            </div>
+
+            <div class="mb-4">
+
+                <label class="form-label">
+
+                    Confirm Password
+
+                </label>
+
+                <input
+                    type="password"
+                    name="confirm_password"
+                    class="form-control"
+                    required>
+
+            </div>
+
+            <button
+                class="btn btn-primary">
+
+                Update Password
+
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- AI -->
+
+    <div class="card mb-4">
+
+        <h3>🤖 AI</h3>
+
+        <hr>
+
+        <p class="text-muted">
+
+            Future versions will let you configure AI reflections,
+            choose prompts and connect your OpenAI API key.
+
+        </p>
+
+    </div>
+
+    <!-- Export -->
+
+    <div class="card mb-4">
+
+        <h3>📤 Export</h3>
+
+        <hr>
+
+        <p>
+
+            Export your journal for AI analysis.
+
+        </p>
+
+        <a href="{{ url_for('export_markdown') }}"
+           class="btn btn-secondary">
+
+            Export Markdown
+
+        </a>
+
+    </div>
+
+    <!-- Appearance -->
+
+    <div class="card mb-4">
+
+        <h3>🎨 Appearance</h3>
+
+        <hr>
+
+        <p class="text-muted">
+
+            Theme support is coming soon.
+
+        </p>
+
+    </div>
+
+    <!-- Danger Zone -->
+
+    <div class="card">
+
+        <h3 class="text-danger">
+
+            🗑 Danger Zone
+
+        </h3>
+
+        <hr>
+
+        <p>
+
+            Permanently delete every journal entry.
+
+        </p>
+
+        <button
+            class="btn btn-danger"
+            disabled>
+
+            Delete Journal
+
+        </button>
+
+    </div>
+
+</div>
+
+{% endblock %}

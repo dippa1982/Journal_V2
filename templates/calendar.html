@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}Calendar{% endblock %}
+
+{% block content %}
+
+<div class="content-wrapper">
+
+    <div class="d-flex justify-content-between align-items-center mb-5">
+
+        <div>
+
+            <h1>📅 Calendar</h1>
+
+            <p class="text-muted">
+
+                Browse your journal by date.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <h2 class="text-center mb-4">
+
+            {{ month }}/{{ year }}
+
+        </h2>
+
+        <table class="calendar-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                    <th>Sun</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for week in weeks %}
+
+                <tr>
+
+                {% for day in week %}
+
+                    {% if day == 0 %}
+
+                        <td class="empty-day"></td>
+
+                    {% else %}
+
+                        {% set entry = entry_lookup.get(day) %}
+
+                        <td>
+
+                            {% if entry %}
+
+                                <a href="{{ url_for('view_entry', entry_id=entry.id) }}"
+                                   class="calendar-entry">
+
+                                    <div class="day-number">
+
+                                        {{ day }}
+
+                                    </div>
+
+                                    <div class="mood">
+
+                                        {% if entry.mood_score == 8 %}
+                                            😊
+                                        {% elif entry.mood_score == 7 %}
+                                            😌
+                                        {% elif entry.mood_score == 6 %}
+                                            😟
+                                        {% elif entry.mood_score == 5 %}
+                                            😠
+                                        {% elif entry.mood_score == 4 %}
+                                            😔
+                                        {% elif entry.mood_score == 3 %}
+                                            😤
+                                        {% elif entry.mood_score == 2 %}
+                                            ❤️
+                                        {% else %}
+                                            😨
+                                        {% endif %}
+
+                                    </div>
+
+                                </a>
+
+                            {% else %}
+
+                                <div class="calendar-empty">
+
+                                    <div class="day-number">
+
+                                        {{ day }}
+
+                                    </div>
+
+                                </div>
+
+                            {% endif %}
+
+                        </td>
+
+                    {% endif %}
+
+                {% endfor %}
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}
