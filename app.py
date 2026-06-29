@@ -718,6 +718,27 @@ Mood: {mood_text}
 
 with app.app_context():
     db.create_all()
+    from sqlalchemy import text
+
+with app.app_context():
+
+    try:
+
+        db.session.execute(text("""
+            ALTER TABLE entry
+            ADD COLUMN tags VARCHAR(255);
+            ADD COLUMN username VARCHAR(255);
+        """))
+
+        db.session.commit()
+
+        print("Tags column added.")
+
+    except Exception:
+
+        db.session.rollback()
+
+        print("Tags column already exists.")
 
 # --------------------------------------------------
 # Run App
