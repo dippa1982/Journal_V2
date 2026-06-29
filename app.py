@@ -110,6 +110,27 @@ def debug_db():
     return str(db.engine.url)
 
 # --------------------------------------------------
+# Migrate
+# --------------------------------------------------
+from sqlalchemy import text
+
+@app.route("/migrate-tags")
+def migrate_tags():
+
+    try:
+        db.session.execute(text("""
+            ALTER TABLE entry
+            ADD COLUMN IF NOT EXISTS tags VARCHAR(255);
+        """))
+        db.session.commit()
+
+        return "Migration completed successfully."
+
+    except Exception as e:
+        db.session.rollback()
+        return f"Migration failed: {e}"
+
+# --------------------------------------------------
 # Flask Login
 # --------------------------------------------------
 
@@ -718,27 +739,6 @@ Mood: {mood_text}
 
 with app.app_context():
     db.create_all()
-    from sqlalchemy import text
-
-with app.app_context():
-
-    try:
-
-        db.session.execute(text("""
-            ALTER TABLE entry
-            ADD COLUMN tags VARCHAR(255);
-            ADD COLUMN username VARCHAR(255);
-        """))
-
-        db.session.commit()
-
-        print("Tags column added.")
-
-    except Exception:
-
-        db.session.rollback()
-
-        print("Tags column already exists.")
 
 # --------------------------------------------------
 # Run App
