@@ -88,7 +88,7 @@
 
         <div class="d-flex justify-content-between">
 
-            <a href="{{ url_for('journal') }}"
+            <a href="{{ url_for('journal.search') }}"
                class="btn btn-secondary">
 
                 ← Back
@@ -97,7 +97,7 @@
 
             <div>
 
-                <a href="{{ url_for('edit_entry',
+                <a href="{{ url_for('journal.edit_entry',
                                     entry_id=entry.id) }}"
                    class="btn btn-primary">
 
@@ -105,7 +105,7 @@
 
                 </a>
 
-                <a href="{{ url_for('delete_entry',
+                <a href="{{ url_for('journal.delete_entry',
                                     entry_id=entry.id) }}"
                    class="btn btn-danger"
                    onclick="return confirm('Delete this entry?');">
