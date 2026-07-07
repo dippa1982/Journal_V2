@@ -1,25 +1,25 @@
-from openai import OpenAI
+import os
+import json
+
+from google import genai
 
 from extensions import db
 from models import Entry, Reflection
 
-import os
-import json
 
-
-MODEL_NAME = "gpt-5"
+MODEL_NAME = "gemini-2.5-flash"
 
 
 def get_client():
 
-    api_key = os.getenv("OPENAI_API_KEY")
+    api_key = os.getenv("GEMINI_API_KEY")
 
     if not api_key:
         raise ValueError(
-            "OPENAI_API_KEY environment variable is missing."
+            "GEMINI_API_KEY environment variable is missing."
         )
 
-    return OpenAI(
+    return genai.Client(
         api_key=api_key
     )
 
@@ -65,7 +65,7 @@ def build_prompt(journal):
     return f"""
 Analyse the personal journal entries below.
 
-Your purpose is to provide a balanced and thoughtful reflection.
+Provide a balanced and thoughtful reflection.
 
 Do not simply validate the writer's perspective.
 
@@ -100,6 +100,10 @@ Return valid JSON containing exactly these fields:
     "next_month": "string"
 }}
 
+Return JSON only.
+
+Do not use Markdown code fences.
+
 JOURNAL ENTRIES:
 
 {journal}
@@ -110,16 +114,19 @@ def ask_ai(prompt):
 
     client = get_client()
 
-    response = client.responses.create(
+    response = client.models.generate_content(
         model=MODEL_NAME,
-        input=prompt
+        contents=prompt
     )
 
-    result = response.output_text
+    result = response.text
+
+    print("RAW GEMINI RESPONSE:")
+    print(repr(result))
 
     if not result:
         raise ValueError(
-            "OpenAI returned an empty response."
+            "Gemini returned an empty response."
         )
 
     return result
@@ -127,13 +134,10 @@ def ask_ai(prompt):
 
 def parse_ai_response(result):
 
-    # Useful while debugging
-    print("RAW AI RESPONSE:")
-    print(repr(result))
-
     cleaned_result = result.strip()
 
-    # Remove Markdown fences if the model returns them
+    # Remove Markdown JSON fences if Gemini adds them
+
     if cleaned_result.startswith("```json"):
         cleaned_result = cleaned_result[7:]
 
@@ -145,22 +149,17 @@ def parse_ai_response(result):
 
     cleaned_result = cleaned_result.strip()
 
-    if not cleaned_result:
-        raise ValueError(
-            "The AI response was empty."
-        )
-
     try:
 
         return json.loads(cleaned_result)
 
     except json.JSONDecodeError as error:
 
-        print("JSON PARSING FAILED:")
+        print("INVALID GEMINI JSON:")
         print(repr(cleaned_result))
 
         raise ValueError(
-            f"AI returned invalid JSON: {error}"
+            f"Gemini returned invalid JSON: {error}"
         )
 
 
@@ -226,6 +225,7 @@ def generate_reflection(user):
     entries = get_entries(user)
 
     if not entries:
+
         raise ValueError(
             "You need at least one journal entry "
             "before generating a reflection."
