@@ -167,8 +167,6 @@ def save_reflection(user, data):
 
     reflection = Reflection(
 
-        model=MODEL_NAME,
-
         summary=data.get(
             "summary",
             "No summary generated."
