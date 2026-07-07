@@ -15,7 +15,6 @@ calendar_bp = Blueprint(
     __name__
 )
 
-
 @calendar_bp.route("/calendar")
 @login_required
 def calendar():

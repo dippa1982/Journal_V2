@@ -1,5 +1,9 @@
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 from flask import Flask
 
 from extensions import (
@@ -16,8 +20,7 @@ from routes.calendar import calendar_bp
 from routes.insights import insights_bp
 from routes.settings import settings_bp
 from routes.export import export_bp
-
-
+from routes.reflection import reflection_bp
 def create_app():
 
     app = Flask(__name__)
@@ -56,6 +59,8 @@ def create_app():
 
     app.register_blueprint(auth_bp)
 
+    app.register_blueprint(reflection_bp)
+
     app.register_blueprint(dashboard_bp)
 
     app.register_blueprint(journal_bp)
@@ -72,6 +77,10 @@ def create_app():
 
 
 app = create_app()
+
+with app.app_context():
+    db.create_all()
+    print("Database tables created")
 
 if __name__ == "__main__":
 
