@@ -34,6 +34,11 @@ def create_app():
         "sqlite:///journal.db"
     )
 
+    app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
+    "pool_pre_ping": True,
+    "pool_recycle": 300,
+}
+
     app.config["SECRET_KEY"] = os.environ.get(
         "SECRET_KEY",
         "local-development-key"
