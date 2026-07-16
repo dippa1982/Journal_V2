@@ -16,7 +16,7 @@ from services.journal_helper import (get_all_entries,
     create_entry,
     get_entry,
     update_entry,
-    delete_entry,
+    delete_entry as delete_entry_service,
     search_entries,
     )
 
@@ -105,7 +105,7 @@ def edit_entry(entry_id):
 def delete_entry(entry_id):
     entry = get_entry(entry_id, current_user)
 
-    delete_entry(entry)
+    delete_entry_service(entry)
 
     flash("Journal entry deleted.",
           "success")
