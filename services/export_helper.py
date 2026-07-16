@@ -2,7 +2,8 @@ from datetime import datetime
 
 from models import Entry
 
-from services.constants import AI_Prompt, moods
+from constants.moods import MOODS
+from constants.ai_prompt import AI_Prompt
 def build_markdown(user):
 
     entries = (
@@ -20,7 +21,7 @@ def build_markdown(user):
 
 ## {entry.created_at.strftime('%A %d %B %Y %H:%M')}
 
-Mood: {moods.get(entry.mood_score)}
+Mood: {MOODS.get(entry.mood_score)}
 
 Tags: {entry.tags or "None"}
 

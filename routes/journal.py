@@ -20,6 +20,8 @@ from services.journal_helper import (get_all_entries,
     search_entries,
     )
 
+from constants.moods import MOODS
+
 journal_bp = Blueprint(
     "journal",
     __name__
@@ -33,7 +35,8 @@ def journal():
 
     return render_template(
         "journal.html",
-        entries=entries
+        entries=entries,
+        moods = MOODS
     )
 
 @journal_bp.route("/journal/new", methods=["GET", "POST"])
@@ -49,16 +52,19 @@ def new_entry():
         return redirect(url_for("journal.journal"))
     
     return render_template(
-        "new_entry.html"
+        "new_entry.html",
+        moods = MOODS
     )
 
 @journal_bp.route("/journal/<int:entry_id>")
+@login_required
 def view_entry(entry_id):
     entry = get_entry(entry_id, current_user)
 
     return render_template(
         "view_entry.html",
-        entry=entry
+        entry=entry,
+        moods = MOODS
     )
 
 @journal_bp.route("/journal/<int:entry_id>/edit", methods=["GET", "POST"])
@@ -91,7 +97,8 @@ def edit_entry(entry_id):
 
     return render_template(
         "edit_entry.html",
-        entry=entry
+        entry=entry,
+        moods = MOODS
     )
 
 @journal_bp.route("/journal/<int:entry_id>/delete")
@@ -122,5 +129,6 @@ def search():
     return render_template(
         "search_results.html",
         entries=entries,
-        search_text=search_text
+        search_text=search_text,
+        moods = MOODS
     )

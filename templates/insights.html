@@ -114,31 +114,36 @@
 
         <div class="col-lg-6">
 
-            <div class="card">
+    <div class="card">
 
-                <h3>😊 Mood Breakdown</h3>
+        <h3>😊 Mood Breakdown</h3>
 
-                <hr>
+        <hr>
 
-                <p>Happy: {{ mood_counts.happy }}</p>
+        {% for id, mood in moods.items() %}
 
-                <p>Calm: {{ mood_counts.calm }}</p>
+            <div class="d-flex justify-content-between align-items-center mb-2">
 
-                <p>Anxious: {{ mood_counts.anxious }}</p>
+                <span>
 
-                <p>Angry: {{ mood_counts.angry }}</p>
+                    {{ mood.emoji }}
+                    {{ mood.name }}
 
-                <p>Sad: {{ mood_counts.sad }}</p>
+                </span>
 
-                <p>Frustrated: {{ mood_counts.frustrated }}</p>
+                <strong>
 
-                <p>Grateful: {{ mood_counts.grateful }}</p>
+                    {{ mood_counts[mood.name] }}
 
-                <p>Fearful: {{ mood_counts.fearful }}</p>
+                </strong>
 
             </div>
 
-        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
 
         <div class="col-lg-6">
 

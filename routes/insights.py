@@ -10,6 +10,8 @@ from flask_login import (
 
 from services.insights_helper import get_insights
 
+from constants.moods import MOODS
+
 insights_bp = Blueprint(
     "insights",
     __name__
@@ -22,5 +24,6 @@ def insights():
 
     return render_template(
         "insights.html",
+        moods = MOODS,
         **insights
     )

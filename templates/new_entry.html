@@ -32,19 +32,30 @@
 
                 </label>
 
-                <select
+                    <select
                     name="mood_score"
                     class="form-select"
-                    required>
+                    required
+                >
 
-                    <option value="8">😊 Happy</option>
-                    <option value="7">😌 Calm</option>
-                    <option value="6">😟 Anxious</option>
-                    <option value="5">😠 Angry</option>
-                    <option value="4">😔 Sad</option>
-                    <option value="3" selected>😤 Frustrated</option>
-                    <option value="2">❤️ Grateful</option>
-                    <option value="1">😨 Fearful</option>
+                    <option value="">
+                        Select a mood...
+                    </option>
+
+                    {% for id, mood in moods.items() %}
+
+                    <option
+                        value="{{ id }}"
+                        {% if entry and entry.mood_score == id %}
+                            selected
+                        {% endif %}
+                    >
+
+                        {{ mood.emoji }} {{ mood.name }}
+
+                    </option>
+
+                    {% endfor %}
 
                 </select>
 

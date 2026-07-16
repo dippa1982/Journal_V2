@@ -2,6 +2,8 @@ from datetime import date, timedelta
 
 from collections import Counter
 
+from constants.moods import MOODS
+
 from models import Entry
 
 def get_insights(user):
@@ -53,31 +55,13 @@ def get_insights(user):
         "fearful": 0
     }
 
+    mood_counts = {mood["name"]: 0 for mood in MOODS.values()}
+
     for entry in entries:
 
-        if entry.mood_score == 8:
-            mood_counts["happy"] += 1
+        mood_name = MOODS[entry.mood_score]["name"]
 
-        elif entry.mood_score == 7:
-            mood_counts["calm"] += 1
-
-        elif entry.mood_score == 6:
-            mood_counts["anxious"] += 1
-
-        elif entry.mood_score == 5:
-            mood_counts["angry"] += 1
-
-        elif entry.mood_score == 4:
-            mood_counts["sad"] += 1
-
-        elif entry.mood_score == 3:
-            mood_counts["frustrated"] += 1
-
-        elif entry.mood_score == 2:
-            mood_counts["grateful"] += 1
-
-        elif entry.mood_score == 1:
-            mood_counts["fearful"] += 1
+        mood_counts[mood_name] += 1
 
     tag_counter = Counter()
 

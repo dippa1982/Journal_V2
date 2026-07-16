@@ -10,43 +10,33 @@
 
         <!-- Header -->
 
-        <div class="d-flex justify-content-between align-items-start mb-4">
+        <div class="entry-header">
 
-            <div>
+            <h1>
 
-                <h1>
+                {{ entry.created_at.strftime('%A %d %B %Y') }}
 
-                    {{ entry.created_at.strftime('%A %d %B %Y') }}
+            </h1>
 
-                </h1>
+            <p class="text-muted">
 
-                <p class="text-muted">
+                {{ entry.created_at.strftime('%H:%M') }}
 
-                    {{ entry.created_at.strftime('%H:%M') }}
+            </p>
 
-                </p>
+            <div class="mood-badge">
 
-            </div>
+                <span class="mood-icon">
 
-            <div class="mood-emoji">
+                    {{ moods[entry.mood_score].emoji }}
 
-                {% if entry.mood_score == 8 %}
-                    😊
-                {% elif entry.mood_score == 7 %}
-                    😌
-                {% elif entry.mood_score == 6 %}
-                    😟
-                {% elif entry.mood_score == 5 %}
-                    😠
-                {% elif entry.mood_score == 4 %}
-                    😔
-                {% elif entry.mood_score == 3 %}
-                    😤
-                {% elif entry.mood_score == 2 %}
-                    ❤️
-                {% else %}
-                    😨
-                {% endif %}
+                </span>
+
+                <span class="mood-name">
+
+                    {{ moods[entry.mood_score].name }}
+
+                </span>
 
             </div>
 
@@ -86,7 +76,7 @@
 
         <!-- Buttons -->
 
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between flex-wrap gap-2">
 
             <a href="{{ url_for('journal.search') }}"
                class="btn btn-secondary">
@@ -95,7 +85,7 @@
 
             </a>
 
-            <div>
+            <div class="d-flex gap-2">
 
                 <a href="{{ url_for('journal.edit_entry',
                                     entry_id=entry.id) }}"

@@ -37,21 +37,18 @@
                     class="form-select"
                     required>
 
-                    <option value="8" {% if entry.mood_score == 8 %}selected{% endif %}>😊 Happy</option>
+                   {% for id, mood in moods.items() %}
 
-                    <option value="7" {% if entry.mood_score == 7 %}selected{% endif %}>😌 Calm</option>
+                    <option
+                        value="{{ id }}"
+                        {% if entry.mood_score == id %}selected{% endif %}
+                    >
 
-                    <option value="6" {% if entry.mood_score == 6 %}selected{% endif %}>😟 Anxious</option>
+                        {{ mood.emoji }} {{ mood.name }}
 
-                    <option value="5" {% if entry.mood_score == 5 %}selected{% endif %}>😠 Angry</option>
+                    </option>
 
-                    <option value="4" {% if entry.mood_score == 4 %}selected{% endif %}>😔 Sad</option>
-
-                    <option value="3" {% if entry.mood_score == 3 %}selected{% endif %}>😤 Frustrated</option>
-
-                    <option value="2" {% if entry.mood_score == 2 %}selected{% endif %}>❤️ Grateful</option>
-
-                    <option value="1" {% if entry.mood_score == 1 %}selected{% endif %}>😨 Fearful</option>
+                    {% endfor %}
 
                 </select>
 
