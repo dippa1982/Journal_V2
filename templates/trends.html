@@ -1,0 +1,321 @@
+{% extends "base.html" %}
+
+{% block title %}Trend Report{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/trends.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="trend-page">
+
+    <!-- ========================= -->
+    <!-- Header -->
+    <!-- ========================= -->
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>📈 Trend Report</h1>
+
+            <p>
+                Discover how your mood, habits and journal entries have changed over time.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- Top Statistics -->
+    <!-- ========================= -->
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <div class="stat-icon purple">
+                📄
+            </div>
+
+            <div>
+
+                <span>Total Entries</span>
+
+                <h2>{{ report.total_entries }}</h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon green">
+                😊
+            </div>
+
+            <div>
+
+                <span>Average Mood</span>
+
+                <h2>{{ report.average_mood }}</h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon orange">
+                🔥
+            </div>
+
+            <div>
+
+                <span>Current Streak</span>
+
+                <h2>{{ report.current_streak }}</h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon blue">
+                📅
+            </div>
+
+            <div>
+
+                <span>First Entry</span>
+
+                <h2>{{ report.first_entry }}</h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- Main Charts -->
+    <!-- ========================= -->
+
+    <div class="chart-grid">
+
+        <div class="dashboard-card large">
+
+    <div class="card-header">
+
+        <h3>Mood Over Time</h3>
+
+        <span>Last 12 Months</span>
+
+    </div>
+
+    <canvas
+    id="mood-chart"
+    data-labels='{{ report.mood_labels | tojson }}'
+    data-values='{{ report.mood_values | tojson }}'>
+    </canvas>
+
+</div>
+
+
+        <div class="dashboard-card">
+
+    <div class="card-header">
+
+        <h3>Mood Distribution</h3>
+
+    </div>
+
+    <canvas
+    id="distribution-chart"
+    data-labels='{{ report.distribution_labels | tojson }}'
+    data-values='{{ report.distribution_values | tojson }}'>
+    </canvas>
+
+</div>
+
+
+    <!-- ========================= -->
+    <!-- Secondary Charts -->
+    <!-- ========================= -->
+
+    <div class="chart-grid">
+
+        <div class="dashboard-card">
+
+    <div class="card-header">
+
+        <h3>Weekly Average</h3>
+
+    </div>
+
+    <canvas
+    id="weekly-chart"
+    data-labels='{{ report.weekly_labels | tojson }}'
+    data-values='{{ report.weekly_values | tojson }}'>
+    </canvas>
+
+</div>
+
+
+        <div class="dashboard-card">
+
+    <div class="card-header">
+
+        <h3>Monthly Average</h3>
+
+    </div>
+
+    <canvas
+    id="monthly-chart"
+    data-labels='{{ report.monthly_labels | tojson }}'
+    data-values='{{ report.monthly_values | tojson }}'>
+    </canvas>
+
+</div>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- Bottom Cards -->
+    <!-- ========================= -->
+
+    <div class="bottom-grid">
+
+
+        <!-- Top Tags -->
+
+        <div class="dashboard-card">
+
+            <div class="card-header">
+
+                <h3>🏷️ Top Tags</h3>
+
+            </div>
+
+            <div class="list-container">
+
+                {% for tag, count in report.top_tags %}
+
+                    <div class="list-row">
+
+                        <span>{{ tag }}</span>
+
+                        <strong>{{ count }}</strong>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Keywords -->
+
+        <div class="dashboard-card">
+
+            <div class="card-header">
+
+                <h3>🔍 Keywords</h3>
+
+            </div>
+
+            <div class="list-container">
+
+                {% for word, count in report.keywords %}
+
+                    <div class="list-row">
+
+                        <span>{{ word }}</span>
+
+                        <strong>{{ count }}</strong>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+
+        <!-- AI Insight -->
+
+        <div class="dashboard-card">
+
+            <div class="card-header">
+
+                <h3>💡 Daily Compass</h3>
+
+            </div>
+
+            <div class="quote-card">
+
+                <p>
+
+                    Your AI powered encouragement will appear here.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Trend Summary -->
+
+        <div class="dashboard-card">
+
+            <div class="card-header">
+
+                <h3>📊 Quick Summary</h3>
+
+            </div>
+
+            <ul class="summary-list">
+
+                <li>Total Entries: {{ report.total_entries }}</li>
+
+                <li>Average Mood: {{ report.average_mood }}</li>
+
+                <li>Top Tag:
+                    {% if report.top_tags %}
+                        {{ report.top_tags[0][0] }}
+                    {% else %}
+                        None
+                    {% endif %}
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="{{ url_for('static', filename='js/trends.js') }}"></script>
+
+{% endblock %}

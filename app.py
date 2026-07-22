@@ -21,6 +21,7 @@ from routes.insights import insights_bp
 from routes.settings import settings_bp
 from routes.export import export_bp
 from routes.reflection import reflection_bp
+from routes.trends import trends_bp
 def create_app():
 
     app = Flask(__name__)
@@ -77,6 +78,8 @@ def create_app():
     app.register_blueprint(settings_bp)
 
     app.register_blueprint(export_bp)
+
+    app.register_blueprint(trends_bp)
 
     return app
 
