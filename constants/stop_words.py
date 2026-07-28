@@ -22,4 +22,9 @@ STOP_WORDS = {
     "at",
     "this",
     "have",
+    "her",
+    "she",
+    "about",
+    "but",
+    "what",
 }
