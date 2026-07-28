@@ -27,6 +27,7 @@ auth_bp = Blueprint(
 )
 
 from extensions import db, login_manager
+
 #--------------------------------
 # LOGIN
 #--------------------------------

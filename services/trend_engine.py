@@ -64,17 +64,21 @@ def build_trend_report(user):
                         for scores in months.values()
     ]
 
+    from constants.moods import MOODS
+
     distribution = Counter()
-    
+
     for entry in entries:
 
-        if entry.mood_score:
-            distribution[entry.mood_score] += 1
+        if not entry.mood_score:
+            continue
 
-    report["distribution_labels"] = [
-    str(mood)
-    for mood in distribution.keys()
-]
+        mood = MOODS.get(entry.mood_score)
+
+        if mood:
+            distribution[mood["name"]] += 1
+
+    report["mood_distribution"] = dict(distribution)
 
     report["distribution_values"] = list(distribution.values())
 

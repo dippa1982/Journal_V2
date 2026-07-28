@@ -180,8 +180,8 @@
 
             <canvas
                 id="distribution-chart"
-                data-labels='{{ report.distribution_labels | tojson }}'
-                data-values='{{ report.distribution_values | tojson }}'>
+                data-labels='{{ report.mood_distribution.keys() | list | tojson }}'
+                data-values='{{ report.mood_distribution.values() | list | tojson }}'>
             </canvas>
 
         </div>
