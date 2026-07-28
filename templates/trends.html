@@ -2,102 +2,141 @@
 
 {% block title %}Trend Report{% endblock %}
 
-{% block styles %}
-<link rel="stylesheet"
-      href="{{ url_for('static', filename='css/trends.css') }}">
-{% endblock %}
-
 {% block content %}
 
 <div class="trend-page">
 
-    <!-- ========================= -->
-    <!-- Header -->
-    <!-- ========================= -->
+    <!-- ================================= -->
+    <!-- Hero -->
+    <!-- ================================= -->
 
-    <div class="page-header">
+    <div class="dashboard-card hero-card">
+
+        <div class="hero-icon">
+
+            📈
+
+        </div>
 
         <div>
 
-            <h1>📈 Trend Report</h1>
+            <h1>Trend Report</h1>
 
             <p>
-                Discover how your mood, habits and journal entries have changed over time.
+
+                Discover patterns, habits and emotional trends hidden inside your journal.
+
             </p>
 
         </div>
 
     </div>
 
-
-    <!-- ========================= -->
-    <!-- Top Statistics -->
-    <!-- ========================= -->
+    <!-- ================================= -->
+    <!-- Statistics -->
+    <!-- ================================= -->
 
     <div class="stats-grid">
 
-        <div class="stat-card">
+        <div class="dashboard-card stat-card">
 
             <div class="stat-icon purple">
-                📄
+
+                📖
+
             </div>
 
-            <div>
+            <div class="stat-info">
 
-                <span>Total Entries</span>
+                <div class="stat-value">
 
-                <h2>{{ report.total_entries }}</h2>
+                    {{ report.total_entries }}
+
+                </div>
+
+                <div class="stat-label">
+
+                    Journal Entries
+
+                </div>
 
             </div>
 
         </div>
 
-
-        <div class="stat-card">
+        <div class="dashboard-card stat-card">
 
             <div class="stat-icon green">
+
                 😊
+
             </div>
 
-            <div>
+            <div class="stat-info">
 
-                <span>Average Mood</span>
+                <div class="stat-value">
 
-                <h2>{{ report.average_mood }}</h2>
+                    {{ "%.1f"|format(report.average_mood) }}
+
+                </div>
+
+                <div class="stat-label">
+
+                    Average Mood
+
+                </div>
 
             </div>
 
         </div>
 
-
-        <div class="stat-card">
+        <div class="dashboard-card stat-card">
 
             <div class="stat-icon orange">
+
                 🔥
+
             </div>
 
-            <div>
+            <div class="stat-info">
 
-                <span>Current Streak</span>
+                <div class="stat-value">
 
-                <h2>{{ report.current_streak }}</h2>
+                    {{ report.current_streak }}
+
+                </div>
+
+                <div class="stat-label">
+
+                    Day Streak
+
+                </div>
 
             </div>
 
         </div>
 
-
-        <div class="stat-card">
+        <div class="dashboard-card stat-card">
 
             <div class="stat-icon blue">
+
                 📅
+
             </div>
 
-            <div>
+            <div class="stat-info">
 
-                <span>First Entry</span>
+                <div class="stat-value small">
 
-                <h2>{{ report.first_entry }}</h2>
+                    {{ report.first_entry }}
+
+                </div>
+
+                <div class="stat-label">
+
+                    First Entry
+
+                </div>
 
             </div>
 
@@ -105,214 +144,255 @@
 
     </div>
 
-
-    <!-- ========================= -->
-    <!-- Main Charts -->
-    <!-- ========================= -->
-
-    <div class="chart-grid">
-
-        <div class="dashboard-card large">
-
-    <div class="card-header">
-
-        <h3>Mood Over Time</h3>
-
-        <span>Last 12 Months</span>
-
-    </div>
-
-    <canvas
-    id="mood-chart"
-    data-labels='{{ report.mood_labels | tojson }}'
-    data-values='{{ report.mood_values | tojson }}'>
-    </canvas>
-
-</div>
-
-
-        <div class="dashboard-card">
-
-    <div class="card-header">
-
-        <h3>Mood Distribution</h3>
-
-    </div>
-
-    <canvas
-    id="distribution-chart"
-    data-labels='{{ report.distribution_labels | tojson }}'
-    data-values='{{ report.distribution_values | tojson }}'>
-    </canvas>
-
-</div>
-
-
-    <!-- ========================= -->
-    <!-- Secondary Charts -->
-    <!-- ========================= -->
+    <!-- ================================= -->
+    <!-- Charts -->
+    <!-- ================================= -->
 
     <div class="chart-grid">
 
         <div class="dashboard-card">
 
-    <div class="card-header">
+            <div class="section-header">
 
-        <h3>Weekly Average</h3>
+                <h2>😊 Mood Over Time</h2>
 
-    </div>
+                <p>Your mood for every journal entry.</p>
 
-    <canvas
-    id="weekly-chart"
-    data-labels='{{ report.weekly_labels | tojson }}'
-    data-values='{{ report.weekly_values | tojson }}'>
-    </canvas>
+            </div>
 
-</div>
+            <canvas
+                id="mood-chart"
+                data-labels='{{ report.mood_labels | tojson }}'
+                data-values='{{ report.mood_values | tojson }}'>
+            </canvas>
 
+        </div>
 
         <div class="dashboard-card">
 
-    <div class="card-header">
+            <div class="section-header">
 
-        <h3>Monthly Average</h3>
+                <h2>🥧 Mood Distribution</h2>
+
+                <p>How often each mood appears.</p>
+
+            </div>
+
+            <canvas
+                id="distribution-chart"
+                data-labels='{{ report.distribution_labels | tojson }}'
+                data-values='{{ report.distribution_values | tojson }}'>
+            </canvas>
+
+        </div>
 
     </div>
 
-    <canvas
-    id="monthly-chart"
-    data-labels='{{ report.monthly_labels | tojson }}'
-    data-values='{{ report.monthly_values | tojson }}'>
-    </canvas>
+    <!-- ================================= -->
+    <!-- Weekly / Monthly -->
+    <!-- ================================= -->
 
-</div>
+    <div class="chart-grid">
+
+        <div class="dashboard-card">
+
+            <div class="section-header">
+
+                <h2>📅 Weekly Average</h2>
+
+            </div>
+
+            <canvas
+                id="weekly-chart"
+                data-labels='{{ report.weekly_labels | tojson }}'
+                data-values='{{ report.weekly_values | tojson }}'>
+            </canvas>
+
+        </div>
+
+        <div class="dashboard-card">
+
+            <div class="section-header">
+
+                <h2>🗓 Monthly Average</h2>
+
+            </div>
+
+            <canvas
+                id="monthly-chart"
+                data-labels='{{ report.monthly_labels | tojson }}'
+                data-values='{{ report.monthly_values | tojson }}'>
+            </canvas>
+
+        </div>
 
     </div>
 
-
-    <!-- ========================= -->
-    <!-- Bottom Cards -->
-    <!-- ========================= -->
+    <!-- ================================= -->
+    <!-- Bottom -->
+    <!-- ================================= -->
 
     <div class="bottom-grid">
 
-
-        <!-- Top Tags -->
+        <!-- Tags -->
 
         <div class="dashboard-card">
 
-            <div class="card-header">
+            <div class="section-header">
 
-                <h3>🏷️ Top Tags</h3>
+                <h2>🏷 Top Tags</h2>
 
             </div>
 
-            <div class="list-container">
+            {% if report.top_tags %}
 
-                {% for tag, count in report.top_tags %}
+                {% for tag,count in report.top_tags[:10] %}
 
-                    <div class="list-row">
+                <div class="list-item">
 
-                        <span>{{ tag }}</span>
+                    <span>
 
-                        <strong>{{ count }}</strong>
+                        #{{ tag }}
 
-                    </div>
+                    </span>
+
+                    <strong>
+
+                        {{ count }}
+
+                    </strong>
+
+                </div>
 
                 {% endfor %}
 
-            </div>
+            {% else %}
+
+                <p>No tags yet.</p>
+
+            {% endif %}
 
         </div>
-
-
 
         <!-- Keywords -->
 
         <div class="dashboard-card">
 
-            <div class="card-header">
+            <div class="section-header">
 
-                <h3>🔍 Keywords</h3>
+                <h2>🔍 Keywords</h2>
 
             </div>
 
-            <div class="list-container">
+            {% if report.keywords %}
 
-                {% for word, count in report.keywords %}
+                {% for word,count in report.keywords[:10] %}
 
-                    <div class="list-row">
+                <div class="list-item">
 
-                        <span>{{ word }}</span>
+                    <span>
 
-                        <strong>{{ count }}</strong>
+                        {{ word }}
 
-                    </div>
+                    </span>
+
+                    <strong>
+
+                        {{ count }}
+
+                    </strong>
+
+                </div>
 
                 {% endfor %}
 
-            </div>
+            {% else %}
+
+                <p>No keywords yet.</p>
+
+            {% endif %}
 
         </div>
 
+    </div>
 
+    <!-- ================================= -->
+    <!-- AI -->
+    <!-- ================================= -->
 
-        <!-- AI Insight -->
+    <div class="dashboard-card">
 
-        <div class="dashboard-card">
+        <div class="section-header">
 
-            <div class="card-header">
+            <h2>🤖 Daily Compass</h2>
 
-                <h3>💡 Daily Compass</h3>
-
-            </div>
-
-            <div class="quote-card">
-
-                <p>
-
-                    Your AI powered encouragement will appear here.
-
-                </p>
-
-            </div>
+            <p>Your personal AI coach.</p>
 
         </div>
 
+        <div class="ai-card">
 
+            <p>
 
-        <!-- Trend Summary -->
+                Your AI-powered encouragement and observations will appear here.
 
-        <div class="dashboard-card">
+            </p>
 
-            <div class="card-header">
+        </div>
 
-                <h3>📊 Quick Summary</h3>
+    </div>
+
+    <!-- ================================= -->
+    <!-- Summary -->
+    <!-- ================================= -->
+
+    <div class="dashboard-card">
+
+        <div class="section-header">
+
+            <h2>📊 Journal Summary</h2>
+
+        </div>
+
+        <div class="summary-grid">
+
+            <div class="summary-item">
+
+                <span>Most Common Mood</span>
+
+                <strong>{{ report.most_common_mood }}</strong>
 
             </div>
 
-            <ul class="summary-list">
+            <div class="summary-item">
 
-                <li>Total Entries: {{ report.total_entries }}</li>
+                <span>Entries This Month</span>
 
-                <li>Average Mood: {{ report.average_mood }}</li>
+                <strong>{{ report.entries_this_month }}</strong>
 
-                <li>Top Tag:
-                    {% if report.top_tags %}
-                        {{ report.top_tags[0][0] }}
-                    {% else %}
-                        None
-                    {% endif %}
-                </li>
+            </div>
 
-            </ul>
+            <div class="summary-item">
+
+                <span>Best Month</span>
+
+                <strong>{{ report.best_month }}</strong>
+
+            </div>
+
+            <div class="summary-item">
+
+                <span>Longest Entry</span>
+
+                <strong>{{ report.longest_entry_words }} words</strong>
+
+            </div>
 
         </div>
 
     </div>
 
 </div>
-
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 

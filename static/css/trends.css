@@ -1,86 +1,132 @@
-/* ==========================
+/* ======================================
    Trend Page
-========================== */
+====================================== */
 
 .trend-page{
 
+    max-width:1600px;
+
+    margin:auto;
+
     padding:30px;
+
 }
 
-/* ==========================
-   Header
-========================== */
+/* ======================================
+   Dashboard Cards
+====================================== */
 
-.page-header{
+.dashboard-card{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:20px;
+
+    padding:28px;
+
+    margin-bottom:25px;
+
+    transition:.25s ease;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.18);
+
+}
+
+.dashboard-card:hover{
+
+    transform:translateY(-3px);
+
+    border-color:#6d5dfc;
+
+    box-shadow:0 18px 40px rgba(109,93,252,.15);
+
+}
+
+/* ======================================
+   Hero
+====================================== */
+
+.hero-card{
 
     display:flex;
-    justify-content:space-between;
+
     align-items:center;
 
-    margin-bottom:35px;
+    gap:25px;
+
 }
 
-.page-header h1{
+.hero-icon{
+
+    width:80px;
+
+    height:80px;
+
+    border-radius:18px;
+
+    background:#6d5dfc22;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:42px;
+
+    flex-shrink:0;
+
+}
+
+.hero-card h1{
+
+    margin:0;
 
     font-size:2rem;
-    font-weight:700;
-    color:#fff;
+
+    color:white;
+
 }
 
-.page-header p{
+.hero-card p{
 
-    color:#9aa6b2;
-    margin-top:8px;
+    margin-top:10px;
+
+    color:#a7b2c4;
+
 }
 
-/* ==========================
-   Stats Grid
-========================== */
+/* ======================================
+   Statistics
+====================================== */
 
 .stats-grid{
 
     display:grid;
-    grid-template-columns:repeat(4,1fr);
 
-    gap:24px;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
 
-    margin-bottom:30px;
+    gap:25px;
+
 }
 
 .stat-card{
-
-    background:#171d28;
-
-    border:1px solid #2c3442;
-
-    border-radius:18px;
-
-    padding:28px;
 
     display:flex;
 
     align-items:center;
 
-    gap:20px;
-
-    transition:.25s;
-}
-
-.stat-card:hover{
-
-    transform:translateY(-5px);
-
-    border-color:#6d5dfc;
-
-    box-shadow:0 15px 40px rgba(109,93,252,.18);
+    gap:22px;
 
 }
 
 .stat-icon{
 
-    width:64px;
+    width:72px;
 
-    height:64px;
+    height:72px;
 
     border-radius:50%;
 
@@ -90,11 +136,47 @@
 
     align-items:center;
 
-    font-size:30px;
+    font-size:34px;
 
     flex-shrink:0;
 
 }
+
+.stat-info{
+
+    flex:1;
+
+}
+
+.stat-value{
+
+    font-size:2.4rem;
+
+    font-weight:700;
+
+    color:white;
+
+    line-height:1;
+
+}
+
+.stat-value.small{
+
+    font-size:1.3rem;
+
+}
+
+.stat-label{
+
+    margin-top:10px;
+
+    color:#9aa6b2;
+
+}
+
+/* ======================================
+   Icon Colours
+====================================== */
 
 .purple{
 
@@ -106,9 +188,9 @@
 
 .green{
 
-    background:#33d17a22;
+    background:#2ecc7122;
 
-    color:#58ff9b;
+    color:#65ffb0;
 
 }
 
@@ -128,93 +210,9 @@
 
 }
 
-.stat-card span{
-
-    color:#9ea7b8;
-
-    display:block;
-
-    font-size:.9rem;
-
-    margin-bottom:5px;
-
-}
-
-.stat-card h2{
-
-    margin:0;
-
-    color:white;
-
-    font-size:2rem;
-
-    font-weight:700;
-
-}
-
-.dashboard-card{
-
-    background:#1b2230;
-
-    border:1px solid rgba(255,255,255,.05);
-
-    border-radius:20px;
-
-    padding:28px;
-
-    box-shadow:
-        0 10px 25px rgba(0,0,0,.30),
-        inset 0 1px 0 rgba(255,255,255,.03);
-
-    transition:.25s ease;
-
-}
-
-.dashboard-card:hover{
-
-    transform:translateY(-4px);
-
-    border-color:#6d5dfc;
-
-    box-shadow:
-        0 20px 45px rgba(0,0,0,.45),
-        0 0 20px rgba(109,93,252,.15);
-
-}
-
-.card-header{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    margin-bottom:20px;
-
-    background:none;
-
-    border:none;
-
-    padding:0;
-
-}
-
-.card-header h3{
-
-    color:white;
-
-    margin:0;
-
-}
-
-.card-header span{
-
-    color:#8b97a9;
-
-    font-size:.9rem;
-
-}
+/* ======================================
+   Charts
+====================================== */
 
 .chart-grid{
 
@@ -222,41 +220,71 @@
 
     grid-template-columns:2fr 1fr;
 
-    gap:24px;
+    gap:25px;
 
-    margin-bottom:24px;
+    margin:25px 0;
 
 }
 
 .chart-grid canvas{
 
+    margin-top:20px;
+
     width:100% !important;
 
-    height:320px !important;
+    height:340px !important;
 
 }
+
+/* ======================================
+   Section Headers
+====================================== */
+
+.section-header{
+
+    margin-bottom:15px;
+
+}
+
+.section-header h2{
+
+    color:white;
+
+    font-size:1.25rem;
+
+    margin-bottom:5px;
+
+}
+
+.section-header p{
+
+    color:#98a4b7;
+
+    margin:0;
+
+    font-size:.95rem;
+
+}
+
+/* ======================================
+   Bottom Grid
+====================================== */
 
 .bottom-grid{
 
     display:grid;
 
-    grid-template-columns:repeat(4,1fr);
+    grid-template-columns:repeat(2,1fr);
 
-    gap:24px;
-
-}
-
-.list-container{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:14px;
+    gap:25px;
 
 }
 
-.list-row{
+/* ======================================
+   Lists
+====================================== */
+
+.list-item{
 
     display:flex;
 
@@ -264,61 +292,111 @@
 
     align-items:center;
 
-    padding:12px;
-
-    border-radius:10px;
-
-    background:#1f2633;
-
-}
-
-.list-row span{
-
-    color:#dce2ea;
-
-}
-
-.list-row strong{
-
-    color:#7f8cff;
-
-}
-
-.quote-card{
-
-    background:#202838;
+    padding:14px 16px;
 
     border-radius:12px;
 
-    padding:18px;
-
-    color:#d6dce5;
-
-    line-height:1.6;
-
-}
-
-.summary-list{
-
-    padding-left:18px;
-
-    color:#dce2ea;
-
-}
-
-.summary-list li{
+    background:#1f2633;
 
     margin-bottom:12px;
 
 }
 
-@media (max-width:1100px){
+.list-item span{
 
-    .stats-grid{
+    color:#d8dde6;
 
-        grid-template-columns:repeat(2,1fr);
+}
 
-    }
+.list-item strong{
+
+    color:#8f82ff;
+
+}
+
+/* ======================================
+   AI Card
+====================================== */
+
+.ai-card{
+
+    background:linear-gradient(
+
+        135deg,
+
+        rgba(109,93,252,.18),
+
+        rgba(109,93,252,.05)
+
+    );
+
+    border-radius:16px;
+
+    padding:25px;
+
+    border-left:4px solid #6d5dfc;
+
+}
+
+.ai-card p{
+
+    color:white;
+
+    font-size:1.05rem;
+
+    line-height:1.8;
+
+    margin:0;
+
+}
+
+/* ======================================
+   Summary
+====================================== */
+
+.summary-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+
+    gap:18px;
+
+}
+
+.summary-item{
+
+    background:#1f2633;
+
+    border-radius:14px;
+
+    padding:18px;
+
+}
+
+.summary-item span{
+
+    display:block;
+
+    color:#9aa6b2;
+
+    margin-bottom:8px;
+
+}
+
+.summary-item strong{
+
+    color:white;
+
+    font-size:1.35rem;
+
+}
+
+/* ======================================
+   Responsive
+====================================== */
+
+@media(max-width:1100px){
 
     .chart-grid{
 
@@ -326,15 +404,33 @@
 
     }
 
+}
+
+@media(max-width:850px){
+
     .bottom-grid{
 
-        grid-template-columns:repeat(2,1fr);
+        grid-template-columns:1fr;
 
     }
 
 }
 
-@media (max-width:700px){
+@media(max-width:700px){
+
+    .trend-page{
+
+        padding:20px;
+
+    }
+
+    .hero-card{
+
+        flex-direction:column;
+
+        text-align:center;
+
+    }
 
     .stats-grid{
 
@@ -342,16 +438,16 @@
 
     }
 
-    .bottom-grid{
+    .summary-grid{
 
         grid-template-columns:1fr;
 
     }
 
-}
+    .stat-value{
 
-.trend-page{
-    padding: 30px;
-    max-width: 1600px;
-    margin: 0 auto;
+        font-size:2rem;
+
+    }
+
 }

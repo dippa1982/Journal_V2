@@ -22,7 +22,9 @@
 
     transform:translateY(-3px);
 
-    background:var(--card-hover);
+    border-color:#6d5dfc;
+
+    box-shadow:0 18px 40px rgba(109,93,252,.15);
 
 }
 
