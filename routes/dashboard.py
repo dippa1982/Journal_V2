@@ -6,6 +6,8 @@ from flask import (
 
 from services.dashboard_helper import get_dashboard_stats
 
+from constants.moods import MOODS
+
 from flask_login import (
     login_required,
     current_user
@@ -23,5 +25,7 @@ def dashboard():
     stats = get_dashboard_stats(current_user)
 
     return render_template(
-        "dashboard.html",**stats
+        "dashboard.html",
+        **stats,
+        moods = MOODS
     )
