@@ -79,23 +79,8 @@
 
                                     <div class="mood">
 
-                                        {% if entry.mood_score == 8 %}
-                                            😊
-                                        {% elif entry.mood_score == 7 %}
-                                            😌
-                                        {% elif entry.mood_score == 6 %}
-                                            😟
-                                        {% elif entry.mood_score == 5 %}
-                                            😠
-                                        {% elif entry.mood_score == 4 %}
-                                            😔
-                                        {% elif entry.mood_score == 3 %}
-                                            😤
-                                        {% elif entry.mood_score == 2 %}
-                                            ❤️
-                                        {% else %}
-                                            😨
-                                        {% endif %}
+                                        {{ moods[entry.mood_score].emoji }}
+                                        {{ moods[entry.mood_score].name }}
 
                                     </div>
 
