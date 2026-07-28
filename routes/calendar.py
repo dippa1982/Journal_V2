@@ -10,6 +10,8 @@ from flask_login import (
 
 from services.calendar_helper import get_calendar_data
 
+from constants.moods import MOODS
+
 calendar_bp = Blueprint(
     "calendar",
     __name__
@@ -23,5 +25,6 @@ def calendar():
 
     return render_template(
         "calendar.html",
-        **calendar_data
+        **calendar_data,
+        moods = MOODS
     )
