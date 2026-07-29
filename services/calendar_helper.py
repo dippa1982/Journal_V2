@@ -3,7 +3,6 @@ from datetime import datetime
 
 from models import Entry
 
-
 def get_calendar_data(user):
 
     today = datetime.today()
