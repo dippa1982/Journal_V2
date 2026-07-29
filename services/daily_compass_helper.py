@@ -127,14 +127,14 @@ Return valid JSON only.
 
 Use exactly this structure:
 
-{
+{{
     "title": "Today's Direction",
     "icon": "🌱",
     "observation": "",
     "focus": "",
     "question": "",
     "confidence": ""
-}
+}}
 
 The icon must be a single emoji.
 
