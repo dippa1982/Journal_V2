@@ -22,6 +22,11 @@ class DailyCompass(db.Model):
         nullable=False
     )
 
+    compass_date = db.Column(
+    db.Date,
+    nullable=False
+    )
+
     title = db.Column(
         db.String(50)
     )

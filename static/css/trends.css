@@ -350,6 +350,18 @@
 
 }
 
+.ai-card h6{
+    color:#3dc585;
+
+    font-size: 1.25rem;
+
+    line-height:1.8;
+
+    margin:0;
+
+    text-decoration: underline;
+}
+
 /* ======================================
    Summary
 ====================================== */

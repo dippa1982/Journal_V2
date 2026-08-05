@@ -1,35 +1,31 @@
-from models import Entry, Reflection
+from datetime import date
+
+import json
+import os
 
 from google import genai
 
-from datetime import date
-
-from models import DailyCompass
-
-import os
-
-import json
+from extensions import db
+from models import Entry, Reflection, DailyCompass
 
 from constants.moods import MOODS
 
+
 MODEL_NAME = "gemini-2.5-flash"
+
+
+# ---------------------------------------------------
+# Gemini
+# ---------------------------------------------------
 
 client = genai.Client(
     api_key=os.getenv("GEMINI_API_KEY")
 )
 
-def get_client():
 
-    api_key = os.getenv("GEMINI_API_KEY")
-
-    if not api_key:
-        raise ValueError(
-            "GEMINI_API_KEY environment variable is missing."
-        )
-
-    return genai.Client(
-        api_key=api_key
-    )
+# ---------------------------------------------------
+# Journal
+# ---------------------------------------------------
 
 def get_recent_entries(user):
 
@@ -41,6 +37,7 @@ def get_recent_entries(user):
         .all()
     )
 
+
 def get_latest_reflection(user):
 
     return (
@@ -49,6 +46,11 @@ def get_latest_reflection(user):
         .order_by(Reflection.created_at.desc())
         .first()
     )
+
+
+# ---------------------------------------------------
+# Build journal text
+# ---------------------------------------------------
 
 def build_journal(entries):
 
@@ -68,8 +70,15 @@ Tags:
 
 Entry:
 {entry.content}
+
 """
+
     return journal
+
+
+# ---------------------------------------------------
+# Prompt
+# ---------------------------------------------------
 
 def build_prompt(journal, reflection):
 
@@ -91,85 +100,143 @@ Strengths:
 """
 
     return f"""
-You are writing a Daily Compass for the owner of this journal.
+You are writing today's Daily Compass.
 
-The goal is NOT motivation.
+Your audience is a man recovering from childhood trauma,
+trying to become calmer, emotionally stronger,
+and more self-aware.
 
-The goal is honest encouragement.
+Your job is NOT motivation.
 
-Use the journal entries and reflection below.
+Avoid clichés.
 
-Write:
+Avoid sounding like a life coach.
 
-A short observation.
+Avoid praise unless the journal supports it.
 
-One practical focus for today.
+Base every sentence on the journal.
 
-One thoughtful question.
-
-Maximum 150 words.
-
-Do not exaggerate.
-
-Do not flatter.
-
-Be warm, calm and supportive.
-
-Do not sound like a motivational speaker.
-
-Do not use clichés.
-
-Do not say "you've got this".
-
-Do not praise the user unless there is evidence in the journal.
-
-Base every observation on the journal entries provided.
-
-Never invent events that are not present.
+Never invent events.
 
 Return valid JSON only.
 
-Use exactly this structure:
+Use EXACTLY this structure.
 
 {{
-    "title": "Today's Direction",
-    "icon": "🌱",
-    "observation": "",
-    "focus": "",
-    "question": "",
-    "confidence": ""
+    "title":"Today's Direction",
+    "icon":"🌱",
+    "observation":"",
+    "focus":"",
+    "question":"",
+    "confidence":"High"
 }}
 
-The icon must be a single emoji.
-
-The title must be short (2-4 words).
-
-Return JSON only.
-
-Do not use Markdown.
-
-JOURNAL ENTRIES:
+Journal
 
 {journal}
 
-REFLECTION:
+Reflection
 
 {reflection_text}
-
 """
+
+
+# ---------------------------------------------------
+# Gemini
+# ---------------------------------------------------
 
 def ask_ai(prompt):
 
-    client = get_client()
+    try:
 
-    response = client.models.generate_content(
-        model=MODEL_NAME,
-        contents=prompt
+        response = client.models.generate_content(
+
+             model=MODEL_NAME,
+
+             contents=prompt
     )
 
-    return response.text
+        result = response.text.strip()
+
+        if result.startswith("```json"):
+            result = result.replace("```json", "", 1)
+
+        if result.startswith("```"):
+            result = result.replace("```", "", 1)
+
+        if result.endswith("```"):
+            result = result[:-3]
+
+        return result.strip()
+
+    except Exception as error:
+
+        print("GEMINI ERROR:")
+        print(repr(error))
+
+
+# ---------------------------------------------------
+# Parse JSON
+# ---------------------------------------------------
+
+def parse_response(result):
+
+    try:
+
+        return json.loads(result)
+
+    except Exception:
+
+        return {
+
+            "title": "Today's Direction",
+
+            "icon": "🌱",
+
+            "observation": result,
+
+            "focus": "",
+
+            "question": "",
+
+            "confidence": "Low"
+
+        }
+
+
+# ---------------------------------------------------
+# Daily Compass
+# ---------------------------------------------------
 
 def generate_daily_compass(user):
+
+    today = date.today()
+
+    existing = DailyCompass.query.filter_by(
+
+        user_id=user.id,
+
+        compass_date=today
+
+    ).first()
+
+    if existing:
+
+        return {
+
+            "title": existing.title,
+
+            "icon": existing.icon,
+
+            "observation": existing.observation,
+
+            "focus": existing.focus,
+
+            "question": existing.question,
+
+            "confidence": existing.confidence
+
+        }
 
     entries = get_recent_entries(user)
 
@@ -178,24 +245,39 @@ def generate_daily_compass(user):
     journal = build_journal(entries)
 
     prompt = build_prompt(
+
         journal,
+
         reflection
+
     )
 
-    result = ask_ai(prompt).strip()
+    result = ask_ai(prompt)
 
-    print(result)
+    compass = parse_response(result)
 
-    try:
+    db_compass = DailyCompass(
 
-        return json.loads(result)
+        user_id=user.id,
 
-    except json.JSONDecodeError:
+        compass_date=today,
 
-        return {
-            "title": "Today's Direction",
-            "icon": "🌱",
-            "observation": result,
-            "focus": "",
-            "question": ""
-        }
+        title=compass["title"],
+
+        icon=compass["icon"],
+
+        observation=compass["observation"],
+
+        focus=compass["focus"],
+
+        question=compass["question"],
+
+        confidence=compass["confidence"]
+
+    )
+
+    db.session.add(db_compass)
+
+    db.session.commit()
+
+    return compass
