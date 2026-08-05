@@ -5,10 +5,16 @@ from models import Entry
 
 def get_calendar_data(user):
 
-    today = datetime.today()
+    current = datetime(year, month, 1)
 
-    month = today.month
-    year = today.year
+    month = current.month
+    year = current.year
+
+    first_day = current.replace(day=1)
+
+    previous_month = first_day - datetime.timedelta(days=1)
+
+    next_month = (first_day.replace(day=28) + datetime.timedelta(days=4)).replace(day=1)
 
     weeks = monthcalendar(year, month)
 
@@ -33,5 +39,7 @@ def get_calendar_data(user):
         "weeks": weeks,
         "month": month,
         "year": year,
+        "previous_month": previous_month,
+        "next_month": next_month,
         "entry_lookup": entry_lookup
     }
