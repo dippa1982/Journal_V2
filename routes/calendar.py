@@ -1,5 +1,5 @@
 from datetime import datetime
-import calendar
+import calendar as Cal
 
 from flask import (
     Blueprint,
@@ -47,9 +47,9 @@ def calendar():
     # Calendar
     # ----------------------------
 
-    cal = calendar.Calendar(firstweekday=0)
+    calender_obj = Cal.Calendar(firstweekday=0)
 
-    weeks = cal.monthdayscalendar(year, month)
+    weeks = calender_obj.monthdayscalendar(year, month)
 
     # ----------------------------
     # Entries for this month
@@ -105,21 +105,21 @@ def calendar():
 
     return render_template(
 
-        "calendar.html",
+    "calendar.html",
 
-        month=calendar.month_name[month],
-        year=year,
+    month=Cal.month_name[month],
+    year=year,
 
-        weeks=weeks,
+    weeks=weeks,
 
-        entry_lookup=entry_lookup,
+    entry_lookup=entry_lookup,
 
-        moods=MOODS,
+    moods=MOODS,
 
-        previous_month=previous_month,
-        previous_year=previous_year,
+    previous_month=previous_month,
+    previous_year=previous_year,
 
-        next_month=next_month,
-        next_year=next_year
+    next_month=next_month,
+    next_year=next_year
 
-    )
+)
