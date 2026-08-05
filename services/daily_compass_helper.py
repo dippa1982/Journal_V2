@@ -147,15 +147,22 @@ Reflection
 
 def ask_ai(prompt):
 
-    response = client.models.generate_content(
+    try:
 
-        model=MODEL_NAME,
+        response = client.models.generate_content(
 
-        contents=prompt
+             model=MODEL_NAME,
+
+             contents=prompt
 
     )
 
-    return response.text.strip()
+        return response.text.strip()
+
+    except Exception as error:
+
+        print("GEMINI ERROR:")
+        print(repr(error))
 
 
 # ---------------------------------------------------
