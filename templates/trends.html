@@ -332,11 +332,61 @@
 
         <div class="ai-card">
 
-            <p>
+            <div class="quote-card">
 
-                Your AI-powered encouragement and observations will appear here.
+                <div class="compass-header">
 
-            </p>
+                    <span class="compass-icon">
+
+                        {{ compass.icon }}
+
+                    </span>
+
+                    <div>
+
+                        <h4>
+
+                            {{ compass.title }}
+
+                        </h4>
+
+                        <small>
+
+                            Confidence: {{ compass.confidence }}
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <h6>Observation</h6>
+
+                <p>
+
+                    {{ compass.observation }}
+
+                </p>
+
+                <h6>Today's Focus</h6>
+
+                <p>
+
+                    {{ compass.focus }}
+
+                </p>
+
+                <h6>Question</h6>
+
+                <p>
+
+                    {{ compass.question }}
+
+                </p>
+
+            </div>
 
         </div>
 

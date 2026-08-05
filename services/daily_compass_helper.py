@@ -2,6 +2,10 @@ from models import Entry, Reflection
 
 from google import genai
 
+from datetime import date
+
+from models import DailyCompass
+
 import os
 
 import json
@@ -179,8 +183,6 @@ def generate_daily_compass(user):
     )
 
     result = ask_ai(prompt).strip()
-
-    print(result)
 
     try:
 

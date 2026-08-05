@@ -6,6 +6,8 @@ from flask import (
 
 from services.dashboard_helper import get_dashboard_stats
 
+from services.daily_compass_helper import generate_daily_compass
+
 from constants.moods import MOODS
 
 from flask_login import (
@@ -24,8 +26,11 @@ def dashboard():
 
     stats = get_dashboard_stats(current_user)
 
+    compass = generate_daily_compass(current_user)
+
     return render_template(
         "dashboard.html",
         **stats,
-        moods = MOODS
+        moods = MOODS,
+        compass = compass
     )
