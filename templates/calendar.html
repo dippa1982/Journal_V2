@@ -14,7 +14,7 @@
 
             <p class="text-muted">
 
-                Browse your journal by date.
+                Browse your journal by date and year.
 
             </p>
 
@@ -26,35 +26,35 @@
 
         <div class="d-flex justify-content-between align-items-center mb-4">
 
-    <a class="btn btn-outline-light"
-       href="{{ url_for(
-            'calendar.calendar',
-            month=previous_month,
-            year=previous_year
-       ) }}">
+            <a class="btn btn-outline-light"
+            href="{{ url_for(
+                    'calendar.calendar',
+                    month=previous_month,
+                    year=previous_year
+            ) }}">
 
-        ← Previous
+                ← Previous
 
-    </a>
+            </a>
 
-    <h2>
+            <h2>
 
-        {{ month }} {{ year }}
+                {{ month }} {{ year }}
 
-    </h2>
+            </h2>
 
-    <a class="btn btn-outline-light"
-       href="{{ url_for(
-            'calendar.calendar',
-            month=next_month,
-            year=next_year
-       ) }}">
+            <a class="btn btn-outline-light"
+            href="{{ url_for(
+                    'calendar.calendar',
+                    month=next_month,
+                    year=next_year
+            ) }}">
 
-        Next →
+                Next →
 
-    </a>
+            </a>
 
-</div>
+        </div>
 
         <table class="calendar-table">
 
