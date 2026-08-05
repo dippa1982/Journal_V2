@@ -1,0 +1,247 @@
+{% extends "base.html" %}
+
+{% block title %}AI Reflection{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="mb-1">
+                🤖 AI Reflection
+            </h2>
+
+            <p class="text-muted mb-0">
+                Discover patterns, strengths and opportunities for growth from your journal.
+            </p>
+
+        </div>
+
+        <form method="POST">
+
+            <button
+                type="submit"
+                class="btn btn-primary">
+
+                Generate Reflection
+
+            </button>
+
+        </form>
+
+    </div>
+
+    {% if reflection %}
+
+    <div class="text-muted small mb-4">
+
+        Generated on
+        {{ reflection.created_at.strftime("%d %B %Y %H:%M") }}
+
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-lg-12">
+
+            <div class="card h-100">
+
+                <div class="card-header">
+
+                    📝 Summary
+
+                </div>
+
+                <div class="card-body">
+
+                    {{ reflection.summary }}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6">
+
+            <div class="card h-100">
+
+                <div class="card-header">
+
+                    💪 Strengths
+
+                </div>
+
+                <div class="card-body">
+
+                    {{ reflection.strengths }}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6">
+
+            <div class="card h-100">
+
+                <div class="card-header">
+
+                    👀 Blind Spots
+
+                </div>
+
+                <div class="card-body">
+
+                    {{ reflection.blind_spots }}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6">
+
+            <div class="card h-100">
+
+                <div class="card-header">
+
+                    ❤️ Relationship Patterns
+
+                </div>
+
+                <div class="card-body">
+
+                    {{ reflection.relationship_patterns }}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6">
+
+            <div class="card h-100">
+
+                <div class="card-header">
+
+                    🧠 Emotional Patterns
+
+                </div>
+
+                <div class="card-body">
+
+                    {{ reflection.emotional_patterns }}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6">
+
+            <div class="card h-100">
+
+                <div class="card-header">
+
+                    🎯 Therapy Topics
+
+                </div>
+
+                <div class="card-body">
+
+                    {{ reflection.therapy_topics }}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6">
+
+            <div class="card h-100">
+
+                <div class="card-header">
+
+                    📅 Next Week
+
+                </div>
+
+                <div class="card-body">
+
+                    {{ reflection.next_week }}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-12">
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    🚀 Next Month
+
+                </div>
+
+                <div class="card-body">
+
+                    {{ reflection.next_month }}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% else %}
+
+    <div class="card">
+
+        <div class="card-body text-center py-5">
+
+            <h3 class="mb-3">
+
+                No Reflection Yet
+
+            </h3>
+
+            <p class="text-muted">
+
+                Generate your first AI reflection. Your journal entries will be analysed to identify emotional patterns, strengths, blind spots and therapy topics.
+
+            </p>
+
+            <form method="POST">
+
+                <button
+                    class="btn btn-primary btn-lg">
+
+                    Generate Reflection
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="row mb-4">
+
+    <div class="col-12 col-md-4 mb-3">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body text-center">
+
+                <h6 class="card-title">
+                    Entries
+                </h6>
+
+                <h2>
+                    {{ total_entries }}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 col-md-4 mb-3">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body text-center">
+
+                <h6 class="card-title">
+                    Average Mood
+                </h6>
+
+                <h2>
+                    {{ average_mood }}/16
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 col-md-4 mb-3">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body text-center">
+
+                <h6 class="card-title">
+                    Current Streak
+                </h6>
+
+                <h2>
+                    🔥 {{ streak }}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% if entries %}
+
+    {% for entry in entries %}
+
+    <a href="{{ url_for('journal.view_entry', entry_id=entry.id) }}"
+       class="text-decoration-none">
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-body">
+
+                <div class="d-flex align-items-center gap-2">
+
+                    <span class="fs-3">
+                        {{ moods[entry.mood_score].emoji }}
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            {{ moods[entry.mood_score].name }}
+                        </strong>
+
+                        <br>
+
+                        <small class="card-title">
+                            {{ entry.created_at.strftime('%A %d %B %Y %H:%M') }}
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <hr>
+
+                {% if entry.content|length > 250 %}
+
+                    {{ entry.content[:250] }}...
+
+                {% else %}
+
+                    {{ entry.content }}
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </a>
+
+    {% endfor %}
+
+{% else %}
+
+<div class="card shadow-sm">
+
+    <div class="card-body text-center p-5">
+
+        <h3>
+            Your journal is empty
+        </h3>
+
+        <p class="card-title">
+            Click "New Entry" in the sidebar to start writing.
+        </p>
+
+    </div>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

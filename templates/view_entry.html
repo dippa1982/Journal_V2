@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Journal Entry{% endblock %}
+
+{% block content %}
+
+<div class="content-wrapper">
+
+    <div class="card">
+
+        <!-- Header -->
+
+        <div class="entry-header">
+
+            <h1>
+
+                {{ entry.created_at.strftime('%A %d %B %Y') }}
+
+            </h1>
+
+            <p class="text-muted">
+
+                {{ entry.created_at.strftime('%H:%M') }}
+
+            </p>
+
+            <div class="mood-badge">
+
+                <span class="mood-icon">
+
+                    {{ moods[entry.mood_score].emoji }}
+
+                </span>
+
+                <span class="mood-name">
+
+                    {{ moods[entry.mood_score].name }}
+
+                </span>
+
+            </div>
+
+        </div>
+
+        <hr>
+
+        <!-- Tags -->
+
+        {% if entry.tags %}
+
+        <div class="mb-4">
+
+            {% for tag in entry.tags.split(",") %}
+
+                <span class="tag">
+
+                    {{ tag.strip() }}
+
+                </span>
+
+            {% endfor %}
+
+        </div>
+
+        {% endif %}
+
+        <!-- Journal -->
+
+        <div class="journal-content">
+
+            {{ entry.content }}
+
+        </div>
+
+        <hr class="mt-5">
+
+        <!-- Buttons -->
+
+        <div class="d-flex justify-content-between flex-wrap gap-2">
+
+            <a href="{{ url_for('journal.search') }}"
+               class="btn btn-secondary">
+
+                ← Back
+
+            </a>
+
+            <div class="d-flex gap-2">
+
+                <a href="{{ url_for('journal.edit_entry',
+                                    entry_id=entry.id) }}"
+                   class="btn btn-primary">
+
+                    ✏ Edit
+
+                </a>
+
+                <a href="{{ url_for('journal.delete_entry',
+                                    entry_id=entry.id) }}"
+                   class="btn btn-danger"
+                   onclick="return confirm('Delete this entry?');">
+
+                    🗑 Delete
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

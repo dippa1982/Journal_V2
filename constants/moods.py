@@ -1,0 +1,18 @@
+MOODS = {
+    1: {"name": "Terrified", "emoji": "😨"},
+    2: {"name": "Anxious", "emoji": "😰"},
+    3: {"name": "Worried", "emoji": "😟"},
+    4: {"name": "Sad", "emoji": "😔"},
+    5: {"name": "Lonely", "emoji": "😞"},
+    6: {"name": "Frustrated", "emoji": "😤"},
+    7: {"name": "Angry", "emoji": "😠"},
+    8: {"name": "Overwhelmed", "emoji": "😩"},
+    9: {"name": "Neutral", "emoji": "😐"},
+    10: {"name": "Content", "emoji": "🙂"},
+    11: {"name": "Happy", "emoji": "😊"},
+    12: {"name": "Excited", "emoji": "😄"},
+    13: {"name": "Grateful", "emoji": "❤️"},
+    14: {"name": "Peaceful", "emoji": "😌"},
+    15: {"name": "Proud", "emoji": "🤩"},
+    16: {"name": "Reflective", "emoji": "🤔"},
+}

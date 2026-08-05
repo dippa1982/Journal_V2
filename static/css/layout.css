@@ -1,0 +1,231 @@
+
+/* =====================================================
+   APP LAYOUT
+===================================================== */
+
+body{
+
+    margin:0;
+
+    padding:0;
+
+    min-height:100vh;
+
+    background:var(--bg);
+
+    color:var(--text);
+
+}
+
+
+/* =====================================================
+   MAIN LAYOUT
+===================================================== */
+
+.app-layout{
+
+    display:flex;
+
+    min-height:100vh;
+
+}
+
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+.sidebar{
+
+    width:260px;
+
+    background:var(--sidebar);
+
+    border-right:1px solid var(--border);
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:space-between;
+
+    padding:30px 20px;
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    bottom:0;
+
+}
+
+
+/* =====================================================
+   SIDEBAR HEADER
+===================================================== */
+
+.sidebar-header{
+
+    margin-bottom:40px;
+
+}
+
+
+/* =====================================================
+   SIDEBAR NAVIGATION
+===================================================== */
+
+.sidebar-nav{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+    flex:1;
+
+}
+
+
+/* =====================================================
+   SIDEBAR FOOTER
+===================================================== */
+
+.sidebar-footer{
+
+    margin-top:40px;
+
+}
+
+
+/* =====================================================
+   MAIN CONTENT
+===================================================== */
+
+.main-content{
+
+    flex:1;
+
+    margin-left:260px;
+
+    padding:40px;
+
+    overflow-y:auto;
+
+}
+
+.sidebar{
+
+    width:240px;
+
+    transition:.3s;
+
+}
+
+
+/* =====================================================
+   LOGIN PAGE
+===================================================== */
+
+.login-page{
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:40px;
+
+}
+
+
+/* =====================================================
+   CONTENT WIDTH
+===================================================== */
+
+.content-wrapper{
+
+    max-width:1200px;
+
+    margin:auto;
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+.mobile-menu-btn{
+
+    display:none;
+
+}
+
+@media(max-width:768px){
+
+    .sidebar{
+
+        position:fixed;
+
+        left:-260px;
+
+        top:0;
+
+        bottom:0;
+
+        z-index:999;
+
+        width:240px;
+
+    }
+
+    .sidebar.open{
+
+        left:0;
+
+    }
+
+    .mobile-menu-btn{
+
+        display:block;
+
+        position:fixed;
+
+        top:20px;
+
+        left:20px;
+
+        z-index:1000;
+
+        width:48px;
+
+        height:48px;
+
+        border:none;
+
+        border-radius:12px;
+
+        background:var(--card);
+
+        color:white;
+
+        font-size:24px;
+
+    }
+
+    .main-content{
+
+        margin-left:0;
+
+        padding:80px 20px 20px;
+
+    }
+
+}
