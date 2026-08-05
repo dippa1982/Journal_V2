@@ -154,10 +154,20 @@ def ask_ai(prompt):
              model=MODEL_NAME,
 
              contents=prompt
-
     )
 
-        return response.text.strip()
+        result = response.text.strip()
+
+        if result.startswith("```json"):
+            result = result.replace("```json", "", 1)
+
+        if result.startswith("```"):
+            result = result.replace("```", "", 1)
+
+        if result.endswith("```"):
+            result = result[:-3]
+
+        return result.strip()
 
     except Exception as error:
 
