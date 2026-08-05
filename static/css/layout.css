@@ -35,29 +35,13 @@ body{
    SIDEBAR
 ===================================================== */
 
-.sidebar{
+.sidebar {
 
-    width:260px;
+    display: flex;
 
-    background:var(--sidebar);
+    flex-direction: column;
 
-    border-right:1px solid var(--border);
-
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:space-between;
-
-    padding:30px 20px;
-
-    position:fixed;
-
-    top:0;
-
-    left:0;
-
-    bottom:0;
+    height: 100vh;
 
 }
 
