@@ -22,6 +22,8 @@ from services.journal_helper import (get_all_entries,
 
 from constants.moods import MOODS
 
+from models.people import Person
+
 journal_bp = Blueprint(
     "journal",
     __name__
@@ -43,8 +45,16 @@ def journal():
 @login_required
 def new_entry():
 
+    people = (
+            Person.query
+            .filter_by(user_id=current_user.id, active=True)
+            .order_by(Person.name)
+            .all()
+            )
+
     if request.method == "POST":
 
+        
         create_entry(current_user, request.form)
         flash("Journal entry saved.",
               "success")
@@ -53,7 +63,8 @@ def new_entry():
     
     return render_template(
         "new_entry.html",
-        moods = MOODS
+        moods = MOODS,
+        people = people
     )
 
 @journal_bp.route("/journal/<int:entry_id>")

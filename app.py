@@ -13,6 +13,7 @@ from extensions import (
 )
 
 # Blueprints
+from routes.database_fix import admin_bp
 from routes.auth import auth_bp
 from routes.dashboard import dashboard_bp
 from routes.journal import journal_bp
@@ -22,6 +23,8 @@ from routes.settings import settings_bp
 from routes.export import export_bp
 from routes.reflection import reflection_bp
 from routes.trends import trends_bp
+from routes.timeline import timeline_bp
+from routes.people import people_bp
 def create_app():
 
     app = Flask(__name__)
@@ -81,14 +84,18 @@ def create_app():
 
     app.register_blueprint(trends_bp)
 
-    return app
+    app.register_blueprint(timeline_bp)
 
+    app.register_blueprint(people_bp)
+
+    app.register_blueprint(admin_bp)
+
+    return app
 
 app = create_app()
 
 with app.app_context():
     db.create_all()
-    print("Database tables created")
 
 if __name__ == "__main__":
 
