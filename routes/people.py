@@ -97,12 +97,46 @@ def view_person(person_id):
         person=person
     )
 
-@people_bp.route("/people/<int:person_id>/edit")
+@people_bp.route("/people/<int:person_id>/edit", methods=["GET", "POST"])
 @login_required
 def edit_person(person_id):
+
+    person = Person.query.filter_by(
+        id=person_id,
+        user_id=current_user.id
+    ).first_or_404()
+
+    if request.method == "POST":
+
+        selection = int(request.form["relationship_type"])
+        person_info = PEOPLE_EMOJI[selection]
+
+        person.name = request.form["name"]
+        person.relationship_type = person_info["name"]
+        person.emoji = person_info["emoji"]
+        person.colour = request.form["colour"]
+        person.notes = request.form.get("notes", "")
+        person.favourite = "favourite" in request.form
+        person.active = "active" in request.form
+
+        db.session.commit()
+
+        flash(
+            "Person updated successfully.",
+            "success"
+        )
+
+        return redirect(
+            url_for(
+                "people.view_person",
+                person_id=person.id
+            )
+        )
+
     return render_template(
         "edit_person.html",
-        people_emoji = PEOPLE_EMOJI
+        person=person,
+        people_emojis=PEOPLE_EMOJI
     )
 
 @people_bp.route("/people/<int:person_id>/delete", methods=["POST"])
