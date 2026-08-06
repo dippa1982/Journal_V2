@@ -2,6 +2,7 @@ from datetime import datetime
 from sqlalchemy import or_
 from extensions import db
 from models import Entry
+from models.people import Person
 
 
 def get_all_entries(user):
@@ -33,14 +34,26 @@ def create_entry(user, form):
     )
 
     entry.is_timeline_event = (
-    "is_timeline_event" in form
+        "is_timeline_event" in form
     )
+
+    selected_people = form.getlist("people")
+
+    for person_id in selected_people:
+
+        person = Person.query.filter_by(
+            id=int(person_id),
+            user_id=user.id
+        ).first()
+
+        if person:
+
+            entry.people.append(person)
 
     db.session.add(entry)
     db.session.commit()
 
     return entry
-
 
 def update_entry(entry, form):
 

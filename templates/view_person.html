@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+
+{% block title %}{{ person.name }}{% endblock %}
+
+{% block content %}
+
+<div class="content-wrapper">
+
+    <!-- ========================= -->
+    <!-- Header -->
+    <!-- ========================= -->
+
+    <div class="page-header">
+
+        <div class="d-flex align-items-center gap-4">
+
+            <div class="person-avatar-large">
+
+                {{ person.emoji }}
+
+            </div>
+
+            <div>
+
+                <h1>{{ person.name }}</h1>
+
+                <p>
+
+                    {{ person.relationship_type }}
+
+                    {% if person.favourite %}
+                        ⭐ Favourite
+                    {% endif %}
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div>
+
+            <a href="{{ url_for('people.edit_person',
+                    person_id=person.id) }}"
+               class="btn btn-primary">
+
+                ✏️ Edit
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- Statistics -->
+    <!-- ========================= -->
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <div class="stat-icon purple">
+
+                📖
+
+            </div>
+
+            <div>
+
+                <span>Journal Entries</span>
+
+                <h2>{{ person.entries|length }}</h2>
+
+            </div>
+
+        </div>
+
+        <div class="stat-card">
+
+            <div class="stat-icon green">
+
+                😊
+
+            </div>
+
+            <div>
+
+                <span>Average Mood</span>
+
+                <h2>{{ average_mood }}</h2>
+
+            </div>
+
+        </div>
+
+        <div class="stat-card">
+
+            <div class="stat-icon orange">
+
+                📅
+
+            </div>
+
+            <div>
+
+                <span>Last Mentioned</span>
+
+                <h2>{{ last_mentioned }}</h2>
+
+            </div>
+
+        </div>
+
+        <div class="stat-card">
+
+            <div class="stat-icon blue">
+
+                ❤️
+
+            </div>
+
+            <div>
+
+                <span>Relationship Score</span>
+
+                <h2>{{ relationship_score }}</h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- Two Column Layout -->
+    <!-- ========================= -->
+
+    <div class="dashboard-grid">
+
+        <!-- Left -->
+
+        <div>
+
+            <!-- Notes -->
+
+            <div class="dashboard-card">
+
+                <div class="card-header">
+
+                    <h3>📝 Notes</h3>
+
+                </div>
+
+                {% if person.notes %}
+
+                    <p>
+
+                        {{ person.notes }}
+
+                    </p>
+
+                {% else %}
+
+                    <p class="text-muted">
+
+                        No notes added yet.
+
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+            <!-- Timeline -->
+
+            <div class="dashboard-card mt-4">
+
+                <div class="card-header">
+
+                    <h3>📍 Timeline</h3>
+
+                </div>
+
+                {% for entry in person.entries[:5] %}
+
+                    <div class="timeline-row">
+
+                        <strong>
+
+                            {{ entry.created_at.strftime("%d %b %Y") }}
+
+                        </strong>
+
+                        <br>
+
+                        {{ entry.content[:120] }}...
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <!-- Right -->
+
+        <div>
+
+            <!-- Mood Chart -->
+
+            <div class="dashboard-card">
+
+                <div class="card-header">
+
+                    <h3>📈 Mood Trend</h3>
+
+                </div>
+
+                <canvas id="personMoodChart"></canvas>
+
+            </div>
+
+            <!-- AI Insight -->
+
+            <div class="dashboard-card mt-4">
+
+                <div class="card-header">
+
+                    <h3>🤖 Relationship Insight</h3>
+
+                </div>
+
+                <p>
+
+                    Coming soon...
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

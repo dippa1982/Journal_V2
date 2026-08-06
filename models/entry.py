@@ -52,7 +52,7 @@ class Entry(db.Model):
 
     secondary=entry_people,
 
-    backref="entries"
+    back_populates="entries"
 
     )
 

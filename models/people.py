@@ -77,3 +77,9 @@ class Person(db.Model):
         db.Boolean,
         default=True
     )
+
+    entries = db.relationship(
+    "Entry",
+    secondary=entry_people,
+    back_populates="people"
+)

@@ -54,6 +54,7 @@ def new_entry():
 
     if request.method == "POST":
 
+        
         create_entry(current_user, request.form)
         flash("Journal entry saved.",
               "success")

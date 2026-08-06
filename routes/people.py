@@ -85,9 +85,16 @@ def new_person():
 @people_bp.route("/people/<int:person_id>")
 @login_required
 def view_person(person_id):
+
+    person = Person.query.filter_by(
+        id=person_id,
+        user_id=current_user.id
+    ).first_or_404()
+
     return render_template(
         "view_person.html",
-        people_emoji = PEOPLE_EMOJI
+        people_emoji = PEOPLE_EMOJI,
+        person=person
     )
 
 @people_bp.route("/people/<int:person_id>/edit")
