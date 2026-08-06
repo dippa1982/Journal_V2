@@ -13,7 +13,7 @@ from extensions import (
 )
 
 # Blueprints
-from routes.database_fix import admin_bp
+from routes.admin import admin_bp
 from routes.auth import auth_bp
 from routes.dashboard import dashboard_bp
 from routes.journal import journal_bp
@@ -93,9 +93,6 @@ def create_app():
     return app
 
 app = create_app()
-
-with app.app_context():
-    db.create_all()
 
 if __name__ == "__main__":
 
