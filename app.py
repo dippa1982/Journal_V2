@@ -13,6 +13,7 @@ from extensions import (
 )
 
 # Blueprints
+from routes.database_fix import admin_bp
 from routes.auth import auth_bp
 from routes.dashboard import dashboard_bp
 from routes.journal import journal_bp
@@ -86,6 +87,8 @@ def create_app():
     app.register_blueprint(timeline_bp)
 
     app.register_blueprint(people_bp)
+
+    app.register_blueprint(admin_bp)
 
     return app
 
