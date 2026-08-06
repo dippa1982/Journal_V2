@@ -94,6 +94,14 @@
 
             </a>
 
+            <a href="{{ url_for('timeline.timeline') }}"
+               class="nav-item {% if request.endpoint == 'timeline.timeline' %}active{% endif %}">
+
+                📅
+                <span>Timeline</span>
+
+            </a>
+
             <a href="{{ url_for('insights.insights') }}"
                class="nav-item {% if request.endpoint == 'insights.insights' %}active{% endif %}">
 

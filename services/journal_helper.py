@@ -32,6 +32,10 @@ def create_entry(user, form):
         created_at=datetime.utcnow()
     )
 
+    entry.is_timeline_event = (
+    "is_timeline_event" in form
+    )
+
     db.session.add(entry)
     db.session.commit()
 

@@ -447,3 +447,67 @@ small{
 
 }
 
+/* =====================================================
+   TIMELINE
+===================================================== */
+
+.timeline-item{
+
+    display:flex;
+
+    gap:25px;
+
+    margin-bottom:40px;
+
+}
+
+.timeline-dot{
+
+    width:18px;
+
+    height:18px;
+
+    border-radius:50%;
+
+    background:#6d5dfc;
+
+    margin-top:25px;
+
+    flex-shrink:0;
+
+}
+
+.timeline-card{
+
+    flex:1;
+
+    background:#171d28;
+
+    border:1px solid #2d3445;
+
+    border-radius:16px;
+
+    padding:25px;
+
+    transition:.25s;
+
+}
+
+.timeline-card:hover{
+
+    transform:translateY(-4px);
+
+    border-color:#6d5dfc;
+
+}
+
+.timeline-year{
+
+    margin:50px 0 30px;
+
+    color:white;
+
+    font-size:2rem;
+
+}
+

@@ -253,6 +253,7 @@ def generate_daily_compass(user):
     )
 
     result = ask_ai(prompt)
+    print(result)
 
     compass = parse_response(result)
 

@@ -37,3 +37,9 @@ class Entry(db.Model):
         db.ForeignKey("user.id"),
         nullable=False
     )
+
+    is_timeline_event = db.Column(
+    db.Boolean,
+    default=False,
+    nullable=False
+    )

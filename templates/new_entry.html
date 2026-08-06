@@ -100,13 +100,13 @@
                     class="form-control journal-editor"
                     placeholder="What happened today?
 
-How are you feeling?
+                    How are you feeling?
 
-What thoughts keep coming back?
+                    What thoughts keep coming back?
 
-What are you grateful for?
+                    What are you grateful for?
 
-What do you want to remember?"
+                    What do you want to remember?"
                     required></textarea>
 
             </div>
@@ -120,6 +120,24 @@ What do you want to remember?"
                 </small>
 
                 <div>
+
+            <div class="form-check mt-4">
+
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="is_timeline_event"
+                    id="timeline">
+
+                <label
+                    class="form-check-label"
+                    for="timeline">
+
+                    ⭐ Add to Life Timeline
+
+                </label>
+
+            </div>
 
                     <a href="{{ url_for('dashboard.dashboard') }}"
                        class="btn btn-secondary">
