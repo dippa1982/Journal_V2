@@ -4,6 +4,8 @@ from flask_login import login_required, current_user
 
 from models import Entry
 
+from constants.moods import MOODS
+
 timeline_bp = Blueprint(
     "timeline",
     __name__
@@ -39,7 +41,7 @@ def timeline():
     return render_template(
 
         "timeline.html",
-
+        moods = MOODS,
         entries=entries
 
     )

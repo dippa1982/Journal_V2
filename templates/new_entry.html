@@ -85,6 +85,46 @@
 
             </div>
 
+
+            <!-- ========================= -->
+            <!-- People Mentioned -->
+            <!-- ========================= -->
+
+            <div class="mb-4">
+
+                <label class="form-label">
+
+                    👥 People Mentioned
+
+                </label>
+
+                <div class="people-selector">
+
+                    {% for person in people %}
+
+                    <label class="person-option">
+
+                        <input
+                            type="checkbox"
+                            name="people"
+                            value="{{ person.id }}">
+
+                        <span class="person-pill">
+
+                            {{ person.emoji }}
+
+                            {{ person.name }}
+
+                        </span>
+
+                    </label>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
             <!-- Journal -->
 
             <div class="mb-4">
@@ -98,15 +138,17 @@
                 <textarea
                     name="content"
                     class="form-control journal-editor"
-                    placeholder="What happened today?
+                    rows = "15"
+                    placeholder=
+"What happened today?
 
-                    How are you feeling?
+How are you feeling?
 
-                    What thoughts keep coming back?
+What thoughts keep coming back?
 
-                    What are you grateful for?
+What are you grateful for?
 
-                    What do you want to remember?"
+What do you want to remember?"
                     required></textarea>
 
             </div>

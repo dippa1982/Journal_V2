@@ -83,7 +83,7 @@
 
     border:1px solid var(--border);
 
-    color:var(--text);
+    color:var(--text-muted);
 
     border-radius:12px;
 

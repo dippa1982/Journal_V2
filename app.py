@@ -23,6 +23,7 @@ from routes.export import export_bp
 from routes.reflection import reflection_bp
 from routes.trends import trends_bp
 from routes.timeline import timeline_bp
+from routes.people import people_bp
 def create_app():
 
     app = Flask(__name__)
@@ -83,6 +84,8 @@ def create_app():
     app.register_blueprint(trends_bp)
 
     app.register_blueprint(timeline_bp)
+
+    app.register_blueprint(people_bp)
 
     return app
 

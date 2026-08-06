@@ -2,6 +2,8 @@ from datetime import datetime
 
 from extensions import db
 
+from models.people import entry_people
+
 
 class Entry(db.Model):
 
@@ -42,4 +44,20 @@ class Entry(db.Model):
     db.Boolean,
     default=False,
     nullable=False
+    )
+
+    people = db.relationship(
+
+    "Person",
+
+    secondary=entry_people,
+
+    backref="entries"
+
+    )
+
+    relationship_score = db.Column(
+
+    db.Integer
+
     )

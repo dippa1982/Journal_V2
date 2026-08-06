@@ -1,0 +1,258 @@
+/* ==========================
+   People Page
+========================== */
+
+.people-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+
+    gap:24px;
+
+}
+
+
+/* ==========================
+   Person Card
+========================== */
+
+.person-card{
+
+    background:#171d28;
+
+    border:1px solid #2d3445;
+
+    border-radius:18px;
+
+    padding:30px;
+
+    text-align:center;
+
+    transition:.25s;
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.person-card:hover{
+
+    transform:translateY(-6px);
+
+    border-color:#6d5dfc;
+
+    box-shadow:0 15px 35px rgba(109,93,252,.20);
+
+}
+
+
+/* ==========================
+   Avatar
+========================== */
+
+.person-avatar{
+
+    width:90px;
+
+    height:90px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    margin:0 auto 20px;
+
+    font-size:42px;
+
+    color:white;
+
+    box-shadow:0 5px 20px rgba(0,0,0,.25);
+
+}
+
+
+/* ==========================
+   Name
+========================== */
+
+.person-card h3{
+
+    color:white;
+
+    margin-bottom:8px;
+
+    font-weight:700;
+
+}
+
+
+/* ==========================
+   Relationship Badge
+========================== */
+
+.relationship-badge{
+
+    display:inline-block;
+
+    margin-bottom:18px;
+
+    padding:6px 16px;
+
+    background:#6d5dfc22;
+
+    color:#8f82ff;
+
+    border-radius:999px;
+
+    font-size:.9rem;
+
+    font-weight:600;
+
+}
+
+
+/* ==========================
+   Notes
+========================== */
+
+.person-notes{
+
+    color:#cfd6df;
+
+    line-height:1.6;
+
+    margin-bottom:25px;
+
+    min-height:70px;
+
+}
+
+
+/* ==========================
+   Stats
+========================== */
+
+.person-stats{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:15px;
+
+    margin-top:auto;
+
+    margin-bottom:25px;
+
+}
+
+.person-stats div{
+
+    background:#202838;
+
+    border-radius:12px;
+
+    padding:15px;
+
+}
+
+.person-stats span{
+
+    display:block;
+
+    color:#9ca8b8;
+
+    font-size:.85rem;
+
+    margin-bottom:6px;
+
+}
+
+.person-stats strong{
+
+    color:white;
+
+    font-size:1.3rem;
+
+}
+
+
+/* ==========================
+   Buttons
+========================== */
+
+.person-buttons{
+
+    display:flex;
+
+    gap:12px;
+
+}
+
+.person-buttons .btn{
+
+    flex:1;
+
+}
+
+
+/* ==========================
+   Empty State
+========================== */
+
+.empty-card{
+
+    max-width:700px;
+
+    margin:60px auto;
+
+    padding:60px;
+
+    text-align:center;
+
+    background:#171d28;
+
+    border:1px solid #2d3445;
+
+    border-radius:22px;
+
+}
+
+.empty-card h2{
+
+    color:white;
+
+    margin-bottom:20px;
+
+}
+
+.empty-card p{
+
+    color:#9ca8b8;
+
+    margin-bottom:30px;
+
+    line-height:1.7;
+
+}
+
+
+/* ==========================
+   Responsive
+========================== */
+
+@media (max-width:900px){
+
+    .people-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
