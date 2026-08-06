@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Person{% endblock %}
+
+{% block content %}
+
+<div class="content-wrapper">
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>✏️ Edit Person</h1>
+
+            <p>
+                Update information about {{ person.name }}.
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="form-card">
+
+        <form method="POST">
+
+            <!-- Name -->
+
+            <div class="mb-4">
+
+                <label class="form-label">
+                    Name
+                </label>
+
+                <input
+                    type="text"
+                    name="name"
+                    class="form-control"
+                    value="{{ person.name }}"
+                    required>
+
+            </div>
+
+
+            <!-- Relationship -->
+
+            <div class="mb-4">
+
+                <label class="form-label">
+                    Relationship
+                </label>
+
+                <select
+                    name="relationship_type"
+                    class="form-select">
+
+                    {% for id, relationship in people_emojis.items() %}
+
+                        <option
+                            value="{{ id }}"
+                            {% if relationship.name == person.relationship_type %}selected{% endif %}>
+
+                            {{ relationship.emoji }}
+                            {{ relationship.name }}
+
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <!-- Colour -->
+
+            <div class="mb-4">
+
+                <label class="form-label">
+                    Colour
+                </label>
+
+                <input
+                    type="color"
+                    name="colour"
+                    class="form-control form-control-color"
+                    value="{{ person.colour }}">
+
+            </div>
+
+
+            <!-- Notes -->
+
+            <div class="mb-4">
+
+                <label class="form-label">
+                    Notes
+                </label>
+
+                <textarea
+                    name="notes"
+                    rows="8"
+                    class="form-control">{{ person.notes }}</textarea>
+
+            </div>
+
+
+            <!-- Favourite -->
+
+            <div class="form-check mb-4">
+
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="favourite"
+                    name="favourite"
+                    {% if person.favourite %}checked{% endif %}>
+
+                <label
+                    class="form-check-label"
+                    for="favourite">
+
+                    ⭐ Favourite
+
+                </label>
+
+            </div>
+
+
+            <!-- Active -->
+
+            <div class="form-check mb-5">
+
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="active"
+                    name="active"
+                    {% if person.active %}checked{% endif %}>
+
+                <label
+                    class="form-check-label"
+                    for="active">
+
+                    Active Person
+
+                </label>
+
+            </div>
+
+
+            <!-- Buttons -->
+
+            <div class="d-flex gap-3">
+
+                <button
+                    type="submit"
+                    class="btn btn-primary">
+
+                    💾 Update Person
+
+                </button>
+
+                <a
+                    href="{{ url_for('people.view_person', person_id=person.id) }}"
+                    class="btn btn-outline-light">
+
+                    Cancel
+
+                </a>
+
+                <form
+                    method="POST"
+                    action="{{ url_for('people.delete_person', person_id=person.id) }}"
+                    class="ms-auto">
+
+                    <button
+                        class="btn btn-danger"
+                        onclick="return confirm('Delete this person?');">
+
+                        🗑 Delete
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
