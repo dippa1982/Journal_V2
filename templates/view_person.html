@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ person.name }}{% endblock %}
+{% block title %}{{ report.person.name }}{% endblock %}
 
 {% block content %}
 
@@ -16,19 +16,19 @@
 
             <div class="person-avatar-large">
 
-                {{ person.emoji }}
+                {{ report.person.emoji }}
 
             </div>
 
             <div>
 
-                <h1>{{ person.name }}</h1>
+                <h1>{{ report.person.name }}</h1>
 
                 <p>
 
-                    {{ person.relationship_type }}
+                    {{ report.person.relationship_type }}
 
-                    {% if person.favourite %}
+                    {% if report.person.favourite %}
                         ⭐ Favourite
                     {% endif %}
 
@@ -41,7 +41,7 @@
         <div>
 
             <a href="{{ url_for('people.edit_person',
-                    person_id=person.id) }}"
+                    person_id=report.person.id) }}"
                class="btn btn-primary">
 
                 ✏️ Edit
@@ -67,14 +67,31 @@
 
             </div>
 
-            <div>
+            <div class="dashboard-card">
 
                 <span>Journal Entries</span>
 
-                <h2>{{ person.entries|length }}</h2>
+                <h6>{{ report.person.entries|length }}</h6>
 
             </div>
 
+        </div>
+
+        <div class="stat-card">
+            
+            <div class="stat-icon pink">
+
+                📅
+
+            </div>
+
+            <div class="dashboard-card">
+                
+                <span>First Mentioned</span>
+
+                <h6>{{ report.first_mentioned }}</h6>
+
+            </div>
         </div>
 
         <div class="stat-card">
@@ -85,11 +102,11 @@
 
             </div>
 
-            <div>
+            <div class="dashboard-card">
 
                 <span>Average Mood</span>
 
-                <h2>{{ average_mood }}</h2>
+                <h6>{{ report.average_mood }}</h6>
 
             </div>
 
@@ -103,11 +120,11 @@
 
             </div>
 
-            <div>
+            <div class="dashboard-card">
 
                 <span>Last Mentioned</span>
 
-                <h2>{{ last_mentioned }}</h2>
+                <h6>{{ report.last_mentioned }}</h6>
 
             </div>
 
@@ -121,11 +138,11 @@
 
             </div>
 
-            <div>
+            <div class="hero-card">
 
                 <span>Relationship Score</span>
 
-                <h2>{{ relationship_score }}</h2>
+                <h6>{{ report.relationship_score }}</h6>
 
             </div>
 
@@ -154,11 +171,11 @@
 
                 </div>
 
-                {% if person.notes %}
+                {% if report.person.notes %}
 
                     <p>
 
-                        {{ person.notes }}
+                        {{ report.person.notes }}
 
                     </p>
 
@@ -184,7 +201,7 @@
 
                 </div>
 
-                {% for entry in person.entries[:5] %}
+                {% for entry in report.person.entries[:5] %}
 
                     <div class="timeline-row">
 
@@ -210,20 +227,6 @@
         <!-- Right -->
 
         <div>
-
-            <!-- Mood Chart -->
-
-            <div class="dashboard-card">
-
-                <div class="card-header">
-
-                    <h3>📈 Mood Trend</h3>
-
-                </div>
-
-                <canvas id="personMoodChart"></canvas>
-
-            </div>
 
             <!-- AI Insight -->
 

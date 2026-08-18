@@ -12,6 +12,7 @@ from flask import redirect, url_for, flash, request
 from extensions import db
 
 from constants.moods import MOODS
+from services.relationship_dashboard_helper import build_relationship_dashboard 
 from constants.people_emoji import PEOPLE_EMOJI
 
 people_bp = Blueprint(
@@ -91,10 +92,12 @@ def view_person(person_id):
         user_id=current_user.id
     ).first_or_404()
 
+    report = build_relationship_dashboard(person)
+
     return render_template(
         "view_person.html",
         people_emoji = PEOPLE_EMOJI,
-        person=person
+        report=report
     )
 
 @people_bp.route("/people/<int:person_id>/edit", methods=["GET", "POST"])

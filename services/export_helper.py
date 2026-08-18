@@ -3,17 +3,20 @@ from datetime import datetime
 from models import Entry
 
 from constants.moods import MOODS
-from constants.ai_prompt import AI_Prompt
+from constants.ai_prompt import ai_prompt_reflection
 def build_markdown(user):
 
     entries = (
         Entry.query
         .filter_by(user_id=user.id)
-        .order_by(Entry.created_at.asc())
+        .order_by(Entry.created_at.desc())
+        .limit(7)
         .all()
     )
 
-    markdown = AI_Prompt
+    journal = "\n\n".join(entry.content for entry in entries)
+
+    markdown = ai_prompt_reflection(journal)
 
     for entry in entries:
 
