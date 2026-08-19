@@ -294,3 +294,206 @@
 
 }
 
+/* =========================================
+   People Grid
+========================================= */
+
+.people-grid {
+    display: grid;
+
+    grid-template-columns: repeat(
+        3,
+        minmax(0, 1fr)
+    );
+
+    gap: 24px;
+
+    width: 100%;
+}
+
+
+/* =========================================
+   Person Card
+========================================= */
+
+.people-grid .person-card {
+    width: 100%;
+    min-width: 0;
+
+    box-sizing: border-box;
+
+    background: var(--card);
+
+    border: 1px solid #2d3445;
+
+    border-radius: 18px;
+
+    padding: 24px;
+
+    display: flex;
+    flex-direction: column;
+
+    min-height: 320px;
+}
+
+
+/* =========================================
+   Person Avatar
+========================================= */
+
+.people-grid .person-avatar {
+    width: 70px;
+    height: 70px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 34px;
+
+    margin-bottom: 16px;
+}
+
+
+/* =========================================
+   Person Name
+========================================= */
+
+.people-grid .person-card h3 {
+    margin: 0 0 8px;
+
+    color: white;
+
+    font-size: 1.4rem;
+}
+
+
+/* =========================================
+   Relationship
+========================================= */
+
+.people-grid .relationship-badge {
+    display: inline-block;
+
+    width: fit-content;
+
+    padding: 5px 10px;
+
+    border-radius: 8px;
+
+    background: #151b27;
+
+    color: #aeb8c7;
+
+    font-size: 0.85rem;
+
+    margin-bottom: 14px;
+}
+
+
+/* =========================================
+   Notes
+========================================= */
+
+.people-grid .person-notes {
+    color: #aeb8c7;
+
+    line-height: 1.5;
+
+    margin-bottom: 20px;
+
+    min-height: 48px;
+}
+
+
+/* =========================================
+   Stats
+========================================= */
+
+.people-grid .person-stats {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 10px;
+
+    margin-top: auto;
+
+    margin-bottom: 20px;
+}
+
+.people-grid .person-stats > div {
+    background: #151b27;
+
+    border: 1px solid #2d3445;
+
+    border-radius: 10px;
+
+    padding: 12px;
+
+    text-align: center;
+}
+
+.people-grid .person-stats span {
+    display: block;
+
+    color: #8994a6;
+
+    font-size: 0.8rem;
+
+    margin-bottom: 4px;
+}
+
+.people-grid .person-stats strong {
+    color: white;
+
+    font-size: 1.1rem;
+}
+
+
+/* =========================================
+   Buttons
+========================================= */
+
+.people-grid .person-buttons {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 10px;
+}
+
+.people-grid .person-buttons .btn {
+    width: 100%;
+}
+
+
+/* =========================================
+   Tablet
+========================================= */
+
+@media (max-width: 1100px) {
+
+    .people-grid {
+        grid-template-columns: repeat(
+            2,
+            minmax(0, 1fr)
+        );
+    }
+
+}
+
+
+/* =========================================
+   Mobile
+========================================= */
+
+@media (max-width: 650px) {
+
+    .people-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
