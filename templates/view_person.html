@@ -53,169 +53,341 @@
     </div>
 
 
-    <!-- ========================= -->
-    <!-- Statistics -->
-    <!-- ========================= -->
+<!-- ========================= -->
+<!-- Statistics -->
+<!-- ========================= -->
 
-    <div class="stats-grid">
+<div class="stats-grid">
 
-        <div class="stat-card">
+    <!-- Entries -->
 
-            <div class="stat-icon purple">
+    <div class="stat-card">
 
-                📖
-
-            </div>
-
-            <div class="dashboard-card">
-
-                <span>Journal Entries</span>
-
-                <h6>{{ report.person.entries|length }}</h6>
-
-            </div>
-
+        <div class="stat-icon purple">
+            📖
         </div>
 
-        <div class="stat-card">
-            
-            <div class="stat-icon pink">
+        <div class="stat-content">
 
-                📅
+            <span>Entries</span>
 
-            </div>
-
-            <div class="dashboard-card">
-                
-                <span>First Mentioned</span>
-
-                <h6>{{ report.first_mentioned }}</h6>
-
-            </div>
-        </div>
-
-        <div class="stat-card">
-
-            <div class="stat-icon green">
-
-                😊
-
-            </div>
-
-            <div class="dashboard-card">
-
-                <span>Average Mood</span>
-
-                <h6>{{ report.average_mood }}</h6>
-
-            </div>
-
-        </div>
-
-        <div class="stat-card">
-
-            <div class="stat-icon orange">
-
-                📅
-
-            </div>
-
-            <div class="dashboard-card">
-
-                <span>Last Mentioned</span>
-
-                <h6>{{ report.last_mentioned }}</h6>
-
-            </div>
-
-        </div>
-
-        <div class="stat-card">
-
-            <div class="stat-icon blue">
-
-                ❤️
-
-            </div>
-
-            <div class="hero-card">
-
-                <span>Relationship Score</span>
-
-                <h6>{{ report.relationship_score }}</h6>
-
-            </div>
+            <h2>
+                {{ report.entry_count }}
+            </h2>
 
         </div>
 
     </div>
 
 
+    <!-- First Mentioned -->
+
+    <div class="stat-card">
+
+        <div class="stat-icon pink">
+            📅
+        </div>
+
+        <div class="stat-content">
+
+            <span>First Mentioned</span>
+
+            <h2>
+
+                {% if report.first_mentioned %}
+
+                    {{ report.first_mentioned.strftime("%d %b %Y") }}
+
+                {% else %}
+
+                    —
+
+                {% endif %}
+
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <!-- Best Day -->
+
+    <div class="stat-card">
+
+        <div class="stat-icon blue">
+            😊
+        </div>
+
+        <div class="stat-content">
+
+            <span>Best Mood</span>
+
+            <h2>
+
+                {% if report.best_day %}
+
+                    {{ moods[report.best_day.mood_score].score }}/10
+
+                {% else %}
+
+                    —
+
+                {% endif %}
+
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <!-- Worst Day -->
+
+    <div class="stat-card">
+
+        <div class="stat-icon red">
+            😔
+        </div>
+
+        <div class="stat-content">
+
+            <span>Worst Mood</span>
+
+            <h2>
+
+                {% if report.worst_day %}
+
+                    {{ moods[report.worst_day.mood_score].score }}/10
+
+                {% else %}
+
+                    —
+
+                {% endif %}
+
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <!-- Average Mood -->
+
+    <div class="stat-card">
+
+        <div class="stat-icon green">
+            😊
+        </div>
+
+        <div class="stat-content">
+
+            <span>Average Mood</span>
+
+            <h2>
+                {{ report.average_mood }}/10
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <!-- Last Mentioned -->
+
+    <div class="stat-card">
+
+        <div class="stat-icon orange">
+            📅
+        </div>
+
+        <div class="stat-content">
+
+            <span>Last Mentioned</span>
+
+            <h2>
+
+                {% if report.last_mentioned %}
+
+                    {{ report.last_mentioned.strftime("%d %b %Y") }}
+
+                {% else %}
+
+                    Never
+
+                {% endif %}
+
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <!-- Relationship Score -->
+
+    <div class="stat-card">
+
+        <div class="stat-icon blue">
+            ❤️
+        </div>
+
+        <div class="stat-content">
+
+            <span>Relationship Score</span>
+
+            <h2>
+
+                {% if report.average_relationship_score %}
+
+                    {{ report.average_relationship_score }}/10
+
+                {% else %}
+
+                    —
+
+                {% endif %}
+
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <!-- Days Since Mention -->
+
+    <div class="stat-card">
+
+        <div class="stat-icon purple">
+            ⏳
+        </div>
+
+        <div class="stat-content">
+
+            <span>Days Since Mention</span>
+
+            <h2>
+
+                {% if report.days_since_last_mention == 0 %}
+
+                    Today
+
+                {% elif report.days_since_last_mention == 1 %}
+
+                    Yesterday
+
+                {% else %}
+
+                    {{ report.days_since_last_mention }} days
+
+                {% endif %}
+
+            </h2>
+
+        </div>
+
+    </div>
+
+</div>
+
+
     <!-- ========================= -->
     <!-- Two Column Layout -->
     <!-- ========================= -->
 
-    <div class="dashboard-grid">
+    <!-- ========================= -->
+<!-- Relationship Details -->
+<!-- ========================= -->
 
-        <!-- Left -->
+<div class="relationship-dashboard-grid">
 
-        <div>
+    <!-- ========================= -->
+    <!-- LEFT COLUMN -->
+    <!-- ========================= -->
 
-            <!-- Notes -->
+    <div class="relationship-column">
 
-            <div class="dashboard-card">
+        <!-- Notes -->
 
-                <div class="card-header">
+        <div class="relationship-card">
 
-                    <h3>📝 Notes</h3>
+            <div class="card-header">
 
-                </div>
+                <h3>📝 Notes</h3>
+
+            </div>
+
+            <div class="relationship-card-body">
 
                 {% if report.person.notes %}
 
                     <p>
-
                         {{ report.person.notes }}
-
                     </p>
 
                 {% else %}
 
                     <p class="text-muted">
-
                         No notes added yet.
-
                     </p>
 
                 {% endif %}
 
             </div>
 
-            <!-- Timeline -->
+        </div>
 
-            <div class="dashboard-card mt-4">
 
-                <div class="card-header">
+        <!-- Recent Entries -->
 
-                    <h3>📍 Timeline</h3>
+        <div class="relationship-card">
 
-                </div>
+            <div class="card-header">
 
-                {% for entry in report.person.entries[:5] %}
+                <h3>📝 Recent Entries</h3>
 
-                    <div class="timeline-row">
+            </div>
 
-                        <strong>
+            <div class="relationship-card-body">
 
-                            {{ entry.created_at.strftime("%d %b %Y") }}
+                {% for entry in report.recent_entries %}
 
-                        </strong>
+                    <a
+                        href="{{ url_for(
+                            'journal.view_entry',
+                            entry_id=entry.id
+                        ) }}"
+                        class="relationship-entry">
 
-                        <br>
+                        <div>
 
-                        {{ entry.content[:120] }}...
+                            <strong>
+                                {{ entry.created_at.strftime("%d %b %Y") }}
+                            </strong>
 
-                    </div>
+                            <p>
+                                {{ entry.content[:150] }}
+
+                                {% if entry.content|length > 150 %}
+                                    ...
+                                {% endif %}
+                            </p>
+
+                        </div>
+
+                        <span class="entry-mood">
+                            {{ moods[entry.mood_score].emoji }}
+                        </span>
+
+                    </a>
+
+                {% else %}
+
+                    <p class="text-muted">
+                        No journal entries yet.
+                    </p>
 
                 {% endfor %}
 
@@ -224,25 +396,47 @@
         </div>
 
 
-        <!-- Right -->
+        <!-- Timeline -->
 
-        <div>
+        <div class="relationship-card">
 
-            <!-- AI Insight -->
+            <div class="card-header">
 
-            <div class="dashboard-card mt-4">
+                <h3>📍 Timeline</h3>
 
-                <div class="card-header">
+            </div>
 
-                    <h3>🤖 Relationship Insight</h3>
+            <div class="relationship-card-body">
 
-                </div>
+                {% for entry in report.timeline %}
 
-                <p>
+                    <div class="timeline-item">
 
-                    Coming soon...
+                        <div class="timeline-date">
 
-                </p>
+                            {{ entry.created_at.strftime("%d %b %Y") }}
+
+                        </div>
+
+                        <div class="timeline-content">
+
+                            {{ entry.content[:150] }}
+
+                            {% if entry.content|length > 150 %}
+                                ...
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                {% else %}
+
+                    <p class="text-muted">
+                        No timeline events yet.
+                    </p>
+
+                {% endfor %}
 
             </div>
 
@@ -250,6 +444,119 @@
 
     </div>
 
-</div>
 
-{% endblock %}
+    <!-- ========================= -->
+    <!-- RIGHT COLUMN -->
+    <!-- ========================= -->
+
+    <div class="relationship-column">
+
+        <!-- Mood Chart -->
+
+        <div class="relationship-card">
+
+            <div class="card-header">
+
+                <h3>📈 Mood Trend</h3>
+
+            </div>
+
+            <div class="relationship-card-body">
+
+                {% if report.mood_values %}
+
+                    <canvas id="personMoodChart"></canvas>
+
+                {% else %}
+
+                    <p class="text-muted">
+                        Not enough mood data yet.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- Top Tags -->
+
+        <div class="relationship-card">
+
+            <div class="card-header">
+
+                <h3>🏷️ Top Tags</h3>
+
+            </div>
+
+            <div class="relationship-card-body">
+
+                {% if report.top_tags %}
+
+                    <div class="relationship-tags">
+
+                        {% for tag, count in report.top_tags %}
+
+                            <div class="relationship-tag">
+
+                                <span>
+                                    {{ tag }}
+                                </span>
+
+                                <strong>
+                                    {{ count }}
+                                </strong>
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% else %}
+
+                    <p class="text-muted">
+                        No tags yet.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- AI Insight -->
+
+        <div class="relationship-card">
+
+            <div class="card-header">
+
+                <h3>🤖 Relationship Insight</h3>
+
+            </div>
+
+            <div class="relationship-card-body">
+
+                {% if report.ai_summary %}
+
+                    <p>
+                        {{ report.ai_summary }}
+                    </p>
+
+                {% else %}
+
+                    <p class="text-muted">
+                        AI relationship insight coming soon...
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+{% endblock%}
+</div>

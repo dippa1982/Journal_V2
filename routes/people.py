@@ -97,6 +97,7 @@ def view_person(person_id):
     return render_template(
         "view_person.html",
         people_emoji = PEOPLE_EMOJI,
+        moods = MOODS,
         report=report
     )
 

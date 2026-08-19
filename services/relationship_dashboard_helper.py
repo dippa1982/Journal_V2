@@ -2,6 +2,7 @@ from collections import Counter
 
 from datetime import datetime
 
+from constants.moods import MOODS
 
 def build_relationship_dashboard(person):
 
@@ -40,22 +41,33 @@ def build_relationship_dashboard(person):
 
     if entries:
 
-        average_mood = round(
-            sum(e.mood_score for e in entries) / len(entries),
-            1
-        )
+        mood_scores = [MOODS[e.mood_score]["score"]
+                      for e in entries
+                      if e.mood_score in MOODS
+                      ]
+
+        if mood_scores:
+            average_mood = round(sum(mood_scores) / len(mood_scores), 1)
+
+        else:
+            average_mood = 0
+
 
         first_mentioned = entries[0].created_at
         last_mentioned = entries[-1].created_at
 
         best_day = max(
             entries,
-            key=lambda e: e.mood_score
+            key=lambda e: MOODS.get(e.mood_score, 
+            {"score":0})
+            ["score"]
         )
 
         worst_day = min(
             entries,
-            key=lambda e: e.mood_score
+            key=lambda e: MOODS.get(e.mood_score,
+            {"score":0})
+            ["score"]
         )
 
     days_since_last_mention = None
@@ -89,13 +101,15 @@ def build_relationship_dashboard(person):
 
     for entry in entries:
 
-        mood_labels.append(
-            entry.created_at.strftime("%d %b")
-        )
+        if entry.mood_score not in MOODS:
+        
+            mood_labels.append(
+                entry.created_at.strftime("%d %b")
+            )
 
-        mood_values.append(
-            entry.mood_score
-        )
+            mood_values.append(
+                MOODS[entry.mood_score]["score"]
+            )
 
     # -----------------------------------
     # Tags

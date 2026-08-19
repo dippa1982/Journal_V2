@@ -1,258 +1,296 @@
-/* ==========================
-   People Page
-========================== */
+/* =========================================
+   Relationship Statistics
+========================================= */
 
-.people-grid{
-
-    display:grid;
-
-    grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
-
-    gap:24px;
-
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+    margin: 30px 0;
 }
 
+/* =========================================
+   Stat Card
+========================================= */
 
-/* ==========================
-   Person Card
-========================== */
+.stats-grid .stat-card {
+    width: 100%;
+    height: 150px;
+    min-height: 150px;
 
-.person-card{
+    box-sizing: border-box;
 
-    background:#171d28;
+    background: var(--card);
+    border: 1px solid #2d3445;
+    border-radius: 18px;
 
-    border:1px solid #2d3445;
+    padding: 20px;
 
-    border-radius:18px;
+    display: flex;
+    align-items: center;
 
-    padding:30px;
+    gap: 18px;
 
-    text-align:center;
-
-    transition:.25s;
-
-    display:flex;
-
-    flex-direction:column;
-
+    overflow: hidden;
 }
 
-.person-card:hover{
+/* =========================================
+   Stat Icon
+========================================= */
 
-    transform:translateY(-6px);
+.stats-grid .stat-icon {
+    width: 62px;
+    height: 62px;
 
-    border-color:#6d5dfc;
+    min-width: 62px;
 
-    box-shadow:0 15px 35px rgba(109,93,252,.20);
+    border-radius: 50%;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 30px;
 }
 
+/* =========================================
+   Stat Content
+========================================= */
 
-/* ==========================
-   Avatar
-========================== */
-
-.person-avatar{
-
-    width:90px;
-
-    height:90px;
-
-    border-radius:50%;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    margin:0 auto 20px;
-
-    font-size:42px;
-
-    color:white;
-
-    box-shadow:0 5px 20px rgba(0,0,0,.25);
-
+.stats-grid .stat-content {
+    min-width: 0;
+    flex: 1;
 }
 
+.stats-grid .stat-content span {
+    display: block;
 
-/* ==========================
-   Name
-========================== */
+    color: #aeb8c7;
 
-.person-card h3{
+    font-size: 0.9rem;
 
-    color:white;
+    margin-bottom: 6px;
 
-    margin-bottom:8px;
-
-    font-weight:700;
-
+    white-space: nowrap;
 }
 
+.stats-grid .stat-content h2 {
+    margin: 0;
 
-/* ==========================
-   Relationship Badge
-========================== */
+    color: white;
 
-.relationship-badge{
+    font-size: 1.45rem;
 
-    display:inline-block;
+    line-height: 1.2;
 
-    margin-bottom:18px;
-
-    padding:6px 16px;
-
-    background:#6d5dfc22;
-
-    color:#8f82ff;
-
-    border-radius:999px;
-
-    font-size:.9rem;
-
-    font-weight:600;
-
+    word-break: break-word;
 }
 
-
-/* ==========================
-   Notes
-========================== */
-
-.person-notes{
-
-    color:#cfd6df;
-
-    line-height:1.6;
-
-    margin-bottom:25px;
-
-    min-height:70px;
-
-}
-
-
-/* ==========================
-   Stats
-========================== */
-
-.person-stats{
-
-    display:grid;
-
-    grid-template-columns:1fr 1fr;
-
-    gap:15px;
-
-    margin-top:auto;
-
-    margin-bottom:25px;
-
-}
-
-.person-stats div{
-
-    background:#202838;
-
-    border-radius:12px;
-
-    padding:15px;
-
-}
-
-.person-stats span{
-
-    display:block;
-
-    color:#9ca8b8;
-
-    font-size:.85rem;
-
-    margin-bottom:6px;
-
-}
-
-.person-stats strong{
-
-    color:white;
-
-    font-size:1.3rem;
-
-}
-
-
-/* ==========================
-   Buttons
-========================== */
-
-.person-buttons{
-
-    display:flex;
-
-    gap:12px;
-
-}
-
-.person-buttons .btn{
-
-    flex:1;
-
-}
-
-
-/* ==========================
-   Empty State
-========================== */
-
-.empty-card{
-
-    max-width:700px;
-
-    margin:60px auto;
-
-    padding:60px;
-
-    text-align:center;
-
-    background:#171d28;
-
-    border:1px solid #2d3445;
-
-    border-radius:22px;
-
-}
-
-.empty-card h2{
-
-    color:white;
-
-    margin-bottom:20px;
-
-}
-
-.empty-card p{
-
-    color:#9ca8b8;
-
-    margin-bottom:30px;
-
-    line-height:1.7;
-
-}
-
-
-/* ==========================
+/* =========================================
    Responsive
-========================== */
+========================================= */
 
-@media (max-width:900px){
+@media (max-width: 1200px) {
 
-    .people-grid{
-
-        grid-template-columns:1fr;
-
+    .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
 }
+
+@media (max-width: 650px) {
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid .stat-card {
+        height: 125px;
+        min-height: 125px;
+    }
+
+}
+
+/* =========================================
+   Relationship Dashboard
+========================================= */
+
+.relationship-dashboard-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 24px;
+    margin-top: 24px;
+    align-items: start;
+}
+
+.relationship-column {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+
+/* =========================================
+   Relationship Cards
+========================================= */
+
+.relationship-card {
+    width: 100%;
+    box-sizing: border-box;
+
+    background: var(--card);
+    border: 1px solid #2d3445;
+    border-radius: 18px;
+
+    overflow: hidden;
+}
+
+.relationship-card .card-header {
+    padding: 20px 24px;
+
+    border-bottom: 1px solid #2d3445;
+}
+
+.relationship-card .card-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.relationship-card-body {
+    padding: 24px;
+}
+
+
+/* =========================================
+   Recent Entries
+========================================= */
+
+.relationship-entry {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 16px;
+
+    padding: 16px 0;
+
+    color: inherit;
+    text-decoration: none;
+
+    border-bottom: 1px solid #2d3445;
+}
+
+.relationship-entry:first-child {
+    padding-top: 0;
+}
+
+.relationship-entry:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.relationship-entry:hover {
+    opacity: 0.8;
+}
+
+.relationship-entry strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.relationship-entry p {
+    margin: 0;
+
+    color: #aeb8c7;
+
+    line-height: 1.5;
+}
+
+.entry-mood {
+    font-size: 1.5rem;
+}
+
+
+/* =========================================
+   Timeline
+========================================= */
+
+.timeline-item {
+    position: relative;
+
+    padding: 0 0 22px 24px;
+
+    border-left: 2px solid #6d5dfc;
+}
+
+.timeline-item:last-child {
+    padding-bottom: 0;
+}
+
+.timeline-item::before {
+    content: "";
+
+    position: absolute;
+
+    left: -7px;
+    top: 0;
+
+    width: 12px;
+    height: 12px;
+
+    border-radius: 50%;
+
+    background: #6d5dfc;
+}
+
+.timeline-date {
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.timeline-content {
+    color: #aeb8c7;
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   Tags
+========================================= */
+
+.relationship-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.relationship-tag {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 8px 12px;
+
+    background: #151b27;
+
+    border: 1px solid #30394c;
+    border-radius: 10px;
+}
+
+.relationship-tag strong {
+    opacity: 0.7;
+}
+
+
+/* =========================================
+   Mobile
+========================================= */
+
+@media (max-width: 900px) {
+
+    .relationship-dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
