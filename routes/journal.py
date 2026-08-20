@@ -112,7 +112,8 @@ def edit_entry(entry_id):
         moods = MOODS
     )
 
-@journal_bp.route("/journal/<int:entry_id>/delete")
+@journal_bp.route("/journal/<int:entry_id>/delete", methods=["POST"])
+@login_required
 def delete_entry(entry_id):
     entry = get_entry(entry_id, current_user)
 

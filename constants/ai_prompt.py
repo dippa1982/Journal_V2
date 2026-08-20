@@ -30,6 +30,7 @@ def ai_prompt_reflection(journal):
     {journal}
 
     """
+    return AI_Prompt_Reflection
 
 def ai_prompt_compass(compass):
     AI_Prompt_Compass = f"""
