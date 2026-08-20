@@ -78,7 +78,7 @@ function createMoodChart(){
 
                         min:1,
 
-                        max:8,
+                        max:10,
 
                         ticks:{stepSize:1}
 

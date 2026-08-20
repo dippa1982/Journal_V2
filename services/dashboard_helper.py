@@ -4,9 +4,6 @@ from datetime import date, timedelta
 from models import Entry
 
 def get_dashboard_stats(user):
-
-    print(user)
-    print(user.id)
     entries = Entry.query.filter_by(
     user_id=user.id
     ).all()
