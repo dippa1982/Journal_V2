@@ -3,6 +3,7 @@ import json
 
 from google import genai
 
+from constants.ai_prompt import ai_prompt_compass
 from extensions import db
 from models import Entry, Reflection
 
@@ -62,53 +63,7 @@ Entry:
 
 def build_prompt(journal):
 
-    return f"""
-Analyse the personal journal entries below.
-
-Provide a balanced and thoughtful reflection.
-
-Do not simply validate the writer's perspective.
-
-Distinguish between:
-
-- facts and assumptions
-- evidence and interpretations
-- reasonable concerns and catastrophising
-- recurring patterns and isolated incidents
-
-Look specifically for:
-
-- strengths
-- blind spots
-- relationship patterns
-- emotional patterns
-- evidence of progress
-- useful topics to discuss in therapy
-- practical focus for the next week
-- practical focus for the next month
-
-Return valid JSON containing exactly these fields:
-
-{{
-    "summary": "string",
-    "strengths": "string",
-    "blind_spots": "string",
-    "relationship_patterns": "string",
-    "emotional_patterns": "string",
-    "therapy_topics": "string",
-    "next_week": "string",
-    "next_month": "string"
-}}
-
-Return JSON only.
-
-Do not use Markdown code fences.
-
-JOURNAL ENTRIES:
-
-{journal}
-"""
-
+    return ai_prompt_compass(journal)   
 
 def ask_ai(prompt):
 

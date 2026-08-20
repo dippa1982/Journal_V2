@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+
+{% block title %}People{% endblock %}
+
+{% block content %}
+
+<div class="content-wrapper">
+
+    <!-- ========================= -->
+    <!-- Header -->
+    <!-- ========================= -->
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>👥 People</h1>
+
+            <p>
+                Everyone who matters in your life.
+            </p>
+
+        </div>
+
+        <a href="{{ url_for('people.new_person') }}"
+           class="btn btn-primary">
+
+            ➕ Add Person
+
+        </a>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- People Grid -->
+    <!-- ========================= -->
+
+    {% if people %}
+
+    <div class="people-grid">
+
+        {% for person in people %}
+
+        <div class="person-card">
+
+            <!-- Avatar -->
+
+            <div class="person-avatar">
+
+                {{ person.emoji }}
+
+            </div>
+
+
+            <!-- Name -->
+
+            <h3>
+
+                {{ person.name }}
+
+            </h3>
+
+
+            <!-- Relationship -->
+
+            <div class="relationship-badge">
+
+                {{ person.relationship_type }}
+
+            </div>
+
+
+            <!-- Notes -->
+
+            {% if person.notes %}
+
+                <p class="person-notes">
+
+                    {{ person.notes[:120] }}
+
+                    {% if person.notes|length > 120 %}
+
+                        ...
+
+                    {% endif %}
+
+                </p>
+
+            {% else %}
+
+                <p class="person-notes text-muted">
+
+                    No notes yet.
+
+                </p>
+
+            {% endif %}
+
+
+            <!-- Stats -->
+
+            <div class="person-stats">
+
+                <div>
+
+                    <span>
+
+                        Entries
+
+                    </span>
+
+                    <strong>
+
+                        {{ person.entries|length }}
+
+                    </strong>
+
+                </div>
+
+                <div>
+
+                    <span>
+
+                        Favourite
+
+                    </span>
+
+                    <strong>
+
+                        {% if person.favourite %}
+
+                            ⭐
+
+                        {% else %}
+
+                            —
+
+                        {% endif %}
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- Buttons -->
+
+            <div class="person-buttons">
+
+                <a href="{{ url_for('people.view_person',
+                        person_id=person.id) }}"
+                   class="btn btn-primary">
+
+                    Open
+
+                </a>
+
+                <a href="{{ url_for('people.edit_person',
+                        person_id=person.id) }}"
+                   class="btn btn-outline-light">
+
+                    Edit
+
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <!-- Empty State -->
+
+    <div class="empty-card">
+
+        <div class="display-1 mb-3">
+
+            👥
+
+        </div>
+
+        <h2>
+
+            No People Yet
+
+        </h2>
+
+        <p>
+
+            Add the important people in your life to unlock
+            relationship insights, timelines and AI summaries.
+
+        </p>
+
+        <a href="{{ url_for('people.new_person') }}"
+           class="btn btn-primary btn-lg">
+
+            ➕ Add Your First Person
+
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

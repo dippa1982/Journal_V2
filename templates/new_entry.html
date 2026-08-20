@@ -85,6 +85,45 @@
 
             </div>
 
+
+            <!-- ========================= -->
+            <!-- People Mentioned -->
+            <!-- ========================= -->
+
+            <div class="mb-4">
+
+                <label class="form-label">
+
+                    👥 People Mentioned
+
+                </label>
+
+                <div class="people-selector">
+
+                    {% for person in people %}
+
+                    <label class="person-option">
+
+                        <input
+                            type="checkbox"
+                            name="people"
+                            value="{{ person.id }}">
+
+                        <span class="person-pill">
+
+                            {{ person.emoji }}
+                            {{ person.name }}
+
+                        </span>
+
+                    </label>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
             <!-- Journal -->
 
             <div class="mb-4">
@@ -98,7 +137,9 @@
                 <textarea
                     name="content"
                     class="form-control journal-editor"
-                    placeholder="What happened today?
+                    rows = "15"
+                    placeholder=
+"What happened today?
 
 How are you feeling?
 
@@ -120,6 +161,24 @@ What do you want to remember?"
                 </small>
 
                 <div>
+
+            <div class="form-check mt-4">
+
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="is_timeline_event"
+                    id="timeline">
+
+                <label
+                    class="form-check-label"
+                    for="timeline">
+
+                    ⭐ Add to Life Timeline
+
+                </label>
+
+            </div>
 
                     <a href="{{ url_for('dashboard.dashboard') }}"
                        class="btn btn-secondary">

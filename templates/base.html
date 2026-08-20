@@ -30,7 +30,10 @@
           href="{{ url_for('static', filename='css/style.css') }}">
 
     <link rel="stylesheet"
-      href="{{ url_for('static', filename='css/trends.css') }}"> 
+      href="{{ url_for('static', filename='css/trends.css') }}">
+      
+    <link rel="stylesheet"
+      href="{{ url_for('static', filename='css/people.css') }}">
 
 </head>
 
@@ -94,10 +97,18 @@
 
             </a>
 
+            <a href="{{ url_for('timeline.timeline') }}"
+               class="nav-item {% if request.endpoint == 'timeline.timeline' %}active{% endif %}">
+
+                📍
+                <span>Timeline</span>
+
+            </a>
+
             <a href="{{ url_for('insights.insights') }}"
                class="nav-item {% if request.endpoint == 'insights.insights' %}active{% endif %}">
 
-                📈
+                🗺️
                 <span>Insights</span>
 
             </a>
@@ -105,6 +116,13 @@
             <a href="{{ url_for('trends.trends') }}" class="nav-item">
 
                 <span>📈 Trends</span>
+
+            </a>
+
+            <a href="{{ url_for('people.people') }}" class="nav-item">
+
+                    👥
+                    <span>People</span>
 
             </a>
 
