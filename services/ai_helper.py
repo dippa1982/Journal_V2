@@ -149,27 +149,27 @@ def save_reflection(user, data):
         ),
 
         strengths=data.get(
-            "strengths",
+            "strengths",[],
             "No strengths generated."
         ),
 
         blind_spots=data.get(
-            "blind_spots",
+            "blind_spots",[],
             "No blind spots generated."
         ),
 
         relationship_patterns=data.get(
-            "relationship_patterns",
+            "relationship_patterns",[],
             "No relationship patterns generated."
         ),
 
         emotional_patterns=data.get(
-            "emotional_patterns",
+            "emotional_patterns",[],
             "No emotional patterns generated."
         ),
 
         therapy_topics=data.get(
-            "therapy_topics",
+            "therapy_topics",[],
             "No therapy topics generated."
         ),
 
@@ -194,17 +194,17 @@ def save_reflection(user, data):
         ),
 
         concerns=data.get(
-            "concerns",
+            "concerns",[],
             "No concerns generated."
             ),
 
         growth=data.get(
-            "growth",
+            "growth",[],
             "No growth generated."
         ),
 
         practical_focus=data.get(
-            "practical_focus",
+            "practical_focus",[],
             "No practical focus generated."   
         ),
 
