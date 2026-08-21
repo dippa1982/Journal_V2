@@ -170,13 +170,23 @@ def save_reflection(user, data):
         ),
 
         next_week=data.get(
-            "next_week",
+            "weekly_focus",
             "No weekly focus generated."
         ),
 
         next_month=data.get(
-            "next_month",
+            "monthly_focus",
             "No monthly focus generated."
+        ),
+
+        reflection_qustion=data.get(
+            "reflection_question",
+            "No reflection question generated."
+        ),
+
+        overall_assessment=data.get(
+            "overall_assessment",
+            "No overall assessment generated."   
         ),
 
         user_id=user.id
