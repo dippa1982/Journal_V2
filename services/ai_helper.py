@@ -25,22 +25,22 @@ def get_client():
         api_key=api_key
     )
 
-
 def get_entries(user):
-
     return Entry.query.filter_by(
         user_id=user.id
     ).order_by(
-        Entry.created_at.asc()
-    ).all()
+        Entry.created_at.desc()
+    ).limit(30).all()
+
+    
 
 
-def build_journal(entries):
+def build_journal(entries,user):
 
     journal_parts = []
 
     for entry in entries:
-
+        entries = list(reversed(get_entries(user)))
         journal_parts.append(
             f"""
 Date:
@@ -179,7 +179,7 @@ def save_reflection(user, data):
             "No monthly focus generated."
         ),
 
-        reflection_qustion=data.get(
+        reflection_question=data.get(
             "reflection_question",
             "No reflection question generated."
         ),
@@ -187,6 +187,21 @@ def save_reflection(user, data):
         overall_assessment=data.get(
             "overall_assessment",
             "No overall assessment generated."   
+        ),
+
+        concerns=data.get(
+            "concerns",
+            "No concerns generated."
+            ),
+
+        growth=data.get(
+            "growth",
+            "No growth generated."
+        ),
+
+        practical_focus=data.get(
+            "practical_focus",
+            "No practical focus generated."   
         ),
 
         user_id=user.id

@@ -77,8 +77,15 @@
 
                 <div class="card-body">
 
-                    {{ reflection.strengths }}
-
+                    {% if reflection.strengths %}
+                    <ul>
+                        {% for item in reflection.strengths %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-muted">No strengths identified.</p>
+                    {% endif %}
                 </div>
 
             </div>
@@ -97,8 +104,15 @@
 
                 <div class="card-body">
 
-                    {{ reflection.blind_spots }}
-
+                    {% if reflection.blind_spots %}
+                    <ul>
+                        {% for item in reflection.blind_spots %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-muted">No blind spots identified.</p>
+                    {% endif %}
                 </div>
 
             </div>
@@ -117,7 +131,15 @@
 
                 <div class="card-body">
 
-                    {{ reflection.relationship_patterns }}
+                    {% if reflection.relationship_patterns %}
+                        <ul>
+                            {% for item in reflection.relationship_patterns %}
+                            <li>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                    <p class="text-muted">No relationship patterns identified.</p>
+                    {% endif %}
 
                 </div>
 
@@ -137,8 +159,15 @@
 
                 <div class="card-body">
 
-                    {{ reflection.emotional_patterns }}
-
+                    {% if reflection.emotional_patterns %}
+                        <ul>
+                            {% for item in reflection.emotional_patterns %}
+                            <li>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                    <p class="text-muted">No emotional patterns identified.</p>
+                    {% endif %}
                 </div>
 
             </div>
@@ -157,8 +186,16 @@
 
                 <div class="card-body">
 
-                    {{ reflection.therapy_topics }}
-
+                    {% if reflection.therapy_topics %}
+                        <ul>
+                            {% for item in reflection.therapy_topics %}
+                            <li>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                    <p class="text-muted">No therapy topics identified.</p>
+                    {% endif %}
+                
                 </div>
 
             </div>
