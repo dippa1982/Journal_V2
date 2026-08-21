@@ -32,47 +32,54 @@ def ai_prompt_reflection(journal):
     return AI_Prompt_Reflection
 
 def ai_prompt_compass(compass):
+
     AI_Prompt_Compass = f"""
-    Analyse the personal journal entries below.
 
-    Provide a balanced and thoughtful reflection.
+# Daily Compass Request
 
-    Do not simply validate the writer's perspective.
+Analyse the personal journal entries below.
 
-    Distinguish between:
+Provide a balanced and thoughtful daily compass.
 
-    - facts and assumptions
-    - evidence and interpretations
-    - reasonable concerns and catastrophising
-    - recurring patterns and isolated incidents
+Do not simply validate the writer's perspective.
 
-    Look specifically for:
+Distinguish between:
 
-    - strengths
-    - blind spots
-    - relationship patterns
-    - emotional patterns
-    - evidence of progress
-    - useful topics to discuss in therapy
-    - practical focus for the next week
-    - practical focus for the next month
+- facts and assumptions
+- evidence and interpretations
+- reasonable concerns and catastrophising
+- recurring patterns and isolated incidents
 
-    Return valid JSON containing exactly these fields:
+Look specifically for:
 
-    {{
-        "summary": "string",
-        "strengths": "string",
-        "blind_spots": "string",
-        "relationship_patterns": "string",
-        "emotional_patterns": "string",
-        "therapy_topics": "string",
-        "next_week": "string",
-        "next_month": "string"
-    }}
+- emotional patterns
+- relationship patterns
+- strengths
+- blind spots
+- evidence of progress
+- what deserves attention today
+- one practical focus for today
+- one useful reflection question
 
-    Return JSON only.
+Return valid JSON containing exactly these fields:
 
-    Do not use Markdown code fences.
+{{
+    "title": "string",
+    "icon": "emoji",
+    "observation": "string",
+    "focus": "string",
+    "question": "string",
+    "confidence": "string"
+}}
 
-    JOURNAL ENTRIES:
-    """
+Return JSON only.
+
+Do not use Markdown code fences.
+
+JOURNAL ENTRIES:
+
+{compass}
+
+"""
+
+    return AI_Prompt_Compass

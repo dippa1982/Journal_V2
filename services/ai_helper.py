@@ -3,7 +3,7 @@ import json
 
 from google import genai
 
-from constants.ai_prompt import ai_prompt_compass
+from constants.ai_prompt import ai_prompt_reflection
 from extensions import db
 from models import Entry, Reflection
 
@@ -63,7 +63,7 @@ Entry:
 
 def build_prompt(journal):
 
-    return ai_prompt_compass(journal)   
+    return ai_prompt_reflection(journal)   
 
 def ask_ai(prompt):
 
