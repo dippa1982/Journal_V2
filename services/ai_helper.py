@@ -168,11 +168,6 @@ def save_reflection(user, data):
             "No monthly focus generated."
         ),
 
-        overall_assessment=data.get(
-            "overall_assessment",
-            "No overall assessment generated."   
-        ),
-
         concerns=json.dumps(data.get("concerns",[])),
 
         growth=json.dumps(data.get("growth",[])),
