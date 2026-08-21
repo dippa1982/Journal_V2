@@ -150,11 +150,9 @@ def ask_ai(prompt):
     try:
 
         response = client.models.generate_content(
-
-             model=MODEL_NAME,
-
-             contents=prompt
-    )
+            model=MODEL_NAME,
+            contents=prompt
+        )
 
         result = response.text.strip()
 
@@ -174,6 +172,7 @@ def ask_ai(prompt):
         print("GEMINI ERROR:")
         print(repr(error))
 
+        raise
 
 # ---------------------------------------------------
 # Parse JSON
@@ -181,28 +180,32 @@ def ask_ai(prompt):
 
 def parse_response(result):
 
+    if not result:
+        raise ValueError(
+            "Daily Compass: Gemini returned no response."
+        )
+
     try:
 
-        return json.loads(result)
-
-    except Exception:
+        data = json.loads(result)
 
         return {
-
-            "title": "Today's Direction",
-
-            "icon": "🌱",
-
-            "observation": result,
-
-            "focus": "",
-
-            "question": "",
-
-            "confidence": "Low"
-
+            "title": data.get("title", "Today's Direction"),
+            "icon": data.get("icon", "🌱"),
+            "observation": data.get("observation", ""),
+            "focus": data.get("focus", ""),
+            "question": data.get("question", ""),
+            "confidence": data.get("confidence", "Low")
         }
 
+    except json.JSONDecodeError as error:
+
+        print("INVALID DAILY COMPASS JSON:")
+        print(result)
+
+        raise ValueError(
+            f"Daily Compass returned invalid JSON: {error}"
+        )
 
 # ---------------------------------------------------
 # Daily Compass
@@ -253,7 +256,6 @@ def generate_daily_compass(user):
     )
 
     result = ask_ai(prompt)
-    print(result)
 
     compass = parse_response(result)
 

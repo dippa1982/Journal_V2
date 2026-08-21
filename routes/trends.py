@@ -18,6 +18,9 @@ def trends():
 
     compass = generate_daily_compass(current_user)
 
+    print("DAILY COMPASS RETURNED:")
+    print(compass)
+
     return render_template(
         "trends.html",
         report = report,
