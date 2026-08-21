@@ -150,13 +150,13 @@ def save_reflection(user, data):
 
         strengths=json.dumps(data.get("strengths",[])),
 
-        blind_spots=json.dump(data.get("blind_spots",[])),
+        blind_spots=json.dumps(data.get("blind_spots",[])),
 
-        relationship_patterns=json.dump(data.get("relationship_patterns",[])),
+        relationship_patterns=json.dumps(data.get("relationship_patterns",[])),
 
-        emotional_patterns=json.dump(data.get("emotional_patterns",[])),
+        emotional_patterns=json.dumps(data.get("emotional_patterns",[])),
 
-        therapy_topics=json.dump(data.get("therapy_topics",[])),
+        therapy_topics=json.dumps(data.get("therapy_topics",[])),
 
         next_week=data.get(
             "weekly_focus",
@@ -178,11 +178,11 @@ def save_reflection(user, data):
             "No overall assessment generated."   
         ),
 
-        concerns=json.dump(data.get("concerns",[])),
+        concerns=json.dumps(data.get("concerns",[])),
 
-        growth=json.dump(data.get("growth",[])),
+        growth=json.dumps(data.get("growth",[])),
 
-        practical_focus=json.dump(data.get("practical_focus",[])),
+        practical_focus=json.dumps(data.get("practical_focus",[])),
 
         user_id=user.id
 
