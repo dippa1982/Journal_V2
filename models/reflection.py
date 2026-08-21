@@ -27,5 +27,15 @@ class Reflection(db.Model):
 
     next_month = db.Column(db.Text, nullable=True)
 
+    reflection_question = db.Column(db.Text, nullable=True)
+
+    overall_assessment = db.Column(db.Text, nullable=True)
+
+    concerns = db.Column(db.Text, nullable=True)
+
+    growth = db.Column(db.Text, nullable=True)
+
+    practical_focus = db.Column(db.Text, nullable=True)
+
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=True)
 
