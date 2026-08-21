@@ -1,5 +1,5 @@
 from calendar import monthcalendar
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from models import Entry
 
@@ -12,9 +12,9 @@ def get_calendar_data(user):
 
     first_day = current.replace(day=1)
 
-    previous_month = first_day - datetime.timedelta(days=1)
+    previous_month = first_day - timedelta(days=1)
 
-    next_month = (first_day.replace(day=28) + datetime.timedelta(days=4)).replace(day=1)
+    next_month = (first_day.replace(day=28) + timedelta(days=4)).replace(day=1)
 
     weeks = monthcalendar(year, month)
 

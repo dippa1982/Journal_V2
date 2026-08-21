@@ -43,18 +43,6 @@ def get_insights(user):
             else:
 
                 break
-
-    mood_counts = {
-        "happy": 0,
-        "calm": 0,
-        "anxious": 0,
-        "angry": 0,
-        "sad": 0,
-        "frustrated": 0,
-        "grateful": 0,
-        "fearful": 0
-    }
-
     mood_counts = {mood["name"]: 0 for mood in MOODS.values()}
 
     for entry in entries:

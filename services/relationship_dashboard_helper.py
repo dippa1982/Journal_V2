@@ -101,7 +101,7 @@ def build_relationship_dashboard(person):
 
     for entry in entries:
 
-        if entry.mood_score not in MOODS:
+        if entry.mood_score in MOODS:
         
             mood_labels.append(
                 entry.created_at.strftime("%d %b")
@@ -188,7 +188,4 @@ def build_relationship_dashboard(person):
         "ai_summary": None
 
     }
-
-    print(report)
-
     return report
