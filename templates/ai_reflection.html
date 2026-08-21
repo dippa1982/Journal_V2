@@ -255,7 +255,15 @@
 
                 <div class="card-body">
 
-                    {{ reflection.concerns }}
+                    {% if reflection.concerns %}
+                    <ul>
+                        {% for item in reflection.concerns %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-muted">No concerns identified.</p>
+                    {% endif %}
 
                 </div>
 
@@ -275,7 +283,15 @@
 
                 <div class="card-body">
 
-                    {{ reflection.growth }}
+                    {% if reflection.growth %}
+                    <ul>
+                        {% for item in reflection.growth %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-muted">No growth identified.</p>
+                    {% endif %}
 
                 </div>
 
@@ -295,7 +311,15 @@
 
                 <div class="card-body">
 
-                    {{ reflection.practical_focus }}
+                    {% if reflection.practical_focus %}
+                    <ul>
+                        {% for item in reflection.practical_focus %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-muted">No practical focus identified.</p>
+                    {% endif %}
 
                 </div>
 
