@@ -148,30 +148,15 @@ def save_reflection(user, data):
         "Journal Reflection"
         ),
 
-        strengths=data.get(
-            "strengths",[],
-            "No strengths generated."
-        ),
+        strengths=json.dumps(data.get("strengths",[])),
 
-        blind_spots=data.get(
-            "blind_spots",[],
-            "No blind spots generated."
-        ),
+        blind_spots=json.dump(data.get("blind_spots",[])),
 
-        relationship_patterns=data.get(
-            "relationship_patterns",[],
-            "No relationship patterns generated."
-        ),
+        relationship_patterns=json.dump(data.get("relationship_patterns",[])),
 
-        emotional_patterns=data.get(
-            "emotional_patterns",[],
-            "No emotional patterns generated."
-        ),
+        emotional_patterns=json.dump(data.get("emotional_patterns",[])),
 
-        therapy_topics=data.get(
-            "therapy_topics",[],
-            "No therapy topics generated."
-        ),
+        therapy_topics=json.dump(data.get("therapy_topics",[])),
 
         next_week=data.get(
             "weekly_focus",
@@ -193,20 +178,11 @@ def save_reflection(user, data):
             "No overall assessment generated."   
         ),
 
-        concerns=data.get(
-            "concerns",[],
-            "No concerns generated."
-            ),
+        concerns=json.dump(data.get("concerns",[])),
 
-        growth=data.get(
-            "growth",[],
-            "No growth generated."
-        ),
+        growth=json.dump(data.get("growth",[])),
 
-        practical_focus=data.get(
-            "practical_focus",[],
-            "No practical focus generated."   
-        ),
+        practical_focus=json.dump(data.get("practical_focus",[])),
 
         user_id=user.id
 
