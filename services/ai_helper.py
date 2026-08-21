@@ -133,7 +133,6 @@ def parse_ai_response(result):
             f"Gemini returned invalid JSON: {error}"
         )
 
-
 def save_reflection(user, data):
 
     reflection = Reflection(
