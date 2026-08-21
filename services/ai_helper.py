@@ -35,12 +35,11 @@ def get_entries(user):
     
 
 
-def build_journal(entries,user):
+def build_journal(entries):
 
     journal_parts = []
 
     for entry in entries:
-        entries = list(reversed(get_entries(user)))
         journal_parts.append(
             f"""
 Date:
@@ -142,6 +141,11 @@ def save_reflection(user, data):
         summary=data.get(
             "summary",
             "No summary generated."
+        ),
+
+        title=data.get(
+        "title",
+        "Journal Reflection"
         ),
 
         strengths=data.get(
