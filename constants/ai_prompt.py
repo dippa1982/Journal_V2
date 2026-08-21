@@ -78,10 +78,19 @@ Use exactly this structure:
         "Practical action or focus 3"
     ],
 
+    "therapy_topics": [
+        "Topic to discuss in therapy",
+        "Topic to discuss in therapy"
+    ],
+
+    "weekly_focus": "The most useful thing to focus on over the next week.",
+
+    "monthly_focus": "The most important longer-term area to work on over the next month.",
+
     "reflection_question": "One thoughtful question the writer should consider.",
 
     "overall_assessment": "A balanced overall assessment of the journal entries."
-    }}
+}}
 
     Rules for the JSON:
 
