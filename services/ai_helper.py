@@ -76,9 +76,12 @@ def ask_ai(prompt):
         try:
 
             response = client.models.generate_content(
-                model=MODEL_NAME,
-                contents=prompt
-            )
+            model=MODEL_NAME,
+            contents=prompt,
+            config={
+            "response_mime_type": "application/json"
+            }
+)
 
             result = response.text
 
