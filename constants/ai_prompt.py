@@ -1,4 +1,3 @@
-
 def ai_prompt_reflection(journal):
     AI_Prompt_Reflection = f"""
 
