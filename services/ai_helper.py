@@ -1,5 +1,6 @@
 import os
 import json
+import time
 
 from google import genai
 
@@ -65,27 +66,40 @@ def build_prompt(journal):
 
     return ai_prompt_reflection(journal)   
 
+
 def ask_ai(prompt):
 
     client = get_client()
 
-    response = client.models.generate_content(
-        model=MODEL_NAME,
-        contents=prompt
-    )
+    for attempt in range(3):
 
-    result = response.text
+        try:
 
-    print("RAW GEMINI RESPONSE:")
-    print(repr(result))
+            response = client.models.generate_content(
+                model=MODEL_NAME,
+                contents=prompt
+            )
 
-    if not result:
-        raise ValueError(
-            "Gemini returned an empty response."
-        )
+            result = response.text
 
-    return result
+            if not result:
+                raise ValueError(
+                    "Gemini returned an empty response."
+                )
 
+            return result
+
+        except Exception as error:
+
+            print(
+                f"Gemini attempt {attempt + 1} failed: "
+                f"{error}"
+            )
+
+            if attempt == 2:
+                raise
+
+            time.sleep(2 ** attempt)
 
 def parse_ai_response(result):
 
