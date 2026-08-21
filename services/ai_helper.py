@@ -168,11 +168,6 @@ def save_reflection(user, data):
             "No monthly focus generated."
         ),
 
-        reflection_question=data.get(
-            "reflection_question",
-            "No reflection question generated."
-        ),
-
         overall_assessment=data.get(
             "overall_assessment",
             "No overall assessment generated."   
