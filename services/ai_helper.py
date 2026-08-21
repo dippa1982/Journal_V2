@@ -8,6 +8,8 @@ from constants.ai_prompt import ai_prompt_reflection
 from extensions import db
 from models import Entry, Reflection
 
+from flask_login import current_user
+
 
 MODEL_NAME = "gemini-2.5-flash"
 
@@ -63,7 +65,7 @@ Entry:
 
 def build_prompt(journal):
 
-    return ai_prompt_reflection(journal)   
+    return ai_prompt_reflection(journal, current_user.name)   
 
 
 def ask_ai(prompt):
