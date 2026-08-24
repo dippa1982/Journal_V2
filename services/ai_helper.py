@@ -65,8 +65,7 @@ Entry:
 
 def build_prompt(journal):
 
-    return ai_prompt_reflection(journal, current_user.name)   
-
+    return ai_prompt_reflection(journal, current_user)
 
 def ask_ai(prompt):
 

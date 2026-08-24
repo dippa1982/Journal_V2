@@ -24,6 +24,7 @@ from routes.reflection import reflection_bp
 from routes.trends import trends_bp
 from routes.timeline import timeline_bp
 from routes.people import people_bp
+from routes.pattern import patterns_bp
 def create_app():
 
     app = Flask(__name__)
@@ -86,6 +87,8 @@ def create_app():
     app.register_blueprint(timeline_bp)
 
     app.register_blueprint(people_bp)
+
+    app.register_blueprint(patterns_bp)
 
     return app
 

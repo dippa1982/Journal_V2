@@ -35,6 +35,9 @@
     <link rel="stylesheet"
       href="{{ url_for('static', filename='css/people.css') }}">
 
+    <link rel="stylesheet"
+      href="{{ url_for('static', filename='css/patterns.css') }}">
+
     
     <!--=================================->
     Java Script
@@ -130,6 +133,13 @@
 
                     👥
                     <span>People</span>
+
+            </a>
+
+            <a href="{{ url_for('patterns.patterns') }}" class="nav-item">
+
+                    👥
+                    <span>Patterns</span>
 
             </a>
 

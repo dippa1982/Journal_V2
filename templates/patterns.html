@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Patterns{% endblock %}
+
+{% block content %}
+
+<div class="content-wrapper">
+
+    <!-- Header -->
+    <div class="page-header">
+
+        <div>
+            <h1>🔍 Pattern Detector</h1>
+            <p class="text-muted">
+                Patterns and recurring themes found in your journal.
+            </p>
+        </div>
+
+    </div>
+    <!-- Recurring Tags -->
+    <div class="pattern-card">
+
+        <div class="card-header">
+
+            <h3>🏷️ Recurring Tags</h3>
+
+        </div>
+
+        {% if report.recurring_tags %}
+
+            {% for item in report.recurring_tags %}
+
+                <div class="timeline-row">
+
+                    <strong>
+                        {{ item.tag }}
+                    </strong>
+
+                    <span class="text-muted">
+                        {{ item.count }} mentions
+                    </span>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p class="text-muted">
+                No recurring topics found yet.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}
