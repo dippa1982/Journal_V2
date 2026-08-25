@@ -2,7 +2,7 @@ from datetime import datetime
 
 from models import Entry
 from constants.moods import MOODS
-from constants.ai_prompt import ai_prompt_reflection
+from constants.ai_prompt import ai_prompt_export
 
 
 def build_markdown(user):
@@ -19,7 +19,7 @@ def build_markdown(user):
         for entry in entries
     )
 
-    reflection_prompt = ai_prompt_reflection(journal) or ""
+    reflection_prompt = ai_prompt_export(journal) or ""
 
     markdown = "# Journal Export\n\n"
 
