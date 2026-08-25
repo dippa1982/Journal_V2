@@ -54,6 +54,62 @@
 
     </div>
 
+    <div class="pattern-card">
+
+        <div class="card-header">
+
+            <h3>😊 Average Mood</h3>
+
+        </div>
+
+        {% if report.mood_patterns.average %}
+
+            <div class="timeline-row">
+
+                <strong>
+                    Average Mood
+                </strong>
+
+                <span class="text-muted">
+                    {{ report.mood_patterns.average }}
+                </span>
+
+            </div>
+
+            <div class="timeline-row">
+
+                <strong>
+                    Lowest Mood
+                </strong>
+
+                <span class="text-muted">
+                    {{ report.mood_patterns.lowest }}
+                </span>
+
+            </div>
+
+            <div class="timeline-row">
+
+                <strong>
+                    Highest Mood
+                </strong>
+
+                <span class="text-muted">
+                    {{ report.mood_patterns.highest }}
+                </span>
+
+            </div>
+
+        {% else %}
+
+            <p class="text-muted">
+                No mood data found yet.
+            </p>
+
+        {% endif %}
+
+    </div>
+
 </div>
 
 {% endblock %}
