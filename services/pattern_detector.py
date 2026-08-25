@@ -24,6 +24,7 @@ def detect_patterns(user):
     }
 
     mood_patterns = {
+        "values": [],
         "average": 0,
         "lowest": 0,
         "highest": 0,
@@ -55,6 +56,12 @@ def detect_patterns(user):
     ]
 
     # Detect mood patterns
-        
+    for entry in entries:
+        if entry.mood_score:
+            mood_patterns["values"].append(entry.mood_score)
+            mood_patterns["average"] = round(sum(mood_patterns["values"]) / len(mood_patterns["values"]), 1)
+            mood_patterns["lowest"] = min(mood_patterns["values"])
+            mood_patterns["highest"] = max(mood_patterns["values"])
 
+    print(mood_patterns)
     return report   
