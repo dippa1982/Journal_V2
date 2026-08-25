@@ -19,6 +19,8 @@ def build_markdown(user):
         for entry in entries
     )
 
+    print(journal)
+
     reflection_prompt = ai_prompt_export(journal) or ""
 
     markdown = "# Journal Export\n\n"
