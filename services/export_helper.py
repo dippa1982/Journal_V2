@@ -14,14 +14,7 @@ def build_markdown(user):
         .all()
     )
 
-    journal = "\n\n".join(
-        (entry.content or "").strip()
-        for entry in entries
-    )
-
-    print(journal)
-
-    reflection_prompt = ai_prompt_export(journal) or ""
+    reflection_prompt = ai_prompt_export("") or ""
 
     markdown = "# Journal Export\n\n"
 
@@ -31,6 +24,7 @@ def build_markdown(user):
         markdown += "\n\n---\n\n"
 
     markdown += "## Journal Entries\n\n"
+    print(markdown)
 
     for entry in entries:
         mood = MOODS.get(entry.mood_score, {})
