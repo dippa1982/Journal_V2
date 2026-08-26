@@ -26,6 +26,8 @@ def detect_patterns(user):
         "trend": None,
     }
 
+    patterns = []
+
     report = {
         "emotional_patterns": [],
         "topic_patterns": [],
@@ -204,5 +206,7 @@ def detect_patterns(user):
         key=lambda p: p["mentions"],
         reverse=True
     )
+
+    report["relationship_patterns"] = patterns
 
     return report
