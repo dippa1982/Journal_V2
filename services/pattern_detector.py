@@ -1,4 +1,4 @@
-from collections import Counter
+from collections import Counter,defaultdict
 
 from models import Entry
 
@@ -29,7 +29,7 @@ def detect_patterns(user):
     report = {
         "emotional_patterns": [],
         "topic_patterns": [],
-        "relationship_patterns": [],
+        "relationship_patterns":patterns,
         "mood_patterns": mood_patterns,
         "recurring_tags": [],
         "significant_changes": []
@@ -142,5 +142,67 @@ def detect_patterns(user):
 
             mood_patterns["trend"] = "Mood is stable"
 
+
+    # =================================
+    # Detect Relationship patterns
+    # =================================
+
+    relationship_patterns = defaultdict(list)
+
+    for entry in entries:
+
+        for person in entry.people:
+
+            relationship_patterns[person].append(entry)
+
+    patterns = []
+
+    for person, relationship_patterns in relationship_patterns.items():
+
+        relationship_patterns = sorted(relationship_patterns, key=lambda x: x.created_at)
+
+        moods = [
+            entry.mood_score
+            for entry in relationship_patterns
+            if entry.mood_score is not None
+        ]
+
+        average_mood = round(
+        sum(moods) / len(moods),
+        1)
+
+        trend = "stable"
+
+        if len(moods) >= 4:
+            midpoint = len(moods) // 2
+            ealier_moods = moods[:midpoint]
+            recent_moods = moods[midpoint:]
+            ealier_average = sum(ealier_moods) / len(ealier_moods)
+            recent_avarage = sum(recent_moods) / len(recent_moods)
+            difference = recent_average - ealier_average
+
+            if difference > 1:
+                trend = "upwards"
+            elif difference < -1:
+                trend = "downwards"
+
+        patterns.append({
+            "person": person,
+
+            "mentions": len(relationship_patterns),
+
+            "average_mood": average_mood,
+
+            "first_mentioned": relationship_patterns[0].created_at,
+
+            "last_mentioned": relationship_patterns[-1].created_at,
+
+            "trend": trend
+        })
+
+    patterns.sort(
+        key=lambda p: p["mentions"],
+        reverse=True
+    )
 
     return report
