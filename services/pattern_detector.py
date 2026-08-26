@@ -189,7 +189,7 @@ def detect_patterns(user):
                 trend = "downwards"
 
         patterns.append({
-            "person": person,
+            "person": person.name,
 
             "mentions": len(relationship_patterns),
 
