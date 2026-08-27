@@ -5,6 +5,7 @@ import re
 from models import Entry
 
 from constants.stop_words import STOP_WORDS
+from constants.topic_keyword import TOPIC_KEYWORDS
 
 def get_entries(user):
 
@@ -33,10 +34,15 @@ def detect_patterns(user):
     patterns = []
 
     report = {
+        #done
         "emotional_patterns": [],
+        #done
         "topic_patterns": [],
+        #done
         "relationship_patterns":patterns,
+        #done
         "mood_patterns": mood_patterns,
+        #done
         "recurring_tags": [],
         "significant_changes": []
     }
@@ -342,31 +348,86 @@ def detect_patterns(user):
     # Detect Topic Patterns
     # =================================     
 
-    topic_counter = Counter()
+    topic_entries = defaultdict(list)
 
     for entry in entries:
 
         if not entry.content:
             continue
 
-        words = re.findall(r"\b[a-zA-Z]{4,}\b",entry.content.lower())
+        text = entry.content.lower()
 
-        unique_words = set(words)
+        for topic, keywords in TOPIC_KEYWORDS.items():
+            matched_keywords = [
+            keyword
+            for keyword in keywords
+            if re.search(
+                r"\b" + re.escape(keyword) + r"\b",
+                text
+            )
+        ]
 
-        for word in unique_words:
+            if matched_keywords:
+                topic_entries[topic].append({
+                    "entry": entry,
+                    "keywords": matched_keywords
+                })
 
-            if word not in STOP_WORDS:
+    topic_patterns = []
 
-                topic_counter[word] += 1
+    for topic, matches in topic_entries.items():
 
-    report["topic_patterns"] = [
-        {
+        if len(matches) < 2:
+            continue
+
+        topic_moods = [
+        match["entry"].mood_score
+        for match in matches
+        if match["entry"].mood_score is not None
+        ]
+
+        if topic_moods:
+
+            average_mood = round(
+                sum(topic_moods) / len(topic_moods),
+                1
+            )
+
+        else:
+
+            average_mood = None
+
+
+        all_keywords = []
+
+        for match in matches:
+            all_keywords.extend(match["keywords"])
+
+
+        keyword_counts = Counter(all_keywords)
+
+
+        topic_patterns.append({
+
             "topic": topic,
-            "mentions": count
-        }
 
-        for topic, count in topic_counter.most_common(10)
-        if count > 2
-    ]
+            "mentions": len(matches),
 
-    return report
+            "average_mood": average_mood,
+
+            "keywords": [
+                keyword
+                for keyword, count
+                in keyword_counts.most_common(5)
+            ]
+
+        })
+
+
+    topic_patterns.sort(
+        key=lambda topic: topic["mentions"],
+        reverse=True
+    )
+
+
+    report["topic_patterns"] = topic_patterns 
