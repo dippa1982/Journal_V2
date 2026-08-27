@@ -353,3 +353,27 @@
     }
 
 }
+
+.emotional-pattern-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.emotional-pattern-list li {
+    position: relative;
+    padding: 14px 0 14px 28px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    line-height: 1.6;
+}
+
+.emotional-pattern-list li:last-child {
+    border-bottom: none;
+}
+
+.emotional-pattern-list li::before {
+    content: "•";
+    position: absolute;
+    left: 8px;
+    font-size: 1.2rem;
+}

@@ -209,4 +209,131 @@ def detect_patterns(user):
 
     report["relationship_patterns"] = patterns
 
+    # =================================
+    # Detect Emotional Patterns
+    # =================================
+
+    emotional_patterns = []
+
+    if len(moods) >= 3:
+
+        average = mood_patterns["average"]
+
+        # -----------------------------
+        # Overall emotional state
+        # -----------------------------
+
+        if average > 7:
+
+            emotional_patterns.append("😊Your overall mood has been positive")
+
+        elif average >= 5:
+            emotional_patterns.append("Your overall mood has generally been mixed or moderate.")
+
+        else:
+
+            emotional_patterns.append("Your overall mood has been negative.")
+
+        # -----------------------------
+        # Recent emotional state
+        # -----------------------------
+
+        changes = []
+
+        for i in range(1, len(moods)):
+            changes.append(abs(moods[i] - moods[i - 1]))
+
+        average_change = sum(changes) / len(changes)
+
+        if average_change >= 2:
+            emotional_patterns.append("Your mood shows noticeable emotional swings between entries.")
+
+        elif average_change <= 0.75:
+            emotional_patterns.append("Your mood has been relatively stable across entries")
+
+        else:
+            emotional_patterns.append(
+                "Your mood changes moderately between entries."
+            )
+
+        # -----------------------------
+        # Recent emotional direction
+        # -----------------------------
+
+        if mood_patterns["trend"] == "Mood is trending upwards":
+
+            emotional_patterns.append(
+                "Your more recent entries suggest an improvement in emotional state."
+            )
+
+        elif mood_patterns["trend"] == "Mood is trending downwards":
+
+            emotional_patterns.append(
+                "Your more recent entries suggest a decline in emotional state."
+            )
+
+
+        # -----------------------------
+        # Repeated lower moods
+        # -----------------------------
+
+        low_mood_entries = [
+            mood for mood in moods
+            if mood <= 4
+        ]
+
+        if len(low_mood_entries) >= 3:
+
+            percentage = (
+                len(low_mood_entries) / len(moods)
+            ) * 100
+
+            if percentage >= 40:
+
+                emotional_patterns.append(
+                    "Lower moods appear regularly rather than being isolated events."
+                )
+
+
+        # -----------------------------
+        # Repeated higher moods
+        # -----------------------------
+
+        high_mood_entries = [
+            mood for mood in moods
+            if mood >= 7
+        ]
+
+        if len(high_mood_entries) >= 3:
+
+            percentage = (
+                len(high_mood_entries) / len(moods)
+            ) * 100
+
+            if percentage >= 40:
+
+                emotional_patterns.append(
+                    "Higher moods appear regularly across your journal entries."
+                )
+
+
+        # -----------------------------
+        # Large emotional swings
+        # -----------------------------
+
+        large_changes = [
+            changes[i]
+            for i in range(len(changes))
+            if changes[i] >= 3
+        ]
+
+        if len(large_changes) >= 2:
+
+            emotional_patterns.append(
+                "There are repeated significant changes in mood between entries."
+            )
+
+
+    report["emotional_patterns"] = emotional_patterns        
+
     return report

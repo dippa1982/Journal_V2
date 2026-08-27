@@ -323,6 +323,40 @@
 
         </div>
 
+        </div>
+
+        <div class="pattern-card">
+
+        <div class="pattern-card-header">
+            <h3>🧠 Emotional Patterns</h3>
+        </div>
+
+        <div class="pattern-card-body">
+
+            {% if report.emotional_patterns %}
+
+                <ul class="emotional-pattern-list">
+
+                    {% for pattern in report.emotional_patterns %}
+
+                        <li>
+                            {{ pattern }}
+                        </li>
+
+                    {% endfor %}
+
+                </ul>
+
+            {% else %}
+
+                <p class="text-muted">
+                    Not enough data to identify emotional patterns yet.
+                </p>
+
+            {% endif %}
+
+        </div>
+
     </div>
 
 </div>
