@@ -369,7 +369,4 @@ def detect_patterns(user):
         if count > 2
     ]
 
-    print("TOPIC PATTERNS")
-    print(report["topic_patterns"])
-
     return report
