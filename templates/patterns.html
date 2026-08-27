@@ -366,32 +366,31 @@
         </div>
 
     <div class="pattern-card-body">
-        {% if report.topic_patterns %}
+        {% if topic.mood_difference is not none %}
 
-        <div class="topic-pattern-list">
+    {% if topic.mood_difference > 0 %}
 
-            {% for topic in report.topic_patterns %}
+        <span class="topic-positive">
+            ↑ {{ topic.mood_difference }}
+            above overall mood
+        </span>
 
-                <div class="topic-pattern">
+    {% elif topic.mood_difference < 0 %}
 
-                    <span>{{ topic.topic }}</span>
+        <span class="topic-negative">
+            ↓ {{ topic.mood_difference|abs }}
+            below overall mood
+        </span>
 
-                    <strong>
-                        {{ topic.mentions }}
-                        {% if topic.mentions == 1 %}
-                            mention
-                        {% else %}
-                            mentions
-                        {% endif %}
-                    </strong>
+    {% else %}
 
-                </div>
+        <span>
+            → Around your overall mood
+        </span>
 
-            {% endfor %}
+    {% endif %}
 
-        </div>
-
-        {% else %}
+{% endif %}
 
         <p class="text-muted">
             Not enough data to identify recurring topics yet.

@@ -431,3 +431,20 @@ def detect_patterns(user):
 
 
     report["topic_patterns"] = topic_patterns 
+
+    overall_average = mood_patterns["average"]
+
+    for pattern in topic_patterns:
+
+        if pattern["average_mood"] is not None:
+
+            pattern["mood_difference"] = round(
+                pattern["average_mood"] - overall_average,
+                1
+            )
+
+        else:
+
+            pattern["mood_difference"] = None
+
+    return report
