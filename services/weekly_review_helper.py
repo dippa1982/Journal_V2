@@ -82,3 +82,7 @@ def build_review(entries):
         }
         for tag, count in tag_counter.most_common(10)
     ]
+
+    print(weekly_report)
+
+    return weekly_report
