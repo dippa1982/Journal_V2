@@ -34,17 +34,11 @@ def detect_patterns(user):
     patterns = []
 
     report = {
-        #done
         "emotional_patterns": [],
-        #done
         "topic_patterns": [],
-        #done
         "relationship_patterns":patterns,
-        #done
         "mood_patterns": mood_patterns,
-        #done
         "recurring_tags": [],
-        "significant_changes": []
     }
 
     if not entries:
