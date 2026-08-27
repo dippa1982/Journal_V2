@@ -83,28 +83,27 @@ def detect_patterns(user):
             )
 
 
-    moods = mood_patterns["values"]
+    all_moods = mood_patterns["values"]
 
-
-    if moods:
+    if all_moods:
 
         mood_patterns["average"] = round(
-            sum(moods) / len(moods),
+            sum(all_moods) / len(all_moods),
             1
         )
 
-        mood_patterns["lowest"] = min(moods)
+        mood_patterns["lowest"] = min(all_moods)
 
-        mood_patterns["highest"] = max(moods)
+        mood_patterns["highest"] = max(all_moods)
 
 
     # =================================
     # Compare recent vs previous moods
     # =================================
 
-    recent = moods[:7]
+    recent = all_moods[:7]
 
-    previous = moods[7:14]
+    previous = all_moods[7:14]
 
 
     if recent and previous:
@@ -163,24 +162,24 @@ def detect_patterns(user):
 
         relationship_patterns = sorted(relationship_patterns, key=lambda x: x.created_at)
 
-        moods = [
+        relationship_moods = [
             entry.mood_score
             for entry in relationship_patterns
             if entry.mood_score is not None
         ]
 
         average_mood = round(
-        sum(moods) / len(moods),
+        sum(relationship_moods) / len(relationship_moods),
         1)
 
         trend = "stable"
 
-        if len(moods) >= 4:
-            midpoint = len(moods) // 2
-            ealier_moods = moods[:midpoint]
-            recent_moods = moods[midpoint:]
+        if len(relationship_moods) >= 4:
+            midpoint = len(relationship_moods) // 2
+            ealier_moods = relationship_moods[:midpoint]
+            recent_moods = relationship_moods[midpoint:]
             ealier_average = sum(ealier_moods) / len(ealier_moods)
-            recent_avarage = sum(recent_moods) / len(recent_moods)
+            recent_average = sum(recent_moods) / len(recent_moods)
             difference = recent_average - ealier_average
 
             if difference > 1:
@@ -215,7 +214,7 @@ def detect_patterns(user):
 
     emotional_patterns = []
 
-    if len(moods) >= 3:
+    if len(all_moods) >= 3:
 
         average = mood_patterns["average"]
 
@@ -240,8 +239,8 @@ def detect_patterns(user):
 
         changes = []
 
-        for i in range(1, len(moods)):
-            changes.append(abs(moods[i] - moods[i - 1]))
+        for i in range(1, len(all_moods)):
+            changes.append(abs(all_moods[i] - all_moods[i - 1]))
 
         average_change = sum(changes) / len(changes)
 
@@ -278,14 +277,14 @@ def detect_patterns(user):
         # -----------------------------
 
         low_mood_entries = [
-            mood for mood in moods
+            mood for mood in all_moods
             if mood <= 4
         ]
 
         if len(low_mood_entries) >= 3:
 
             percentage = (
-                len(low_mood_entries) / len(moods)
+                len(low_mood_entries) / len(all_moods)
             ) * 100
 
             if percentage >= 40:
@@ -300,14 +299,14 @@ def detect_patterns(user):
         # -----------------------------
 
         high_mood_entries = [
-            mood for mood in moods
+            mood for mood in all_moods
             if mood >= 7
         ]
 
         if len(high_mood_entries) >= 3:
 
             percentage = (
-                len(high_mood_entries) / len(moods)
+                len(high_mood_entries) / len(all_moods)
             ) * 100
 
             if percentage >= 40:
