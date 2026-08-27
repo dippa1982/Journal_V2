@@ -206,6 +206,76 @@
 
         </div>
 
+    </div>
+
+    <!-- ========================= -->
+    <!-- Mood Trend -->
+    <!-- ========================= -->
+
+    <div class="pattern-card">
+
+        <div class="card-header">
+
+            <h3>📈 Mood Trend</h3>
+
+        </div>
+
+        {% if patterns.mood_patterns.trend %}
+
+            <div class="timeline-row">
+
+                <strong>
+                    {{ patterns.mood_patterns.trend }}
+                </strong>
+
+            </div>
+
+
+            <div class="timeline-row">
+
+                <span>
+                    Recent 7 entries
+                </span>
+
+                <strong>
+                    {{ patterns.mood_patterns.recent_average }}
+                </strong>
+
+            </div>
+
+
+            <div class="timeline-row">
+
+                <span>
+                    Previous 7 entries
+                </span>
+
+                <strong>
+                    {{ patterns.mood_patterns.previous_average }}
+                </strong>
+
+            </div>
+
+
+            <div class="timeline-row">
+
+                <span>
+                    Change
+                </span>
+
+                <strong>
+                    {{ patterns.mood_patterns.change }}
+                </strong>
+
+            </div>
+
+        {% else %}
+
+            <p class="text-muted">
+                Not enough entries to detect a trend yet.
+            </p>
+
+        {% endif %}
 
     </div>
 
@@ -298,7 +368,6 @@
         </p>
 
     </div>
-
 
 </div>
 

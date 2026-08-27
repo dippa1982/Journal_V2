@@ -38,6 +38,7 @@ def build_review(entries):
         if entry.mood_score is not None:
             mood_scores.append(entry.mood_score)
 
+    mood_scores = list(reversed(mood_scores))
 
     weekly_report = {
         "entry_count": len(entries),
@@ -46,6 +47,7 @@ def build_review(entries):
         "best_score": 0,
         "worst_score": 0,
         "recurring_tags": [],
+        "mood_trend": [],
     }
 
 
@@ -82,7 +84,5 @@ def build_review(entries):
         }
         for tag, count in tag_counter.most_common(10)
     ]
-
-    print(weekly_report)
 
     return weekly_report

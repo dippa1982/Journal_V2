@@ -4,6 +4,8 @@ import re
 
 from models import Entry
 
+from services.pattern_detector import detect_patterns
+
 from constants.stop_words import STOP_WORDS
 from constants.topic_keyword import TOPIC_KEYWORDS
 
