@@ -333,6 +333,7 @@ def detect_patterns(user):
                 "There are repeated significant changes in mood between entries."
             )
 
+    print("EMOTIONAL PATTERNS")
     print(emotional_patterns)
     report["emotional_patterns"] = emotional_patterns        
 
