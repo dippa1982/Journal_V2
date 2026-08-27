@@ -1,0 +1,305 @@
+{% extends "base.html" %}
+
+{% block title %}Weekly Review{% endblock %}
+
+{% block content %}
+
+<div class="content-wrapper">
+
+    <!-- ================================= -->
+    <!-- Header -->
+    <!-- ================================= -->
+
+    <div class="page-header">
+
+        <div>
+            <h1>📅 Weekly Review</h1>
+
+            <p class="text-muted">
+                A look back at your last 7 days.
+            </p>
+        </div>
+
+    </div>
+
+
+    <!-- ================================= -->
+    <!-- Weekly Statistics -->
+    <!-- ================================= -->
+
+    <div class="stats-grid">
+
+        <!-- Entries -->
+
+        <div class="stat-card">
+
+            <div class="stat-icon purple">
+                📖
+            </div>
+
+            <div>
+                <span>Journal Entries</span>
+
+                <h2>
+                    {{ weekly_report.entry_count }}
+                </h2>
+            </div>
+
+        </div>
+
+
+        <!-- Average Mood -->
+
+        <div class="stat-card">
+
+            <div class="stat-icon green">
+                😊
+            </div>
+
+            <div>
+                <span>Average Mood</span>
+
+                <h2>
+                    {{ weekly_report.average_score }}
+                </h2>
+            </div>
+
+        </div>
+
+
+        <!-- Best Mood -->
+
+        <div class="stat-card">
+
+            <div class="stat-icon blue">
+                🤩
+            </div>
+
+            <div>
+                <span>Best Mood</span>
+
+                <h2>
+                    {{ weekly_report.best_score }}
+                </h2>
+            </div>
+
+        </div>
+
+
+        <!-- Worst Mood -->
+
+        <div class="stat-card">
+
+            <div class="stat-icon red">
+                😔
+            </div>
+
+            <div>
+                <span>Lowest Mood</span>
+
+                <h2>
+                    {{ weekly_report.worst_score }}
+                </h2>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================= -->
+    <!-- Main Grid -->
+    <!-- ================================= -->
+
+    <div class="dashboard-grid">
+
+
+        <!-- ================================= -->
+        <!-- Mood Overview -->
+        <!-- ================================= -->
+
+        <div class="pattern-card">
+
+            <div class="card-header">
+
+                <h3>😊 Mood Overview</h3>
+
+            </div>
+
+
+            {% if weekly_report.mood_scores %}
+
+                <div class="weekly-mood-list">
+
+                    {% for score in weekly_report.mood_scores %}
+
+                        <div class="timeline-row">
+
+                            <span>
+                                Entry {{ loop.index }}
+                            </span>
+
+                            <strong>
+                                {{ score }}
+                            </strong>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <p class="text-muted">
+                    No mood data recorded this week.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- ================================= -->
+        <!-- Recurring Tags -->
+        <!-- ================================= -->
+
+        <div class="pattern-card">
+
+            <div class="card-header">
+
+                <h3>🏷️ Recurring Topics</h3>
+
+            </div>
+
+
+            {% if weekly_report.recurring_tags %}
+
+                {% for item in weekly_report.recurring_tags %}
+
+                    <div class="timeline-row">
+
+                        <strong>
+                            {{ item.tag }}
+                        </strong>
+
+                        <span class="text-muted">
+                            {{ item.count }}
+                            {% if item.count == 1 %}
+                                mention
+                            {% else %}
+                                mentions
+                            {% endif %}
+                        </span>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p class="text-muted">
+                    No recurring topics found this week.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ================================= -->
+    <!-- Weekly Reflection -->
+    <!-- ================================= -->
+
+    <div class="pattern-card mt-4">
+
+        <div class="card-header">
+
+            <h3>🤖 Weekly Reflection</h3>
+
+        </div>
+
+        <p class="text-muted">
+
+            AI weekly reflection will appear here once
+            we connect the weekly review to Gemini.
+
+        </p>
+
+    </div>
+
+
+    <!-- ================================= -->
+    <!-- What Went Well / Attention -->
+    <!-- ================================= -->
+
+    <div class="dashboard-grid mt-4">
+
+
+        <div class="pattern-card">
+
+            <div class="card-header">
+
+                <h3>💪 What Went Well</h3>
+
+            </div>
+
+            <p class="text-muted">
+
+                Positive developments and strengths
+                will appear here.
+
+            </p>
+
+        </div>
+
+
+        <div class="pattern-card">
+
+            <div class="card-header">
+
+                <h3>⚠️ Needs Attention</h3>
+
+            </div>
+
+            <p class="text-muted">
+
+                Areas that may deserve attention
+                will appear here.
+
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ================================= -->
+    <!-- Next Week -->
+    <!-- ================================= -->
+
+    <div class="pattern-card mt-4">
+
+        <div class="card-header">
+
+            <h3>🎯 Next Week</h3>
+
+        </div>
+
+        <p class="text-muted">
+
+            Your focus for the coming week will
+            appear here.
+
+        </p>
+
+    </div>
+
+
+</div>
+
+{% endblock %}
