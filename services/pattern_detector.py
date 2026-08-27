@@ -1,6 +1,10 @@
 from collections import Counter,defaultdict
 
+import re
+
 from models import Entry
+
+from constants.stop_words import STOP_WORDS
 
 def get_entries(user):
 
@@ -224,7 +228,7 @@ def detect_patterns(user):
 
         if average > 7:
 
-            emotional_patterns.append("😊Your overall mood has been positive")
+            emotional_patterns.append("Your overall mood has been positive")
 
         elif average >= 5:
             emotional_patterns.append("Your overall mood has generally been mixed or moderate.")
@@ -332,8 +336,40 @@ def detect_patterns(user):
                 "There are repeated significant changes in mood between entries."
             )
 
-    print("EMOTIONAL PATTERNS")
-    print(emotional_patterns)
-    report["emotional_patterns"] = emotional_patterns        
+    report["emotional_patterns"] = emotional_patterns
+
+    # =================================
+    # Detect Topic Patterns
+    # =================================     
+
+    topic_counter = Counter()
+
+    for entry in entries:
+
+        if not entry.content:
+            continue
+
+        words = re.findall(r"\b[a-zA-Z]{4,}\b",entry.content.lower())
+
+        unique_words = set(words)
+
+        for word in unique_words:
+
+            if word not in STOP_WORDS:
+
+                topic_counter[word] += 1
+
+    report["topic_patterns"] = [
+        {
+            "topic": topic,
+            "mentions": count
+        }
+
+        for topic, count in topic_counter.most_common(10)
+        if count > 2
+    ]
+
+    print("TOPIC PATTERNS")
+    print(report["topic_patterns"])
 
     return report

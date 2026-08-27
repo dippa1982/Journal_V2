@@ -359,6 +359,49 @@
 
     </div>
 
+    <div class="pattern-card">
+
+        <div class="pattern-card-header">
+            <h3>Topic Patterns</h3>
+        </div>
+
+    <div class="pattern-card-body">
+        {% if report.topic_patterns %}
+
+        <div class="topic-pattern-list">
+
+            {% for topic in report.topic_patterns %}
+
+                <div class="topic-pattern">
+
+                    <span>{{ topic.topic }}</span>
+
+                    <strong>
+                        {{ topic.mentions }}
+                        {% if topic.mentions == 1 %}
+                            mention
+                        {% else %}
+                            mentions
+                        {% endif %}
+                    </strong>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+        <p class="text-muted">
+            Not enough data to identify recurring topics yet.
+        </p>
+
+    {% endif %}
+        </div>
+
+    </div>
+
 </div>
 
 {% endblock %}
