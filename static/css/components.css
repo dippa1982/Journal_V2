@@ -244,3 +244,44 @@
     box-shadow:var(--shadow-large);
 
 }
+
+/* ==========================
+   Bootstrap Sidebar Dropdowns
+========================== */
+
+.sidebar .nav-dropdown .dropdown-menu {
+    background: #1a2230;
+    border: 1px solid #303b50;
+    border-radius: 10px;
+    padding: 6px;
+    margin-top: 4px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+.sidebar .nav-dropdown .dropdown-item {
+    color: #d8dee9;
+    background: transparent;
+    border-radius: 7px;
+    padding: 10px 14px;
+    font-size: 15px;
+}
+
+.sidebar .nav-dropdown .dropdown-item:hover,
+.sidebar .nav-dropdown .dropdown-item:focus {
+    color: #ffffff;
+    background: #283449;
+}
+
+.sidebar .nav-dropdown .dropdown-item.active {
+    color: #ffffff;
+    background: #303b58;
+}
+
+.sidebar .nav-dropdown .dropdown-toggle::after {
+    margin-left: auto;
+    vertical-align: middle;
+}
+
+.sidebar .nav-dropdown .dropdown-toggle {
+    width: 100%;
+}
