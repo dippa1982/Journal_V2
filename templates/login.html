@@ -1,118 +1,109 @@
 {% extends "base.html" %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Login - Personal Journal{% endblock %}
 
-{% block content %}
+{% block content_login %}
 
-<div class="content-wrapper">
+<div class="login-container">
 
-    <div class="page-header">
+    <div class="login-card">
 
-        <div>
-            <h1>🔐 Login</h1>
+        <div class="login-header">
+
+            <div class="login-icon">
+                📔
+            </div>
+
+            <h1>
+                Personal Journal
+            </h1>
 
             <p class="text-muted">
-                Welcome back to your personal journal.
-            </p>
-        </div>
-
-    </div>
-
-
-    <div class="pattern-card login-card">
-
-        <div class="pattern-card-header">
-
-            <h3>Personal Journal</h3>
-
-        </div>
-
-
-        <div class="pattern-card-body">
-
-            {% with messages = get_flashed_messages() %}
-
-                {% if messages %}
-
-                    {% for message in messages %}
-
-                        <div class="alert alert-warning">
-                            {{ message }}
-                        </div>
-
-                    {% endfor %}
-
-                {% endif %}
-
-            {% endwith %}
-
-
-            <form method="POST">
-
-                <div class="form-group">
-
-                    <label for="username">
-                        Username
-                    </label>
-
-                    <input
-                        type="text"
-                        id="username"
-                        name="username"
-                        class="form-control"
-                        required
-                        autocomplete="username"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="password">
-                        Password
-                    </label>
-
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        class="form-control"
-                        required
-                        autocomplete="current-password"
-                    >
-
-                </div>
-
-
-                <div class="form-actions">
-
-                    <button
-                        type="submit"
-                        class="btn btn-primary"
-                    >
-                        Login
-                    </button>
-
-                </div>
-
-            </form>
-
-
-            <hr>
-
-
-            <p class="text-center">
-
-                Don't have an account?
-
-                <a href="{{ url_for('auth.register') }}">
-                    Register
-                </a>
-
+                Welcome back
             </p>
 
         </div>
+
+
+        {% with messages = get_flashed_messages(with_categories=True) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <form method="POST">
+
+            <div class="form-group">
+
+                <label for="username">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    class="form-control"
+                    required
+                    autocomplete="username"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    class="form-control"
+                    required
+                    autocomplete="current-password"
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="btn btn-primary login-button"
+            >
+                Login
+            </button>
+
+        </form>
+
+
+        <div class="login-divider">
+            <span>or</span>
+        </div>
+
+
+        <p class="login-register">
+
+            Don't have an account?
+
+            <a href="{{ url_for('auth.register') }}">
+                Register
+            </a>
+
+        </p>
 
     </div>
 
@@ -121,14 +112,50 @@
 
 <style>
 
-.login-card {
-    max-width: 500px;
-    margin: 40px auto;
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 20px;
+    box-sizing: border-box;
 }
+
+
+.login-card {
+    width: 100%;
+    max-width: 430px;
+    padding: 35px;
+    box-sizing: border-box;
+}
+
+
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+
+.login-icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+
+.login-header h1 {
+    margin-bottom: 8px;
+}
+
+
+.login-header p {
+    margin: 0;
+}
+
 
 .login-card .form-group {
     margin-bottom: 20px;
 }
+
 
 .login-card label {
     display: block;
@@ -136,24 +163,52 @@
     font-weight: 500;
 }
 
+
 .login-card .form-control {
     width: 100%;
     box-sizing: border-box;
 }
 
-.login-card .form-actions {
-    margin-top: 25px;
+
+.login-button {
+    width: 100%;
+    margin-top: 10px;
 }
 
-.login-card hr {
-    margin: 30px 0;
-    border: 0;
-    border-top: 1px solid rgba(128, 128, 128, 0.2);
+
+.login-divider {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 30px 0 20px;
 }
 
-.login-card .text-center {
+
+.login-divider::before,
+.login-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgba(128, 128, 128, 0.25);
+}
+
+
+.login-divider span {
+    color: var(--text-muted, #777);
+    font-size: 0.85rem;
+}
+
+
+.login-register {
     text-align: center;
+    margin: 0;
 }
+
+
+.login-register a {
+    font-weight: 600;
+}
+
 
 </style>
 
