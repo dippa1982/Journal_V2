@@ -26,6 +26,7 @@ from routes.timeline import timeline_bp
 from routes.people import people_bp
 from routes.pattern import patterns_bp
 from routes.weekly_review import weekly_review_bp
+from routes.therapy_questions import therapy_questions_bp
 def create_app():
 
     app = Flask(__name__)
@@ -92,6 +93,8 @@ def create_app():
     app.register_blueprint(patterns_bp)
 
     app.register_blueprint(weekly_review_bp)
+
+    app.register_blueprint(therapy_questions_bp)
 
     return app
 
