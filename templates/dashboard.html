@@ -4,141 +4,394 @@
 
 {% block content %}
 
-<div class="row mb-4">
+<div class="content-wrapper">
 
-    <div class="col-12 col-md-4 mb-3">
+    <!-- ========================= -->
+    <!-- Header -->
+    <!-- ========================= -->
 
-        <div class="card shadow-sm">
+    <div class="page-header">
 
-            <div class="card-body text-center">
+        <div>
 
-                <h6 class="card-title">
-                    Entries
-                </h6>
+            <h1>📔 Dashboard</h1>
 
-                <h2>
+            <p class="text-muted">
+                A quick overview of your journaling journey.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- Statistics -->
+    <!-- ========================= -->
+
+    <div class="stats-grid">
+
+        <!-- Journal Entries -->
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                📖
+            </div>
+
+            <div class="stat-info">
+
+                <div class="stat-label">
+                    Journal Entries
+                </div>
+
+                <div class="stat-value">
                     {{ total_entries }}
-                </h2>
+                </div>
 
             </div>
 
         </div>
 
-    </div>
 
-    <div class="col-12 col-md-4 mb-3">
+        <!-- Average Mood -->
 
-        <div class="card shadow-sm">
+        <div class="stat-card">
 
-            <div class="card-body text-center">
+            <div class="stat-icon">
+                😊
+            </div>
 
-                <h6 class="card-title">
+            <div class="stat-info">
+
+                <div class="stat-label">
                     Average Mood
-                </h6>
+                </div>
 
-                <h2>
-                    {{ average_mood }}/16
-                </h2>
+                <div class="stat-value">
 
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="col-12 col-md-4 mb-3">
-
-        <div class="card shadow-sm">
-
-            <div class="card-body text-center">
-
-                <h6 class="card-title">
-                    Current Streak
-                </h6>
-
-                <h2>
-                    🔥 {{ streak }}
-                </h2>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-{% if entries %}
-
-    {% for entry in entries %}
-
-    <a href="{{ url_for('journal.view_entry', entry_id=entry.id) }}"
-       class="text-decoration-none">
-
-        <div class="card shadow-sm mb-4">
-
-            <div class="card-body">
-
-                <div class="d-flex align-items-center gap-2">
-
-                    <span class="fs-3">
-                        {{ moods[entry.mood_score].emoji }}
-                    </span>
-
-                    <div>
-
-                        <strong>
-                            {{ moods[entry.mood_score].name }}
-                        </strong>
-
-                        <br>
-
-                        <small class="card-title">
-                            {{ entry.created_at.strftime('%A %d %B %Y %H:%M') }}
-                        </small>
-
-                    </div>
+                    {% if average_mood %}
+                        {{ average_mood }}/8
+                    {% else %}
+                        —
+                    {% endif %}
 
                 </div>
 
-                <hr>
+            </div>
 
-                {% if entry.content|length > 250 %}
+        </div>
 
-                    {{ entry.content[:250] }}...
 
-                {% else %}
+        <!-- Current Streak -->
 
-                    {{ entry.content }}
+        <div class="stat-card">
 
-                {% endif %}
+            <div class="stat-icon">
+                🔥
+            </div>
+
+            <div class="stat-info">
+
+                <div class="stat-label">
+                    Current Streak
+                </div>
+
+                <div class="stat-value">
+                    {{ streak }}
+                </div>
 
             </div>
 
         </div>
 
-    </a>
 
-    {% endfor %}
+        <!-- Reflections -->
 
-{% else %}
+        <div class="stat-card">
 
-<div class="card shadow-sm">
+            <div class="stat-icon">
+                🧠
+            </div>
 
-    <div class="card-body text-center p-5">
+            <div class="stat-info">
 
-        <h3>
-            Your journal is empty
-        </h3>
+                <div class="stat-label">
+                    Reflections
+                </div>
 
-        <p class="card-title">
-            Click "New Entry" in the sidebar to start writing.
-        </p>
+                <div class="stat-value">
+                    {{ total_entries }}
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 
-</div>
 
-{% endif %}
+    <!-- ========================= -->
+    <!-- Mood Overview -->
+    <!-- ========================= -->
+
+    <div class="dashboard-card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h3>😊 Mood Overview</h3>
+
+                <p class="text-muted">
+                    A snapshot of your mood history.
+                </p>
+
+            </div>
+
+            <a
+                href="{{ url_for('patterns.patterns') }}"
+                class="btn btn-secondary"
+            >
+                View Patterns →
+            </a>
+
+        </div>
+
+
+        <div class="summary-grid">
+
+            <!-- Average -->
+
+            <div class="summary-item">
+
+                <span class="summary-label">
+                    Average Mood
+                </span>
+
+                <strong class="summary-value">
+
+                    {% if average_mood %}
+                        {{ average_mood }}/8
+                    {% else %}
+                        —
+                    {% endif %}
+
+                </strong>
+
+            </div>
+
+
+            <!-- Highest -->
+
+            <div class="summary-item">
+
+                <span class="summary-label">
+                    Highest Mood
+                </span>
+
+                <strong class="summary-value">
+
+                    {% if moods %}
+                        {{ moods|max }}/8
+                    {% else %}
+                        —
+                    {% endif %}
+
+                </strong>
+
+            </div>
+
+
+            <!-- Lowest -->
+
+            <div class="summary-item">
+
+                <span class="summary-label">
+                    Lowest Mood
+                </span>
+
+                <strong class="summary-value">
+
+                    {% if moods %}
+                        {{ moods|min }}/8
+                    {% else %}
+                        —
+                    {% endif %}
+
+                </strong>
+
+            </div>
+
+
+            <!-- Recorded -->
+
+            <div class="summary-item">
+
+                <span class="summary-label">
+                    Mood Entries
+                </span>
+
+                <strong class="summary-value">
+                    {{ moods|length }}
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- Quick Actions -->
+    <!-- ========================= -->
+
+    <div class="dashboard-card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h3>⚡ Quick Actions</h3>
+
+                <p class="text-muted">
+                    Jump straight to the things you use most.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="dashboard-actions-grid">
+
+
+            <!-- New Entry -->
+
+            <a
+                href="{{ url_for('journal.new_entry') }}"
+                class="dashboard-action"
+            >
+
+                <div class="dashboard-action-icon">
+                    ✍️
+                </div>
+
+                <div>
+
+                    <strong>
+                        New Journal Entry
+                    </strong>
+
+                    <span>
+                        Write about today.
+                    </span>
+
+                </div>
+
+                <span class="dashboard-action-arrow">
+                    →
+                </span>
+
+            </a>
+
+
+            <!-- Patterns -->
+
+            <a
+                href="{{ url_for('patterns.patterns') }}"
+                class="dashboard-action"
+            >
+
+                <div class="dashboard-action-icon">
+                    🔍
+                </div>
+
+                <div>
+
+                    <strong>
+                        Pattern Detector
+                    </strong>
+
+                    <span>
+                        Explore recurring patterns.
+                    </span>
+
+                </div>
+
+                <span class="dashboard-action-arrow">
+                    →
+                </span>
+
+            </a>
+
+
+            <!-- Therapy Questions -->
+
+            <a
+                href="{{ url_for('therapy_questions.therapy_questions') }}"
+                class="dashboard-action"
+            >
+
+                <div class="dashboard-action-icon">
+                    🧠
+                </div>
+
+                <div>
+
+                    <strong>
+                        Therapy Questions
+                    </strong>
+
+                    <span>
+                        Continue your reflections.
+                    </span>
+
+                </div>
+
+                <span class="dashboard-action-arrow">
+                    →
+                </span>
+
+            </a>
+
+
+            <!-- Trends -->
+
+            <a
+                href="{{ url_for('trends.trends') }}"
+                class="dashboard-action"
+            >
+
+                <div class="dashboard-action-icon">
+                    📈
+                </div>
+
+                <div>
+
+                    <strong>
+                        Trend Report
+                    </strong>
+
+                    <span>
+                        See how things are changing.
+                    </span>
+
+                </div>
+
+                <span class="dashboard-action-arrow">
+                    →
+                </span>
+
+            </a>
+
+
+        </div>
+
+    </div>
+
+
+</div>
 
 {% endblock %}
