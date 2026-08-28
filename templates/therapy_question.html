@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+
+{% block title %}Therapy Question{% endblock %}
+
+{% block content %}
+
+<div class="content-wrapper">
+
+    <!-- Back -->
+
+    <div class="page-header">
+
+        <div>
+
+            <a
+                href="{{ url_for('therapy_questions.therapy_questions') }}"
+                class="text-muted"
+            >
+                ← Back to Therapy Questions
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- Question -->
+
+    <div class="pattern-card">
+
+        <div class="pattern-card-header">
+
+            <h3>🧠 Therapy Question</h3>
+
+        </div>
+
+
+        <div class="pattern-card-body">
+
+
+            {% if question.category %}
+
+                <span class="therapy-question-category">
+
+                    {{ question.category }}
+
+                </span>
+
+            {% endif %}
+
+
+            <h2 class="therapy-question-main">
+
+                {{ question.question }}
+
+            </h2>
+
+
+            {% if question.context %}
+
+                <div class="therapy-question-context-box">
+
+                    <strong>
+                        What this may be exploring
+                    </strong>
+
+                    <p>
+                        {{ question.context }}
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+
+        </div>
+
+    </div>
+
+
+    <!-- Answer -->
+
+    <div class="pattern-card">
+
+        <div class="pattern-card-header">
+
+            <h3>✍️ Your Reflection</h3>
+
+        </div>
+
+
+        <div class="pattern-card-body">
+
+
+            {% if question.answer %}
+
+                <div class="saved-answer">
+
+                    <div class="answer-status">
+
+                        {% if question.answered %}
+
+                            ✓ Answered
+
+                            {% if question.answered_at %}
+
+                                ·
+                                {{ question.answered_at.strftime("%d %b %Y") }}
+
+                            {% endif %}
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="answer-text">
+
+                        {{ question.answer | replace('\n', '<br>') | safe }}
+
+                    </div>
+
+                </div>
+
+
+                <hr>
+
+
+                <h4>
+                    Continue exploring
+                </h4>
+
+            {% endif %}
+
+
+            <form
+                method="POST"
+                action="{{ url_for(
+                    'therapy_questions.answer_question',
+                    question_id=question.id
+                ) }}"
+            >
+
+                <div class="form-group">
+
+                    <textarea
+                        id="answer"
+                        name="answer"
+                        rows="14"
+                        class="form-control"
+                        placeholder="Write whatever comes to mind. There is no right or wrong answer..."
+                    >{% if question.answer %}{{ question.answer }}{% endif %}</textarea>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+
+                        {% if question.answer %}
+                            💾 Update Answer
+                        {% else %}
+                            💾 Save Answer
+                        {% endif %}
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+.therapy-question-main {
+    font-size: 1.5rem;
+    line-height: 1.5;
+    margin: 16px 0;
+}
+
+
+.therapy-question-context-box {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    background: rgba(128, 128, 128, 0.08);
+}
+
+
+.therapy-question-context-box strong {
+    display: block;
+    margin-bottom: 6px;
+}
+
+
+.therapy-question-context-box p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+
+.saved-answer {
+    margin-bottom: 20px;
+}
+
+
+.answer-status {
+    font-size: 0.85rem;
+    margin-bottom: 15px;
+    opacity: 0.75;
+}
+
+
+.answer-text {
+    line-height: 1.7;
+    white-space: normal;
+}
+
+
+hr {
+    border: 0;
+    border-top: 1px solid rgba(128, 128, 128, 0.2);
+    margin: 25px 0;
+}
+
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+
+.form-control {
+    width: 100%;
+    box-sizing: border-box;
+    resize: vertical;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(128, 128, 128, 0.25);
+    background: var(--input-bg, transparent);
+    font-family: inherit;
+    line-height: 1.6;
+}
+
+
+.form-actions {
+    margin-top: 20px;
+}
+
+
+</style>
+
+{% endblock %}

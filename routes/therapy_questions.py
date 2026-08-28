@@ -11,6 +11,8 @@ from flask_login import login_required, current_user
 
 from extensions import db
 
+from datetime import datetime
+
 from models import TherapyQuestion
 
 from services.therapy_question_helper import extract_questions
@@ -146,5 +148,68 @@ def save_questions():
     return redirect(
         url_for(
             "therapy_questions.therapy_questions"
+        )
+    )
+
+@therapy_questions_bp.route("/<int:question_id>", methods=["GET"])
+@login_required
+def view_question(question_id):
+
+    question = TherapyQuestion.query.filter_by(
+        id=question_id,
+        user_id=current_user.id
+    ).first_or_404()
+
+    return render_template(
+        "therapy_question.html",
+        question=question
+    )
+
+
+@therapy_questions_bp.route("/<int:question_id>/answer", methods=["POST"])
+@login_required
+def answer_question(question_id):
+
+    question = TherapyQuestion.query.filter_by(
+        id=question_id,
+        user_id=current_user.id
+    ).first_or_404()
+
+    answer = request.form.get(
+        "answer",
+        ""
+    ).strip()
+
+    if not answer:
+
+        flash(
+            "Please write an answer before saving.",
+            "warning"
+        )
+
+        return redirect(
+            url_for(
+                "therapy_questions.view_question",
+                question_id=question.id
+            )
+        )
+
+    question.answer = answer
+
+    question.answered = True
+
+    question.answered_at = datetime.utcnow()
+
+    db.session.commit()
+
+    flash(
+        "Your answer has been saved.",
+        "success"
+    )
+
+    return redirect(
+        url_for(
+            "therapy_questions.view_question",
+            question_id=question.id
         )
     )

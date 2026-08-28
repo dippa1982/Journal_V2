@@ -1,0 +1,10 @@
+.therapy-question-card.saved {
+    display: flex;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+.therapy-question-card.saved:hover {
+    text-decoration: none;
+}

@@ -258,9 +258,8 @@
 
                     {% for question in saved_questions %}
 
-                        <div class="therapy-question-card saved">
-
-
+                        <a href="{{ url_for('therapy_questions.view_question',question_id=question.id) }}" class="therapy-question-card saved"
+>
                             <div class="therapy-question-content">
 
                                 <div class="therapy-question-saved-status">
@@ -324,7 +323,7 @@
 
                             </div>
 
-                        </div>
+                        </a>
 
                     {% endfor %}
 
