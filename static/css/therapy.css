@@ -1,13 +1,6 @@
-.therapy-question-card.saved {
-    display: flex;
-    text-decoration: none;
-    color: inherit;
-    cursor: pointer;
-}
-
-.therapy-question-card.saved:hover {
-    text-decoration: none;
-}
+/* ========================================= */
+/* Therapy Questions                         */
+/* ========================================= */
 
 .therapy-question-list {
     display: flex;
@@ -16,40 +9,57 @@
 }
 
 
+/* ========================================= */
+/* Question Cards                             */
+/* ========================================= */
+
 .therapy-question-card {
     display: flex;
     gap: 14px;
     padding: 16px;
     border-radius: 12px;
-    background: var(--card-bg-secondary, rgba(128, 128, 128, 0.08));
+    background: var(
+        --card-bg-secondary,
+        rgba(128, 128, 128, 0.08)
+    );
     border: 1px solid rgba(128, 128, 128, 0.15);
-    transition: transform 0.15s ease,
-                border-color 0.15s ease;
 }
 
 
-.therapy-question-card:hover {
-    transform: translateY(-1px);
-}
-
+/* IMPORTANT:
+   Saved cards are NOT clickable.
+   No hover animation or movement.
+*/
 
 .therapy-question-card.saved {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
     cursor: default;
+    text-decoration: none;
+    color: inherit;
+
+    transform: none;
+    transition: none;
 }
 
 
-.therapy-question-select {
-    flex-shrink: 0;
-    padding-top: 3px;
+/* Completely remove the old card hover effect */
+
+.therapy-question-card.saved:hover {
+    transform: none;
+    border-color: rgba(128, 128, 128, 0.15);
+    background: var(
+        --card-bg-secondary,
+        rgba(128, 128, 128, 0.08)
+    );
 }
 
 
-.therapy-question-select input {
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-}
-
+/* ========================================= */
+/* Question Content                           */
+/* ========================================= */
 
 .therapy-question-content {
     flex: 1;
@@ -65,31 +75,81 @@
 }
 
 
+/* ========================================= */
+/* Checkbox                                   */
+/* ========================================= */
+
+.therapy-question-select {
+    flex-shrink: 0;
+    padding-top: 3px;
+}
+
+
+.therapy-question-select input {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+
+/* ========================================= */
+/* Category                                  */
+/* ========================================= */
+
 .therapy-question-category {
     display: inline-block;
+
     padding: 4px 9px;
+
     border-radius: 20px;
+
     font-size: 0.75rem;
+
     background: rgba(128, 128, 128, 0.15);
+
     margin-bottom: 8px;
 }
 
 
+/* ========================================= */
+/* Context                                   */
+/* ========================================= */
+
 .therapy-question-context {
     margin: 6px 0 0;
-    color: var(--text-muted, #777);
+
+    color: var(
+        --text-muted,
+        #777
+    );
+
     line-height: 1.5;
+
     font-size: 0.9rem;
 }
 
 
+/* ========================================= */
+/* Date                                      */
+/* ========================================= */
+
 .therapy-question-date {
     display: block;
+
     margin-top: 10px;
+
     font-size: 0.8rem;
-    color: var(--text-muted, #777);
+
+    color: var(
+        --text-muted,
+        #777
+    );
 }
 
+
+/* ========================================= */
+/* Answered / Unanswered Status              */
+/* ========================================= */
 
 .therapy-question-saved-status {
     margin-bottom: 8px;
@@ -98,7 +158,9 @@
 
 .question-status {
     display: inline-block;
+
     font-size: 0.75rem;
+
     font-weight: 600;
 }
 
@@ -113,6 +175,33 @@
 }
 
 
+/* ========================================= */
+/* Explore Button                            */
+/* ========================================= */
+
+.therapy-question-action {
+    margin-left: auto;
+
+    flex-shrink: 0;
+}
+
+
+.explore-button {
+    white-space: nowrap;
+}
+
+
+/* Only the button gets a hover effect */
+
+.explore-button:hover {
+    transform: translateY(-1px);
+}
+
+
+/* ========================================= */
+/* Forms                                     */
+/* ========================================= */
+
 .form-group {
     margin-bottom: 20px;
 }
@@ -120,39 +209,60 @@
 
 .form-group label {
     display: block;
+
     margin-bottom: 8px;
+
     font-weight: 600;
 }
 
 
 .form-control {
     width: 100%;
+
     box-sizing: border-box;
+
     resize: vertical;
+
     padding: 14px;
+
     border-radius: 10px;
+
     border: 1px solid rgba(128, 128, 128, 0.25);
-    background: var(--input-bg, transparent);
+
+    background: var(
+        --input-bg,
+        transparent
+    );
+
     font-family: inherit;
+
     line-height: 1.5;
 }
 
 
 .form-actions {
     margin-top: 20px;
+
     display: flex;
+
     gap: 10px;
 }
 
 
+/* ========================================= */
+/* Empty State                               */
+/* ========================================= */
+
 .empty-state {
     text-align: center;
+
     padding: 30px 20px;
 }
 
 
 .empty-state-icon {
     font-size: 2rem;
+
     margin-bottom: 10px;
 }
 
@@ -162,10 +272,18 @@
 }
 
 
+/* ========================================= */
+/* Mobile                                    */
+/* ========================================= */
+
 @media (max-width: 600px) {
 
-    .therapy-question-card {
-        padding: 13px;
+    .therapy-question-card.saved {
+        align-items: flex-start;
+    }
+
+    .therapy-question-action {
+        margin-left: 0;
     }
 
     .therapy-question-text {
@@ -176,31 +294,4 @@
         flex-direction: column;
     }
 
-}
-
-.therapy-question-card.saved {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    cursor: default;
-    text-decoration: none;
-    color: inherit;
-}
-
-.therapy-question-card.saved:hover {
-    transform: none;
-}
-
-.therapy-question-content {
-    flex: 1;
-    min-width: 0;
-}
-
-.therapy-question-action {
-    margin-left: auto;
-    flex-shrink: 0;
-}
-
-.explore-button {
-    white-space: nowrap;
 }
