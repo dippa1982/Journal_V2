@@ -10,10 +10,12 @@
 
     <title>{% block title %}My Journal{% endblock %}</title>
 
+
     <!-- Bootstrap -->
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet">
+
 
     <!-- Styles -->
 
@@ -30,25 +32,27 @@
           href="{{ url_for('static', filename='css/style.css') }}">
 
     <link rel="stylesheet"
-      href="{{ url_for('static', filename='css/trends.css') }}">
-      
-    <link rel="stylesheet"
-      href="{{ url_for('static', filename='css/people.css') }}">
+          href="{{ url_for('static', filename='css/trends.css') }}">
 
     <link rel="stylesheet"
-      href="{{ url_for('static', filename='css/patterns.css') }}">
+          href="{{ url_for('static', filename='css/people.css') }}">
 
     <link rel="stylesheet"
-      href="{{ url_for('static', filename='css/therapy.css') }}">
+          href="{{ url_for('static', filename='css/patterns.css') }}">
 
-    
-    <!--=================================->
-    Java Script
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/therapy.css') }}">
+
+
+
+    <!--=================================
+         Java Script
     ===================================-->
-    
-      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
+
 
 <body>
 
@@ -56,11 +60,17 @@
 
 <div class="app-layout">
 
+
     <!-- ==========================
          Sidebar
     =========================== -->
 
     <aside class="sidebar">
+
+
+        <!-- ==========================
+             Logo
+        =========================== -->
 
         <div class="sidebar-header">
 
@@ -68,110 +78,353 @@
                class="logo">
 
                 📔
+
                 <span>My Journal</span>
 
             </a>
 
         </div>
 
-        <!-- Navigation -->
+
+
+        <!-- ==========================
+             Navigation
+        =========================== -->
 
         <nav class="sidebar-nav">
 
+
+            <!-- ==========================
+                 Dashboard
+            =========================== -->
+
             <a href="{{ url_for('dashboard.dashboard') }}"
-               class="nav-item {% if request.endpoint == 'dashboard.dashboard' %}active{% endif %}">
+               class="nav-item
+               {% if request.endpoint == 'dashboard.dashboard' %}
+                   active
+               {% endif %}">
 
                 🏠
+
                 <span>Dashboard</span>
 
             </a>
 
-            <a href="{{ url_for('journal.journal') }}"
-               class="nav-item {% if request.endpoint == 'journal.journal' %}active{% endif %}">
 
-                📖
-                <span>Journal</span>
 
-            </a>
+            <!-- ==========================
+                 Journal
+            =========================== -->
 
-            <a href="{{ url_for('journal.new_entry') }}"
-               class="nav-item {% if request.endpoint == 'journal.new_entry' %}active{% endif %}">
+            <div class="nav-dropdown
+                {% if request.endpoint in [
+                    'journal.journal',
+                    'journal.new_entry',
+                    'calendar.calendar',
+                    'timeline.timeline'
+                ] %}
+                    open
+                    active-section
+                {% endif %}">
 
-                ✍️
-                <span>New Entry</span>
 
-            </a>
+                <button
+                    type="button"
+                    class="nav-item nav-dropdown-toggle"
+                    onclick="toggleNavDropdown(this)"
+                >
 
-            <a href="{{ url_for('calendar.calendar') }}"
-               class="nav-item {% if request.endpoint == 'calendar.calendar' %}active{% endif %}">
+                    📖
 
-                📅
-                <span>Calendar</span>
+                    <span>Journal</span>
 
-            </a>
+                    <span class="nav-arrow">
+                        ▾
+                    </span>
 
-            <a href="{{ url_for('timeline.timeline') }}"
-               class="nav-item {% if request.endpoint == 'timeline.timeline' %}active{% endif %}">
+                </button>
 
-                📍
-                <span>Timeline</span>
 
-            </a>
+                <div class="nav-dropdown-menu">
 
-            <a href="{{ url_for('insights.insights') }}"
-               class="nav-item {% if request.endpoint == 'insights.insights' %}active{% endif %}">
 
-                🗺️
-                <span>Insights</span>
+                    <a href="{{ url_for('journal.new_entry') }}"
+                       class="nav-subitem
+                       {% if request.endpoint == 'journal.new_entry' %}
+                           active
+                       {% endif %}">
 
-            </a>
+                        ✍️
 
-            <a href="{{ url_for('trends.trends') }}" class="nav-item">
+                        <span>New Entry</span>
 
-                <span>📈 Trends</span>
+                    </a>
 
-            </a>
 
-            <a href="{{ url_for('people.people') }}" class="nav-item">
+                    <a href="{{ url_for('journal.journal') }}"
+                       class="nav-subitem
+                       {% if request.endpoint == 'journal.journal' %}
+                           active
+                       {% endif %}">
 
-                    👥
-                    <span>People</span>
+                        📖
 
-            </a>
+                        <span>Entries</span>
 
-            <a href="{{ url_for('patterns.patterns') }}" class="nav-item">
+                    </a>
 
-                    👥
-                    <span>Patterns</span>
 
-            </a>
+                    <a href="{{ url_for('calendar.calendar') }}"
+                       class="nav-subitem
+                       {% if request.endpoint == 'calendar.calendar' %}
+                           active
+                       {% endif %}">
 
-            <a href="{{ url_for('weekly_review.weekly_review') }}" class="nav-item">
+                        📅
 
-                    📅🔍
-                    <span>Weekly Report</span>
+                        <span>Calendar</span>
 
-            </a>
+                    </a>
 
-            <a href="{{ url_for('therapy_questions.therapy_questions') }}" class="nav-item">
 
-                    🔍
-                    <span>Therapy Questions</span>
+                    <a href="{{ url_for('timeline.timeline') }}"
+                       class="nav-subitem
+                       {% if request.endpoint == 'timeline.timeline' %}
+                           active
+                       {% endif %}">
 
-            </a>
+                        📍
 
-            <a href="{{ url_for('reflection.reflection') }}" class="nav-item">
+                        <span>Timeline</span>
 
-                🤖 
-                <span>AI Reflection</span>
+                    </a>
 
-            </a>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ==========================
+                 Insights
+            =========================== -->
+
+            <div class="nav-dropdown
+                {% if request.endpoint in [
+                    'insights.insights',
+                    'people.people',
+                    'patterns.patterns',
+                    'trends.trends'
+                ] %}
+                    open
+                    active-section
+                {% endif %}">
+
+
+                <button
+                    type="button"
+                    class="nav-item nav-dropdown-toggle"
+                    onclick="toggleNavDropdown(this)"
+                >
+
+                    📊
+
+                    <span>Insights</span>
+
+                    <span class="nav-arrow">
+                        ▾
+                    </span>
+
+                </button>
+
+
+                <div class="nav-dropdown-menu">
+
+
+                    <a href="{{ url_for('insights.insights') }}"
+                       class="nav-subitem
+                       {% if request.endpoint == 'insights.insights' %}
+                           active
+                       {% endif %}">
+
+                        🗺️
+
+                        <span>Insights</span>
+
+                    </a>
+
+
+                    <a href="{{ url_for('people.people') }}"
+                       class="nav-subitem
+                       {% if request.endpoint == 'people.people' %}
+                           active
+                       {% endif %}">
+
+                        👥
+
+                        <span>People</span>
+
+                    </a>
+
+
+                    <a href="{{ url_for('patterns.patterns') }}"
+                       class="nav-subitem
+                       {% if request.endpoint == 'patterns.patterns' %}
+                           active
+                       {% endif %}">
+
+                        🔍
+
+                        <span>Patterns</span>
+
+                    </a>
+
+
+                    <a href="{{ url_for('trends.trends') }}"
+                       class="nav-subitem
+                       {% if request.endpoint == 'trends.trends' %}
+                           active
+                       {% endif %}">
+
+                        📈
+
+                        <span>Trends</span>
+
+                    </a>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ==========================
+                 Reflection
+            =========================== -->
+
+            <div class="nav-dropdown
+                {% if request.endpoint == 'reflection.reflection' %}
+                    open
+                    active-section
+                {% endif %}">
+
+
+                <button
+                    type="button"
+                    class="nav-item nav-dropdown-toggle"
+                    onclick="toggleNavDropdown(this)"
+                >
+
+                    🧠
+
+                    <span>Reflection</span>
+
+                    <span class="nav-arrow">
+                        ▾
+                    </span>
+
+                </button>
+
+
+                <div class="nav-dropdown-menu">
+
+
+                    <a href="{{ url_for('reflection.reflection') }}"
+                       class="nav-subitem
+                       {% if request.endpoint == 'reflection.reflection' %}
+                           active
+                       {% endif %}">
+
+                        🤖
+
+                        <span>AI Reflection</span>
+
+                    </a>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ==========================
+                 Therapy
+            =========================== -->
+
+            <div class="nav-dropdown
+                {% if request.endpoint in [
+                    'weekly_review.weekly_review',
+                    'therapy_questions.therapy_questions'
+                ] %}
+                    open
+                    active-section
+                {% endif %}">
+
+
+                <button
+                    type="button"
+                    class="nav-item nav-dropdown-toggle"
+                    onclick="toggleNavDropdown(this)"
+                >
+
+                    ❤️
+
+                    <span>Therapy</span>
+
+                    <span class="nav-arrow">
+                        ▾
+                    </span>
+
+                </button>
+
+
+                <div class="nav-dropdown-menu">
+
+
+                    <a href="{{ url_for('weekly_review.weekly_review') }}"
+                       class="nav-subitem
+                       {% if request.endpoint == 'weekly_review.weekly_review' %}
+                           active
+                       {% endif %}">
+
+                        📅
+
+                        <span>Weekly Report</span>
+
+                    </a>
+
+
+                    <a href="{{ url_for('therapy_questions.therapy_questions') }}"
+                       class="nav-subitem
+                       {% if request.endpoint == 'therapy_questions.therapy_questions' %}
+                           active
+                       {% endif %}">
+
+                        ❓
+
+                        <span>Therapy Questions</span>
+
+                    </a>
+
+
+                </div>
+
+            </div>
+
 
         </nav>
 
-        <!-- Footer -->
+
+
+        <!-- ==========================
+             Footer
+        =========================== -->
 
         <div class="sidebar-footer">
+
 
             <div class="user-card">
 
@@ -180,6 +433,7 @@
                     {{ (current_user.display_name or current_user.username)[0]|upper }}
 
                 </div>
+
 
                 <div>
 
@@ -191,39 +445,57 @@
 
                     <br>
 
-                    <small>Personal Journal</small>
+                    <small>
+                        Personal Journal
+                    </small>
 
                 </div>
 
             </div>
 
+
             <hr>
+
+
+            <!-- Settings -->
 
             <a href="{{ url_for('settings.settings') }}"
                class="nav-item">
 
                 ⚙️
+
                 <span>Settings</span>
 
             </a>
+
+
+            <!-- Logout -->
 
             <a href="{{ url_for('auth.logout') }}"
                class="nav-item">
 
                 🚪
+
                 <span>Logout</span>
 
             </a>
 
+
         </div>
 
+
     </aside>
+
+
 
     <!-- ==========================
          Main Content
     =========================== -->
 
     <main class="main-content">
+
+
+        <!-- Mobile menu -->
 
         <button
             class="mobile-menu-btn"
@@ -234,6 +506,10 @@
 
         </button>
 
+
+
+        <!-- Flash Messages -->
+
         {% with messages = get_flashed_messages(with_categories=True) %}
 
             {% if messages %}
@@ -243,6 +519,7 @@
                     <div class="alert alert-{{ category }} alert-dismissible fade show">
 
                         {{ message }}
+
 
                         <button
                             type="button"
@@ -258,16 +535,29 @@
 
         {% endwith %}
 
+
+
+        <!-- Page Content -->
+
         {% block content %}
         {% endblock %}
 
+
     </main>
+
 
 </div>
 
+
 {% else %}
 
+
+<!-- ==========================
+     Login Layout
+=========================== -->
+
 <main class="login-page">
+
 
     {% with messages = get_flashed_messages(with_categories=True) %}
 
@@ -291,16 +581,29 @@
 
     {% endwith %}
 
+
     {% block content_login %}
     {% endblock %}
 
+
 </main>
+
 
 {% endif %}
 
+
+
+<!-- Bootstrap -->
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+
 <script>
+
+
+/* =========================================
+   Mobile Sidebar
+========================================= */
 
 function toggleSidebar() {
 
@@ -310,7 +613,61 @@ function toggleSidebar() {
 
 }
 
+
+/* =========================================
+   Navigation Dropdowns
+========================================= */
+
+function toggleNavDropdown(button) {
+
+    const dropdown = button.closest(".nav-dropdown");
+
+    if (!dropdown) {
+        return;
+    }
+
+
+    dropdown.classList.toggle("open");
+
+}
+
+
+/* =========================================
+   Close dropdowns when clicking elsewhere
+========================================= */
+
+document.addEventListener("click", function(event) {
+
+    const clickedDropdown =
+        event.target.closest(".nav-dropdown");
+
+
+    if (!clickedDropdown) {
+
+        document
+            .querySelectorAll(".nav-dropdown.open")
+            .forEach(function(dropdown) {
+
+                /*
+                 * Keep automatically active sections open.
+                 * Only close sections that the user manually opened.
+                 */
+
+                if (!dropdown.classList.contains("active-section")) {
+
+                    dropdown.classList.remove("open");
+
+                }
+
+            });
+
+    }
+
+});
+
+
 </script>
+
 
 </body>
 
