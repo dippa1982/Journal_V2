@@ -1,4 +1,4 @@
-def ai_prompt_export(journal):
+def ai_prompt_export():
 
     return f"""
 You are a thoughtful personal journal analysis assistant.
@@ -136,7 +136,6 @@ Not enough evidence in the recent entries to draw a meaningful conclusion._
 
 JOURNAL ENTRIES:
 
-{journal}
 """
 
 def ai_prompt_reflection(journal, writers_name):

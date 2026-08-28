@@ -22,12 +22,7 @@ def build_markdown(user):
         .all()
     )
 
-    journal = "\n\n".join(
-        (entry.content or "").strip()
-        for entry in entries
-    )
-
-    reflection_prompt = ai_prompt_export(journal) or ""
+    reflection_prompt = ai_prompt_export() or ""
 
     markdown = "# Journal Export\n\n"
 
