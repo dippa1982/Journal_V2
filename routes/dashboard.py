@@ -6,6 +6,8 @@ from flask import (
 
 from services.dashboard_helper import get_dashboard_stats
 
+from services.trend_engine import build_trend_report
+
 from services.daily_compass_helper import generate_daily_compass
 
 from constants.moods import MOODS
@@ -28,9 +30,12 @@ def dashboard():
 
     compass = generate_daily_compass(current_user)
 
+    report = build_trend_report(current_user)
+
     return render_template(
         "dashboard.html",
         **stats,
         moods = MOODS,
-        compass = compass
+        compass = compass,
+        report = report
     )
