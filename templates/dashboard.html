@@ -4,20 +4,27 @@
 
 {% block content %}
 
-<div class="content-wrapper">
+<div class="trend-page">
 
-    <!-- ========================= -->
+    <!-- ================================= -->
     <!-- Header -->
-    <!-- ========================= -->
+    <!-- ================================= -->
 
-    <div class="page-header">
+    <div class="dashboard-card hero-card">
+
+        <div class="hero-icon">
+            📔
+        </div>
 
         <div>
 
-            <h1>📔 Dashboard</h1>
+            <h1>
+                Your Dashboard
+            </h1>
 
-            <p class="text-muted">
-                A quick overview of your journaling journey.
+            <p>
+                A quick overview of your journaling journey,
+                patterns and progress.
             </p>
 
         </div>
@@ -25,28 +32,29 @@
     </div>
 
 
-    <!-- ========================= -->
+    <!-- ================================= -->
     <!-- Statistics -->
-    <!-- ========================= -->
+    <!-- ================================= -->
 
     <div class="stats-grid">
 
+
         <!-- Journal Entries -->
 
-        <div class="stat-card">
+        <div class="dashboard-card stat-card">
 
-            <div class="stat-icon">
+            <div class="stat-icon purple">
                 📖
             </div>
 
             <div class="stat-info">
 
-                <div class="stat-label">
-                    Journal Entries
-                </div>
-
                 <div class="stat-value">
                     {{ total_entries }}
+                </div>
+
+                <div class="stat-label">
+                    Journal Entries
                 </div>
 
             </div>
@@ -56,26 +64,26 @@
 
         <!-- Average Mood -->
 
-        <div class="stat-card">
+        <div class="dashboard-card stat-card">
 
-            <div class="stat-icon">
+            <div class="stat-icon green">
                 😊
             </div>
 
             <div class="stat-info">
 
-                <div class="stat-label">
-                    Average Mood
-                </div>
-
                 <div class="stat-value">
 
                     {% if average_mood %}
-                        {{ average_mood }}/10
+                        {{ average_mood }}
                     {% else %}
                         —
                     {% endif %}
 
+                </div>
+
+                <div class="stat-label">
+                    Average Mood
                 </div>
 
             </div>
@@ -85,22 +93,45 @@
 
         <!-- Current Streak -->
 
-        <div class="stat-card">
+        <div class="dashboard-card stat-card">
 
-            <div class="stat-icon">
+            <div class="stat-icon orange">
                 🔥
             </div>
 
             <div class="stat-info">
 
-                <div class="stat-label">
-                    Current Streak
-                </div>
-
                 <div class="stat-value">
                     {{ streak }}
                 </div>
 
+                <div class="stat-label">
+                    Day Streak
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Therapy Questions -->
+
+        <div class="dashboard-card stat-card">
+
+            <div class="stat-icon blue">
+                ❓
+            </div>
+
+            <div class="stat-info">
+
+                <div class="stat-value">
+                    {{ unanswered_questions|length if unanswered_questions is defined else 0 }}
+                </div>
+
+                <div class="stat-label">
+                    Questions Waiting
+                </div>
+
             </div>
 
         </div>
@@ -108,110 +139,268 @@
     </div>
 
 
-    <!-- ========================= -->
-    <!-- Mood Overview -->
-    <!-- ========================= -->
+    <!-- ================================= -->
+    <!-- Daily Compass -->
+    <!-- ================================= -->
 
     <div class="dashboard-card">
 
-        <div class="card-header">
+        <div class="section-header">
 
-            <div>
+            <h2>
+                🧭 Daily Compass
+            </h2>
 
-                <h3>😊 Mood Overview</h3>
+            <p>
+                What deserves your attention today.
+            </p>
 
-                <p class="text-muted">
-                    A snapshot of your mood history.
+        </div>
+
+
+        {% if compass %}
+
+            <div class="ai-card">
+
+                <h6>
+                    {{ compass.icon }}
+                    {{ compass.title }}
+                </h6>
+
+
+                {% if compass.observation %}
+
+                    <p>
+                        {{ compass.observation }}
+                    </p>
+
+                {% endif %}
+
+
+                {% if compass.focus %}
+
+                    <p>
+                        <strong>
+                            🎯 Focus
+                        </strong>
+
+                        <br>
+
+                        {{ compass.focus }}
+                    </p>
+
+                {% endif %}
+
+
+                {% if compass.question %}
+
+                    <p>
+                        <strong>
+                            💭 Question
+                        </strong>
+
+                        <br>
+
+                        {{ compass.question }}
+                    </p>
+
+                {% endif %}
+
+
+                {% if compass.confidence %}
+
+                    <span class="text-muted">
+
+                        Confidence:
+                        {{ compass.confidence }}
+
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+
+        {% else %}
+
+            <p class="text-muted">
+                Your Daily Compass will appear here once enough
+                journal data is available.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- ================================= -->
+    <!-- Mood + Relationship -->
+    <!-- ================================= -->
+
+    <div class="bottom-grid">
+
+
+        <!-- Mood -->
+
+        <div class="dashboard-card">
+
+            <div class="section-header">
+
+                <h2>
+                    😊 Mood
+                </h2>
+
+                <p>
+                    How your emotional state has been changing.
                 </p>
 
             </div>
 
-            <a
-                href="{{ url_for('patterns.patterns') }}"
-                class="btn btn-primary"
-            >
-                View Patterns →
-            </a>
+
+            <div class="summary-grid">
+
+
+                <div class="summary-item">
+
+                    <span>
+                        Average
+                    </span>
+
+                    <strong>
+
+                        {% if average_mood %}
+                            {{ average_mood }}
+                        {% else %}
+                            —
+                        {% endif %}
+
+                    </strong>
+
+                </div>
+
+
+                {% if patterns is defined and patterns.mood_patterns is defined %}
+
+                    <div class="summary-item">
+
+                        <span>
+                            Recent
+                        </span>
+
+                        <strong>
+                            {{ patterns.mood_patterns.recent_average or "—" }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-item">
+
+                        <span>
+                            Previous
+                        </span>
+
+                        <strong>
+                            {{ patterns.mood_patterns.previous_average or "—" }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-item">
+
+                        <span>
+                            Trend
+                        </span>
+
+                        <strong>
+
+                            {% if patterns.mood_patterns.trend %}
+
+                                {{ patterns.mood_patterns.trend }}
+
+                            {% else %}
+
+                                —
+
+                            {% endif %}
+
+                        </strong>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="dashboard-action-footer">
+
+                <a
+                    href="{{ url_for('trends.trends') }}"
+                    class="btn btn-secondary"
+                >
+                    View Trends
+                </a>
+
+            </div>
 
         </div>
 
 
-        <div class="summary-grid">
+        <!-- Relationships -->
 
-            <!-- Average -->
+        <div class="dashboard-card">
 
-            <div class="summary-item">
+            <div class="section-header">
 
-                <span class="summary-label">
-                    Average Mood
-                </span>
+                <h2>
+                    ❤️ Relationships
+                </h2>
 
-                <strong class="summary-value">
-
-                    {% if average_mood %}
-                        {{ average_mood }}/8
-                    {% else %}
-                        —
-                    {% endif %}
-
-                </strong>
+                <p>
+                    People who appear most often in your journal.
+                </p>
 
             </div>
 
 
-            <!-- Highest -->
+            {% if patterns is defined and patterns.relationship_patterns %}
 
-            <div class="summary-item">
+                {% for relationship in patterns.relationship_patterns[:3] %}
 
-                <span class="summary-label">
-                    Highest Mood
-                </span>
+                    <div class="list-item">
 
-                <strong class="summary-value">
+                        <span>
+                            {{ relationship.person }}
+                        </span>
 
-                    {% if moods %}
-                        {{ moods|max }}/8
-                    {% else %}
-                        —
-                    {% endif %}
+                        <strong>
+                            {{ relationship.mentions }}
+                        </strong>
 
-                </strong>
+                    </div>
 
-            </div>
+                {% endfor %}
 
 
-            <!-- Lowest -->
+            {% else %}
 
-            <div class="summary-item">
+                <p class="text-muted">
+                    No relationship patterns detected yet.
+                </p>
 
-                <span class="summary-label">
-                    Lowest Mood
-                </span>
-
-                <strong class="summary-value">
-
-                    {% if moods %}
-                        {{ moods|min }}/8
-                    {% else %}
-                        —
-                    {% endif %}
-
-                </strong>
-
-            </div>
+            {% endif %}
 
 
-            <!-- Recorded -->
+            <div class="dashboard-action-footer">
 
-            <div class="summary-item">
-
-                <span class="summary-label">
-                    Mood Entries
-                </span>
-
-                <strong class="summary-value">
-                    {{ moods|length }}
-                </strong>
+                <a
+                    href="{{ url_for('patterns.patterns') }}"
+                    class="btn btn-secondary"
+                >
+                    Explore Relationships
+                </a>
 
             </div>
 
@@ -220,154 +409,246 @@
     </div>
 
 
-    <!-- ========================= -->
+    <!-- ================================= -->
+    <!-- Emotional Patterns -->
+    <!-- ================================= -->
+
+    <div class="dashboard-card">
+
+        <div class="section-header">
+
+            <h2>
+                🧠 What Your Journal Is Showing
+            </h2>
+
+            <p>
+                Recurring emotional patterns detected across your entries.
+            </p>
+
+        </div>
+
+
+        {% if patterns is defined and patterns.emotional_patterns %}
+
+            {% for pattern in patterns.emotional_patterns[:3] %}
+
+                <div class="list-item">
+
+                    <span>
+                        {{ pattern }}
+                    </span>
+
+                </div>
+
+            {% endfor %}
+
+
+            <div class="dashboard-action-footer">
+
+                <a
+                    href="{{ url_for('patterns.patterns') }}"
+                    class="btn btn-secondary"
+                >
+                    Explore Patterns
+                </a>
+
+            </div>
+
+
+        {% else %}
+
+            <p class="text-muted">
+                Not enough data to identify emotional patterns yet.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- ================================= -->
+    <!-- Themes + Therapy Questions -->
+    <!-- ================================= -->
+
+    <div class="bottom-grid">
+
+
+        <!-- Recurring Themes -->
+
+        <div class="dashboard-card">
+
+            <div class="section-header">
+
+                <h2>
+                    🏷️ Recurring Themes
+                </h2>
+
+                <p>
+                    Topics appearing regularly in your journal.
+                </p>
+
+            </div>
+
+
+            {% if patterns is defined and patterns.recurring_tags %}
+
+                {% for item in patterns.recurring_tags[:5] %}
+
+                    <div class="list-item">
+
+                        <span>
+                            #{{ item.tag }}
+                        </span>
+
+                        <strong>
+                            {{ item.count }}
+                        </strong>
+
+                    </div>
+
+                {% endfor %}
+
+
+            {% else %}
+
+                <p class="text-muted">
+                    No recurring themes detected yet.
+                </p>
+
+            {% endif %}
+
+
+            <div class="dashboard-action-footer">
+
+                <a
+                    href="{{ url_for('patterns.patterns') }}"
+                    class="btn btn-secondary"
+                >
+                    Explore Themes
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- Therapy Questions -->
+
+        <div class="dashboard-card">
+
+            <div class="section-header">
+
+                <h2>
+                    ❓ Questions Waiting For You
+                </h2>
+
+                <p>
+                    Reflection questions you haven't answered yet.
+                </p>
+
+            </div>
+
+
+            {% if unanswered_questions %}
+
+                <div class="list-container">
+
+                    {% for question in unanswered_questions[:3] %}
+
+                        <div class="list-item">
+
+                            <span>
+                                {{ question.question }}
+                            </span>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+
+            {% else %}
+
+                <p class="text-muted">
+                    No unanswered therapy questions.
+                </p>
+
+            {% endif %}
+
+
+            <div class="dashboard-action-footer">
+
+                <a
+                    href="{{ url_for('therapy_questions.therapy_questions') }}"
+                    class="btn btn-secondary"
+                >
+                    Explore Questions
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================= -->
     <!-- Quick Actions -->
-    <!-- ========================= -->
+    <!-- ================================= -->
 
     <div class="dashboard-card">
 
-        <div class="card-header">
+        <div class="section-header">
 
-            <div>
+            <h2>
+                ⚡ Quick Actions
+            </h2>
 
-                <h3>⚡ Quick Actions</h3>
-
-                <p class="text-muted">
-                    Jump straight to the things you use most.
-                </p>
-
-            </div>
+            <p>
+                Jump straight into what you want to work on.
+            </p>
 
         </div>
 
 
-        <div class="dashboard-actions-grid">
+        <div class="bottom-grid">
 
-
-            <!-- New Entry -->
 
             <a
                 href="{{ url_for('journal.new_entry') }}"
-                class="dashboard-action"
+                class="btn btn-primary"
             >
-
-                <div class="dashboard-action-icon">
-                    ✍️
-                </div>
-
-                <div>
-
-                    <strong>
-                        New Journal Entry
-                    </strong>
-
-                    <span>
-                        Write about today.
-                    </span>
-
-                </div>
-
-                <span class="btn btn-primary">
-                    New Entry →
-                </span>
-
+                ✍️ New Journal Entry
             </a>
 
-
-            <!-- Patterns -->
 
             <a
                 href="{{ url_for('patterns.patterns') }}"
-                class="dashboard-action"
+                class="btn btn-secondary"
             >
-
-                <div class="dashboard-action-icon">
-                    🔍
-                </div>
-
-                <div>
-
-                    <strong>
-                        Pattern Detector
-                    </strong>
-
-                    <span>
-                        Explore recurring patterns.
-                    </span>
-
-                </div>
-
-                <span class="btn btn-primary">
-                    Patterns →
-                </span>
-
+                🔍 Pattern Detector
             </a>
 
-
-            <!-- Therapy Questions -->
 
             <a
                 href="{{ url_for('therapy_questions.therapy_questions') }}"
-                class="dashboard-action"
+                class="btn btn-secondary"
             >
-
-                <div class="dashboard-action-icon">
-                    🧠
-                </div>
-
-                <div>
-
-                    <strong>
-                        Therapy Questions
-                    </strong>
-
-                    <span>
-                        Continue your reflections.
-                    </span>
-
-                </div>
-
-                <span class="btn btn-primary">
-                    Therapy Questions →
-                </span>
-
+                🧠 Therapy Questions
             </a>
 
-
-            <!-- Trends -->
 
             <a
                 href="{{ url_for('trends.trends') }}"
-                class="dashboard-action"
+                class="btn btn-secondary"
             >
-
-                <div class="dashboard-action-icon">
-                    📈
-                </div>
-
-                <div>
-
-                    <strong>
-                        Trend Report
-                    </strong>
-
-                    <span>
-                        See how things are changing.
-                    </span>
-
-                </div>
-
-                <span class="btn btn-primary">
-                    Trends →
-                </span>
-
+                📈 Trend Report
             </a>
-
 
         </div>
 
     </div>
-
 
 </div>
 
