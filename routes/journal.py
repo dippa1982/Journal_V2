@@ -20,7 +20,7 @@ from services.journal_helper import (get_all_entries,
     search_entries,
     )
 
-from models import Entry
+from models import Entry, db
 
 from constants.moods import MOODS
 
@@ -58,18 +58,32 @@ def new_entry():
 
     if request.method == "POST":
 
-        
-        create_entry(current_user, request.form)
-        flash("Journal entry saved.",
-              "success")
+        entry = create_entry(
+            current_user,
+            request.form
+        )
 
-        return redirect(url_for("journal.journal"))
-    
-    return render_template(
-        "new_entry.html",
-        moods = MOODS,
-        people = people
-    )
+        try:
+
+            analyse_entry(entry)
+
+        except Exception as e:
+
+            db.session.rollback()
+
+            print(
+                f"Analysis failed for entry "
+                f"{entry.id}: {e}"
+            )
+
+        flash(
+            "Journal entry saved.",
+            "success"
+        )
+
+        return redirect(
+            url_for("journal.journal")        
+        )
 
 @journal_bp.route("/journal/<int:entry_id>")
 @login_required
@@ -98,6 +112,19 @@ def edit_entry(entry_id):
             request.form
         )
 
+        try:
+
+            analyse_entry(entry)
+
+        except Exception as e:
+
+            db.session.rollback()
+
+            print(
+                f"Re-analysis failed for entry "
+                f"{entry.id}: {e}"
+            )
+
         flash(
             "Journal entry updated.",
             "success"
@@ -110,13 +137,7 @@ def edit_entry(entry_id):
             )
         )
 
-    return render_template(
-        "edit_entry.html",
-        entry=entry,
-        moods = MOODS
-    )
-
-@journal_bp.route("/journal/<int:entry_id>/delete", methods=["GET"])
+@journal_bp.route("/journal/<int:entry_id>/delete", methods=["POST"])
 @login_required
 def delete_entry(entry_id):
     entry = get_entry(entry_id, current_user)
