@@ -304,3 +304,102 @@ JOURNAL ENTRIES:
 """
 
     return AI_Prompt_Compass
+
+def ai_prompt_entry_analysis(entry):
+
+    return f"""
+You are analysing ONE personal journal entry.
+
+Your job is to extract structured information from the entry.
+
+Do not give advice.
+Do not write a reflection.
+Do not diagnose anything.
+Do not invent information.
+
+Only return information that is reasonably supported by the journal entry.
+
+Distinguish between:
+
+- an emotion explicitly stated by the writer
+- an emotion strongly implied by the writing
+- a possible interpretation
+
+Return valid JSON only.
+
+Use exactly this structure:
+
+{{
+    "emotions": [
+        {{
+            "name": "emotion",
+            "intensity": 1,
+            "confidence": "high"
+        }}
+    ],
+
+    "topics": [
+        "topic"
+    ],
+
+    "people": [
+        "person name"
+    ],
+
+    "triggers": [
+        "trigger"
+    ],
+
+    "behaviours": [
+        "behaviour"
+    ],
+
+    "needs": [
+        "need"
+    ],
+
+    "beliefs": [
+        "belief or internal rule"
+    ],
+
+    "positive_changes": [
+        "positive change"
+    ],
+
+    "possible_patterns": [
+        "possible pattern"
+    ]
+}}
+
+Rules:
+
+- intensity must be between 1 and 10
+- confidence must be one of:
+  "high", "medium", "low"
+
+- Keep labels short and reusable.
+- Prefer "feeling criticised" over a long sentence.
+- Prefer "defensiveness" over "the writer became very defensive".
+- Prefer "honesty" over "trying to become a more honest person".
+- Only include named people actually mentioned.
+- Do not treat every event as a pattern.
+- possible_patterns should only contain patterns that the entry itself suggests.
+- If there is no evidence for a field, return [].
+- Do not return Markdown.
+- Do not return comments.
+- Do not use code fences.
+
+JOURNAL ENTRY
+
+Date:
+{entry.created_at.strftime('%d %B %Y')}
+
+Mood score:
+{entry.mood_score}
+
+Tags:
+{entry.tags or "None"}
+
+Content:
+{entry.content}
+"""
