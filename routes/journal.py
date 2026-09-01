@@ -87,6 +87,12 @@ def new_entry():
             url_for("journal.journal")        
         )
 
+    return render_template(
+        "new_entry.html",
+        moods=MOODS,
+        people=people
+    )
+
 @journal_bp.route("/journal/<int:entry_id>")
 @login_required
 def view_entry(entry_id):
@@ -138,6 +144,12 @@ def edit_entry(entry_id):
                 entry_id=entry.id
             )
         )
+
+    return render_template(
+        "edit_entry.html",
+        entry=entry,
+        moods = MOODS
+    )
 
 @journal_bp.route("/journal/<int:entry_id>/delete", methods=["POST"])
 @login_required
