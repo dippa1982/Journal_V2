@@ -143,11 +143,6 @@ def save_entry_analysis(entry, data):
             []
         )
 
-        analysis.people = data.get(
-            "people",
-            []
-        )
-
         analysis.triggers = data.get(
             "triggers",
             []
@@ -168,13 +163,13 @@ def save_entry_analysis(entry, data):
             []
         )
 
-        analysis.observations = data.get(
-            "observations",
+        analysis.positive_changes = data.get(
+            "positive_changes",
             []
         )
 
-        analysis.positive_changes = data.get(
-            "positive_changes",
+        analysis.possible_patterns = data.get(
+            "observations",
             []
         )
 
@@ -191,11 +186,6 @@ def save_entry_analysis(entry, data):
 
             topics=data.get(
                 "topics",
-                []
-            ),
-
-            people=data.get(
-                "people",
                 []
             ),
 
@@ -219,13 +209,13 @@ def save_entry_analysis(entry, data):
                 []
             ),
 
-            observations=data.get(
-                "observations",
+            positive_changes=data.get(
+                "positive_changes",
                 []
             ),
 
-            positive_changes=data.get(
-                "positive_changes",
+            possible_patterns=data.get(
+                "observations",
                 []
             )
         )
