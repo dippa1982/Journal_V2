@@ -2,7 +2,7 @@ from models import Entry, EntryAnalysis
 from services.entry_analysis_service import analyse_entry
 
 
-def backfill_user_entries(user):
+def backfill_user_entries(user, batch_size=3):
 
     entries = (
         Entry.query
@@ -11,7 +11,6 @@ def backfill_user_entries(user):
         .all()
     )
 
-    total = len(entries)
     analysed = 0
     skipped = 0
     failed = 0
@@ -23,9 +22,11 @@ def backfill_user_entries(user):
         ).first()
 
         if existing:
-
             skipped += 1
             continue
+
+        if analysed >= batch_size:
+            break
 
         try:
 
@@ -34,9 +35,7 @@ def backfill_user_entries(user):
             analysed += 1
 
             print(
-                f"Analysed entry "
-                f"{entry.id} "
-                f"({analysed}/{total})"
+                f"Analysed entry {entry.id}"
             )
 
         except Exception as e:
@@ -44,13 +43,25 @@ def backfill_user_entries(user):
             failed += 1
 
             print(
-                f"Failed to analyse entry "
-                f"{entry.id}: {e}"
+                f"Failed entry {entry.id}: {e}"
             )
 
+    remaining = (
+        Entry.query
+        .filter_by(user_id=user.id)
+        .count()
+        -
+        EntryAnalysis.query
+        .join(Entry)
+        .filter(
+            Entry.user_id == user.id
+        )
+        .count()
+    )
+
     return {
-        "total": total,
-        "analysed": analysed,
+        "analysed_this_run": analysed,
         "skipped": skipped,
-        "failed": failed
+        "failed": failed,
+        "remaining": max(remaining, 0)
     }
