@@ -14,6 +14,8 @@ from flask_login import (
 
 from extensions import db
 
+from services.backfill_analyse import backfill_user_entries
+
 from services.journal_helper import (get_all_entries,
     create_entry,
     get_entry,
@@ -202,3 +204,13 @@ def analyse_journal_entry(entry_id):
         "entry_id": entry.id,
         "analysis_id": analysis.id
     }
+
+@journal_bp.route("/journal/backfill-analysis")
+@login_required
+def backfill_analysis():
+
+    result = backfill_user_entries(
+        current_user
+    )
+
+    return result
