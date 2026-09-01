@@ -169,9 +169,7 @@ def save_entry_analysis(entry, data):
             ensure_ascii=False
         ),
 
-        # Temporary mapping until we rename this column
-        # from possible_patterns to observations.
-        "possible_patterns": json.dumps(
+        "observations": json.dumps(
             data.get("observations", []),
             ensure_ascii=False
         )
@@ -186,7 +184,7 @@ def save_entry_analysis(entry, data):
         analysis.needs = values["needs"]
         analysis.beliefs = values["beliefs"]
         analysis.positive_changes = values["positive_changes"]
-        analysis.possible_patterns = values["possible_patterns"]
+        analysis.observations = values["observations"]
 
     else:
 
@@ -200,7 +198,7 @@ def save_entry_analysis(entry, data):
             needs=values["needs"],
             beliefs=values["beliefs"],
             positive_changes=values["positive_changes"],
-            possible_patterns=values["possible_patterns"]
+            observations=values["observations"]
         )
 
         db.session.add(analysis)

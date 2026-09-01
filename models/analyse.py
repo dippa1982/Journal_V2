@@ -51,7 +51,7 @@ class EntryAnalysis(db.Model):
         nullable=True
     )
 
-    possible_patterns = db.Column(
+    observations = db.Column(
         db.Text,
         nullable=True
     )
