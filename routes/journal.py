@@ -12,6 +12,8 @@ from flask_login import (
     current_user
 )
 
+from extensions import db
+
 from services.journal_helper import (get_all_entries,
     create_entry,
     get_entry,
@@ -20,7 +22,7 @@ from services.journal_helper import (get_all_entries,
     search_entries,
     )
 
-from models import Entry, db
+from models import Entry
 
 from constants.moods import MOODS
 
