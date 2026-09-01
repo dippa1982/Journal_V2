@@ -41,8 +41,8 @@ def validate_analysis(data):
         "behaviours",
         "needs",
         "beliefs",
-        "positive_changes",
-        "possible_patterns"
+        "observations",
+        "positive_changes"
     ]
 
     cleaned = {}

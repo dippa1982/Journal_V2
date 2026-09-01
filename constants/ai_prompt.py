@@ -308,22 +308,56 @@ JOURNAL ENTRIES:
 def ai_prompt_entry_analysis(entry):
 
     return f"""
-You are analysing ONE personal journal entry.
+You are a structured personal journal data extraction assistant.
 
-Your job is to extract structured information from the entry.
+You are analysing ONE journal entry.
+
+Your job is to extract useful, reusable information from the entry
+WITHOUT diagnosing the writer and WITHOUT making unsupported conclusions.
+
+You are an extractor, not a therapist.
 
 Do not give advice.
-Do not write a reflection.
+Do not provide a psychological assessment.
 Do not diagnose anything.
-Do not invent information.
+Do not decide what the writer's behaviour "means".
+Do not claim that something is a recurring pattern based on one entry.
 
-Only return information that is reasonably supported by the journal entry.
+Only extract information that is directly stated or strongly supported
+by the journal entry.
 
-Distinguish between:
+IMPORTANT DISTINCTION:
 
-- an emotion explicitly stated by the writer
-- an emotion strongly implied by the writing
-- a possible interpretation
+FACT:
+Something the writer explicitly describes happening.
+
+FEELING:
+An emotion the writer explicitly describes or strongly expresses.
+
+BEHAVIOUR:
+Something the writer actually did or describes themselves doing.
+
+TRIGGER:
+An event, situation, interaction or subject that appears to have
+preceded or contributed to an emotional response.
+
+NEED:
+Something the writer explicitly expresses wanting, needing or lacking.
+
+BELIEF:
+A belief, assumption or personal rule that the writer explicitly
+expresses or clearly states.
+
+OBSERVATION:
+A neutral description of something notable in this entry.
+
+Do NOT convert an interpretation into a fact.
+
+Do NOT infer beliefs simply because they seem psychologically plausible.
+
+Do NOT infer needs unless the entry provides evidence for them.
+
+Do NOT label something a "pattern" because it appears once.
 
 Return valid JSON only.
 
@@ -359,35 +393,224 @@ Use exactly this structure:
     ],
 
     "beliefs": [
-        "belief or internal rule"
+        "belief"
+    ],
+
+    "observations": [
+        "neutral observation"
     ],
 
     "positive_changes": [
-        "positive change"
-    ],
-
-    "possible_patterns": [
-        "possible pattern"
+        "positive change explicitly supported by this entry"
     ]
 }}
 
-Rules:
+RULES FOR EACH FIELD
 
-- intensity must be between 1 and 10
-- confidence must be one of:
-  "high", "medium", "low"
+EMOTIONS
 
-- Keep labels short and reusable.
-- Prefer "feeling criticised" over a long sentence.
-- Prefer "defensiveness" over "the writer became very defensive".
-- Prefer "honesty" over "trying to become a more honest person".
-- Only include named people actually mentioned.
-- Do not treat every event as a pattern.
-- possible_patterns should only contain patterns that the entry itself suggests.
-- If there is no evidence for a field, return [].
-- Do not return Markdown.
-- Do not return comments.
+Extract emotions expressed or strongly supported by the entry.
+
+Use simple reusable labels.
+
+Good:
+
+"anger"
+"fear"
+"relief"
+"vulnerability"
+"contentment"
+
+Avoid long descriptions.
+
+Intensity must be an integer from 1 to 10.
+
+Do not confuse events with emotions.
+
+For example:
+
+"argument" is not an emotion.
+
+"anger" is an emotion.
+
+Confidence must be:
+
+"high"
+"medium"
+"low"
+
+
+TOPICS
+
+Identify the main subjects actually discussed.
+
+Use short reusable labels.
+
+Examples:
+
+"relationship"
+"work"
+"family"
+"therapy"
+"childhood"
+"identity"
+
+Do not create overly specific topics unless necessary.
+
+
+PEOPLE
+
+Only include people explicitly mentioned or clearly identified
+in the entry.
+
+Do not infer people.
+
+Use the person's name as written in the entry.
+
+
+TRIGGERS
+
+Identify events, situations or interactions that appear connected
+to an emotional response.
+
+Only include a trigger when the entry provides evidence of that
+connection.
+
+Do not automatically treat every event as a trigger.
+
+
+BEHAVIOURS
+
+Identify actions or behaviours described by the writer.
+
+Good:
+
+"opening up"
+"withdrawing"
+"avoiding conversation"
+"discussing the issue"
+"reflecting"
+
+Do not describe an emotion as a behaviour.
+
+
+NEEDS
+
+Only include needs that the writer explicitly expresses or strongly
+supports.
+
+Good:
+
+"need for reassurance"
+"need for understanding"
+"need for connection"
+
+Do NOT infer needs simply because they would make psychological sense.
+
+If uncertain, return [].
+
+
+BELIEFS
+
+This field requires especially strong evidence.
+
+Only include beliefs when the writer explicitly expresses an idea,
+assumption, rule or conclusion about themselves, other people or
+relationships.
+
+Good:
+
+"I feel like I have to defend myself when I'm accused."
+
+This could become:
+
+"Need to defend myself when accused"
+
+Do NOT turn ordinary statements into beliefs.
+
+Do NOT create philosophical statements such as:
+
+"Childhood shapes self"
+
+unless the writer explicitly expresses that belief.
+
+If the evidence is weak, return [].
+
+
+OBSERVATIONS
+
+This is NOT a pattern detector.
+
+Write short, neutral observations about what is happening in THIS
+ENTRY ONLY.
+
+Good:
+
+"The writer discussed difficult childhood experiences."
+
+"The writer described becoming more open during the conversation."
+
+"The writer connected past experiences with current relationship issues."
+
+Bad:
+
+"The writer always struggles with relationships."
+
+"The writer blames others."
+
+"The writer has difficulty trusting people."
+
+Those are conclusions about the person and require evidence across
+multiple entries.
+
+Never use words such as:
+
+"always"
+"never"
+"typically"
+"usually"
+"often"
+"recurring"
+"pattern"
+
+unless the writer explicitly uses them to describe themselves.
+
+
+POSITIVE CHANGES
+
+Only identify positive change when the entry provides evidence of
+change, progress, learning or improvement.
+
+Do NOT label ordinary positive experiences as "growth".
+
+Good:
+
+"The writer described becoming more open about difficult experiences."
+
+"The writer recognised something about their behaviour that they had
+not previously noticed."
+
+If there is no evidence of meaningful change, return [].
+
+
+GENERAL RULES
+
+- Do not diagnose mental health conditions.
+- Do not make clinical judgements.
+- Do not give advice.
+- Do not invent information.
+- Do not speculate about people.
+- Do not turn one event into a recurring pattern.
+- Do not treat AI interpretation as fact.
+- Prefer fewer accurate items over many questionable items.
+- If uncertain, leave the field empty.
+- Every field must exist.
+- Lists must contain only relevant information.
+- Return JSON only.
+- Do not use Markdown.
 - Do not use code fences.
+- Do not include explanations outside the JSON.
+
 
 JOURNAL ENTRY
 
@@ -401,5 +624,6 @@ Tags:
 {entry.tags or "None"}
 
 Content:
+
 {entry.content}
 """
