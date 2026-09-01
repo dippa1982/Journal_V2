@@ -7,6 +7,8 @@ from services.ai_helper import (
 
 from extensions import db
 
+import json
+
 from models import Entry, EntryAnalysis
 
 def analyse_entry(entry):
@@ -131,93 +133,74 @@ def save_entry_analysis(entry, data):
         entry_id=entry.id
     ).first()
 
+    values = {
+        "emotions": json.dumps(
+            data.get("emotions", []),
+            ensure_ascii=False
+        ),
+
+        "topics": json.dumps(
+            data.get("topics", []),
+            ensure_ascii=False
+        ),
+
+        "triggers": json.dumps(
+            data.get("triggers", []),
+            ensure_ascii=False
+        ),
+
+        "behaviours": json.dumps(
+            data.get("behaviours", []),
+            ensure_ascii=False
+        ),
+
+        "needs": json.dumps(
+            data.get("needs", []),
+            ensure_ascii=False
+        ),
+
+        "beliefs": json.dumps(
+            data.get("beliefs", []),
+            ensure_ascii=False
+        ),
+
+        "positive_changes": json.dumps(
+            data.get("positive_changes", []),
+            ensure_ascii=False
+        ),
+
+        # Temporary mapping until we rename this column
+        # from possible_patterns to observations.
+        "possible_patterns": json.dumps(
+            data.get("observations", []),
+            ensure_ascii=False
+        )
+    }
+
     if analysis:
 
-        analysis.emotions = data.get(
-            "emotions",
-            []
-        )
-
-        analysis.topics = data.get(
-            "topics",
-            []
-        )
-
-        analysis.triggers = data.get(
-            "triggers",
-            []
-        )
-
-        analysis.behaviours = data.get(
-            "behaviours",
-            []
-        )
-
-        analysis.needs = data.get(
-            "needs",
-            []
-        )
-
-        analysis.beliefs = data.get(
-            "beliefs",
-            []
-        )
-
-        analysis.positive_changes = data.get(
-            "positive_changes",
-            []
-        )
-
-        analysis.possible_patterns = data.get(
-            "observations",
-            []
-        )
+        analysis.emotions = values["emotions"]
+        analysis.topics = values["topics"]
+        analysis.triggers = values["triggers"]
+        analysis.behaviours = values["behaviours"]
+        analysis.needs = values["needs"]
+        analysis.beliefs = values["beliefs"]
+        analysis.positive_changes = values["positive_changes"]
+        analysis.possible_patterns = values["possible_patterns"]
 
     else:
 
         analysis = EntryAnalysis(
-
             entry_id=entry.id,
 
-            emotions=data.get(
-                "emotions",
-                []
-            ),
-
-            topics=data.get(
-                "topics",
-                []
-            ),
-
-            triggers=data.get(
-                "triggers",
-                []
-            ),
-
-            behaviours=data.get(
-                "behaviours",
-                []
-            ),
-
-            needs=data.get(
-                "needs",
-                []
-            ),
-
-            beliefs=data.get(
-                "beliefs",
-                []
-            ),
-
-            positive_changes=data.get(
-                "positive_changes",
-                []
-            ),
-
-            possible_patterns=data.get(
-                "observations",
-                []
-            )
+            emotions=values["emotions"],
+            topics=values["topics"],
+            triggers=values["triggers"],
+            behaviours=values["behaviours"],
+            needs=values["needs"],
+            beliefs=values["beliefs"],
+            positive_changes=values["positive_changes"],
+            possible_patterns=values["possible_patterns"]
         )
 
         db.session.add(analysis)
