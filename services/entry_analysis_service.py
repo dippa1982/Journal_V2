@@ -5,6 +5,9 @@ from services.ai_helper import (
     parse_ai_response
 )
 
+from extensions import db
+
+from models import Entry, EntryAnalysis
 
 def analyse_entry(entry):
 
@@ -24,7 +27,14 @@ def analyse_entry(entry):
 
     data = parse_ai_response(result)
 
-    return validate_analysis(data)
+    data = validate_analysis(data)
+
+    analysis = save_entry_analysis(
+        entry,
+        data
+    )
+
+    return analysis
 
 def validate_analysis(data):
 
@@ -114,3 +124,114 @@ def clean_emotions(emotions):
         )
 
     return cleaned
+
+def save_entry_analysis(entry, data):
+
+    analysis = EntryAnalysis.query.filter_by(
+        entry_id=entry.id
+    ).first()
+
+    if analysis:
+
+        analysis.emotions = data.get(
+            "emotions",
+            []
+        )
+
+        analysis.topics = data.get(
+            "topics",
+            []
+        )
+
+        analysis.people = data.get(
+            "people",
+            []
+        )
+
+        analysis.triggers = data.get(
+            "triggers",
+            []
+        )
+
+        analysis.behaviours = data.get(
+            "behaviours",
+            []
+        )
+
+        analysis.needs = data.get(
+            "needs",
+            []
+        )
+
+        analysis.beliefs = data.get(
+            "beliefs",
+            []
+        )
+
+        analysis.observations = data.get(
+            "observations",
+            []
+        )
+
+        analysis.positive_changes = data.get(
+            "positive_changes",
+            []
+        )
+
+    else:
+
+        analysis = EntryAnalysis(
+
+            entry_id=entry.id,
+
+            emotions=data.get(
+                "emotions",
+                []
+            ),
+
+            topics=data.get(
+                "topics",
+                []
+            ),
+
+            people=data.get(
+                "people",
+                []
+            ),
+
+            triggers=data.get(
+                "triggers",
+                []
+            ),
+
+            behaviours=data.get(
+                "behaviours",
+                []
+            ),
+
+            needs=data.get(
+                "needs",
+                []
+            ),
+
+            beliefs=data.get(
+                "beliefs",
+                []
+            ),
+
+            observations=data.get(
+                "observations",
+                []
+            ),
+
+            positive_changes=data.get(
+                "positive_changes",
+                []
+            )
+        )
+
+        db.session.add(analysis)
+
+    db.session.commit()
+
+    return analysis

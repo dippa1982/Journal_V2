@@ -407,6 +407,7 @@ Use exactly this structure:
 
 RULES FOR EACH FIELD
 
+
 EMOTIONS
 
 Extract emotions expressed or strongly supported by the entry.
@@ -483,15 +484,51 @@ BEHAVIOURS
 
 Identify actions or behaviours described by the writer.
 
+Only extract behaviours that could plausibly be relevant to:
+
+- emotional state
+- relationships
+- coping
+- decision-making
+- communication
+- personal development
+- self-reflection
+
 Good:
 
 "opening up"
 "withdrawing"
 "avoiding conversation"
 "discussing the issue"
-"reflecting"
+"reflecting on my behaviour"
+"talking openly"
+
+Do NOT include ordinary activities such as:
+
+- shopping
+- eating
+- travelling
+- watching television
+- household tasks
+- going somewhere
+
+unless the entry makes the activity emotionally significant or
+relevant to the writer's emotional state, relationships, coping,
+decision-making, communication or personal development.
 
 Do not describe an emotion as a behaviour.
+
+Prefer concise, reusable labels.
+
+For example:
+
+"talking openly with Nicola"
+
+is better represented as:
+
+"open communication"
+
+when the meaning remains accurate.
 
 
 NEEDS
@@ -514,27 +551,39 @@ BELIEFS
 
 This field requires especially strong evidence.
 
-Only include beliefs when the writer explicitly expresses an idea,
-assumption, rule or conclusion about themselves, other people or
-relationships.
+Only include a belief if the writer expresses it as their own view,
+conclusion, assumption or personal rule.
 
-Good:
+Examples:
 
 "I feel like I have to defend myself when I'm accused."
 
-This could become:
+could become:
 
-"Need to defend myself when accused"
+"Need to defend myself when accused."
+
+Another example:
+
+"I think my childhood has affected the way I behave now."
+
+could become:
+
+"Childhood experiences affect current behaviour."
+
+Do NOT convert observations into beliefs.
+
+Do NOT infer beliefs simply because they seem psychologically
+plausible.
 
 Do NOT turn ordinary statements into beliefs.
 
-Do NOT create philosophical statements such as:
+Do NOT create philosophical or psychological statements unless
+the writer has clearly expressed that idea themselves.
 
-"Childhood shapes self"
+If the writer has not clearly expressed a belief, return [].
 
-unless the writer explicitly expresses that belief.
-
-If the evidence is weak, return [].
+Keep beliefs concise and reusable rather than copying long sentences
+from the journal.
 
 
 OBSERVATIONS
@@ -575,13 +624,15 @@ Never use words such as:
 
 unless the writer explicitly uses them to describe themselves.
 
+Observations should describe what happened, not what it means.
+
 
 POSITIVE CHANGES
 
 Only identify positive change when the entry provides evidence of
 change, progress, learning or improvement.
 
-Do NOT label ordinary positive experiences as "growth".
+Do NOT label an ordinary positive experience as "growth".
 
 Good:
 
@@ -589,6 +640,14 @@ Good:
 
 "The writer recognised something about their behaviour that they had
 not previously noticed."
+
+"The writer described approaching a relationship conversation
+differently."
+
+Only identify a change when the entry provides evidence that something
+has changed, improved or been learned.
+
+Do not assume that a single positive event represents long-term growth.
 
 If there is no evidence of meaningful change, return [].
 
@@ -606,6 +665,7 @@ GENERAL RULES
 - If uncertain, leave the field empty.
 - Every field must exist.
 - Lists must contain only relevant information.
+- Keep extracted labels concise and reusable.
 - Return JSON only.
 - Do not use Markdown.
 - Do not use code fences.

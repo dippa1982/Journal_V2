@@ -20,9 +20,13 @@ from services.journal_helper import (get_all_entries,
     search_entries,
     )
 
+from models import Entry
+
 from constants.moods import MOODS
 
 from models.people import Person
+
+from services.entry_analysis_service import analyse_entry
 
 journal_bp = Blueprint(
     "journal",
@@ -144,3 +148,22 @@ def search():
         search_text=search_text,
         moods = MOODS
     )
+
+@journal_bp.route(
+    "/journal/<int:entry_id>/analyse"
+)
+@login_required
+def analyse_journal_entry(entry_id):
+
+    entry = Entry.query.filter_by(
+        id=entry_id,
+        user_id=current_user.id
+    ).first_or_404()
+
+    analysis = analyse_entry(entry)
+
+    return {
+        "message": "Entry analysed successfully.",
+        "entry_id": entry.id,
+        "analysis_id": analysis.id
+    }
