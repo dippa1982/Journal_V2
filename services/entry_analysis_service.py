@@ -205,4 +205,5 @@ def save_entry_analysis(entry, data):
 
     db.session.commit()
 
+    print(analysis)
     return analysis
