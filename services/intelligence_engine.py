@@ -168,7 +168,41 @@ def build_intelligence(user):
         reverse=True
     )
 
-    print(intelligence_report)
+
+    # ---------------------------------------------------------
+    # TOPICS
+    # ---------------------------------------------------------
+    
+    topic_data = {}
+
+    for analysis in analyses:
+        topics = load_json(analysis.topics)
+
+        for topic in topics:
+            if not isinstance(topic, str):
+                continue
+
+            topic = topic.strip()
+
+            if not topic:
+                continue
+
+            key = topic.lower()
+
+            if key not in topic_data:
+                topic_data[key] = {
+                    "topic": topic,
+                    "mentions": 0
+                }
+
+            topic_data[key]["mentions"] += 1
+
+    intelligence_report["topics"] = sorted(
+        topic_data.values(),
+        key=lambda x: x["mentions"],
+        reverse=True
+    )
+    
     return intelligence_report
 
     
