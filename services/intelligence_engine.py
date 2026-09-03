@@ -269,6 +269,39 @@ def build_intelligence(user):
         key=lambda x: x["mentions"],
         reverse=True
     )
+
+    # ---------------------------------------------------------
+    # POSITIVE CHANGES
+    # ---------------------------------------------------------
+    positive_change_data = {}
+
+    for analysis in analyses:
+        positive_changes = load_json(analysis.positive_changes)
+
+        for change in positive_changes:
+            if not isinstance(change, str):
+                continue
+
+            change = change.strip()
+
+            if not change:
+                continue
+
+            key = change.lower()
+
+            if key not in positive_change_data:
+                positive_change_data[key] = {
+                    "change": change,
+                    "mentions": 0
+                }
+
+            positive_change_data[key]["mentions"] += 1
+
+    intelligence_report["positive_changes"] = sorted(
+        positive_change_data.values(),
+        key=lambda x: x["mentions"],
+        reverse=True
+    )
     
     return intelligence_report
 

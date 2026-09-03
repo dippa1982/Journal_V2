@@ -398,14 +398,11 @@
                 {% if intelligence.positive_changes %}
 
                     {% for change in intelligence.positive_changes[:10] %}
-
-                        <div class="mb-3">
-
-                            <span>
-                                {{ change }}
-                            </span>
-
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <span>{{ change.change }}</span>
+                            <strong class="ms-3">{{ change.mentions }}</strong>
                         </div>
+                    {% endfor %}
 
                     {% endfor %}
 
