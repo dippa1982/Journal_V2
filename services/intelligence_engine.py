@@ -302,6 +302,219 @@ def build_intelligence(user):
         key=lambda x: x["mentions"],
         reverse=True
     )
+
+        # TRENDS
+    trends = []
+
+    if len(analyses) >= 4:
+
+        midpoint = len(analyses) // 2
+
+        earlier = analyses[:midpoint]
+        recent = analyses[midpoint:]
+
+        def count_items(analysis_list, field):
+            counts = {}
+
+            for analysis in analysis_list:
+                items = load_json(getattr(analysis, field))
+
+                for item in items:
+
+                    if isinstance(item, dict):
+                        name = item.get("name")
+                    else:
+                        name = item
+
+                    if not isinstance(name, str):
+                        continue
+
+                    name = name.strip()
+
+                    if not name:
+                        continue
+
+                    key = name.lower()
+
+                    counts[key] = counts.get(key, 0) + 1
+
+            return counts
+
+        # -------------------------------------------------
+        # EMOTION TRENDS
+        # -------------------------------------------------
+
+        earlier_emotions = {}
+        recent_emotions = {}
+
+        for analysis in earlier:
+            emotions = load_json(analysis.emotions)
+
+            for emotion in emotions:
+
+                if not isinstance(emotion, dict):
+                    continue
+
+                name = emotion.get("name")
+
+                if not name:
+                    continue
+
+                key = name.strip().lower()
+
+                intensity = emotion.get("intensity", 0)
+
+                try:
+                    intensity = int(intensity)
+                except (ValueError, TypeError):
+                    intensity = 0
+
+                if key not in earlier_emotions:
+                    earlier_emotions[key] = []
+
+                earlier_emotions[key].append(intensity)
+
+        for analysis in recent:
+            emotions = load_json(analysis.emotions)
+
+            for emotion in emotions:
+
+                if not isinstance(emotion, dict):
+                    continue
+
+                name = emotion.get("name")
+
+                if not name:
+                    continue
+
+                key = name.strip().lower()
+
+                intensity = emotion.get("intensity", 0)
+
+                try:
+                    intensity = int(intensity)
+                except (ValueError, TypeError):
+                    intensity = 0
+
+                if key not in recent_emotions:
+                    recent_emotions[key] = []
+
+                recent_emotions[key].append(intensity)
+
+        for emotion in set(earlier_emotions) | set(recent_emotions):
+
+            old_values = earlier_emotions.get(emotion, [])
+            new_values = recent_emotions.get(emotion, [])
+
+            if not old_values or not new_values:
+                continue
+
+            old_average = sum(old_values) / len(old_values)
+            new_average = sum(new_values) / len(new_values)
+
+            difference = new_average - old_average
+
+            if abs(difference) < 1:
+                continue
+
+            direction = "increased" if difference > 0 else "decreased"
+
+            trends.append({
+                "type": "emotion",
+                "name": emotion,
+                "direction": direction,
+                "change": round(difference, 1),
+                "message": (
+                    f"{emotion.title()} has {direction} "
+                    f"by {abs(difference):.1f} intensity points "
+                    f"in recent entries."
+                )
+            })
+
+        # -------------------------------------------------
+        # TOPIC TRENDS
+        # -------------------------------------------------
+
+        earlier_topics = count_items(earlier, "topics")
+        recent_topics = count_items(recent, "topics")
+
+        for topic in set(earlier_topics) | set(recent_topics):
+
+            old_count = earlier_topics.get(topic, 0)
+            new_count = recent_topics.get(topic, 0)
+
+            if old_count == 0 or new_count == 0:
+                continue
+
+            if new_count > old_count:
+                trends.append({
+                    "type": "topic",
+                    "name": topic,
+                    "direction": "increased",
+                    "change": new_count - old_count,
+                    "message": (
+                        f"{topic.title()} appears more frequently "
+                        f"in recent entries."
+                    )
+                })
+
+            elif new_count < old_count:
+                trends.append({
+                    "type": "topic",
+                    "name": topic,
+                    "direction": "decreased",
+                    "change": old_count - new_count,
+                    "message": (
+                        f"{topic.title()} appears less frequently "
+                        f"in recent entries."
+                    )
+                })
+
+        # -------------------------------------------------
+        # BEHAVIOUR TRENDS
+        # -------------------------------------------------
+
+        earlier_behaviours = count_items(earlier, "behaviours")
+        recent_behaviours = count_items(recent, "behaviours")
+
+        for behaviour in set(earlier_behaviours) | set(recent_behaviours):
+
+            old_count = earlier_behaviours.get(behaviour, 0)
+            new_count = recent_behaviours.get(behaviour, 0)
+
+            if old_count == 0 or new_count == 0:
+                continue
+
+            if new_count > old_count:
+                trends.append({
+                    "type": "behaviour",
+                    "name": behaviour,
+                    "direction": "increased",
+                    "change": new_count - old_count,
+                    "message": (
+                        f"'{behaviour}' appears more frequently "
+                        f"in recent entries."
+                    )
+                })
+
+            elif new_count < old_count:
+                trends.append({
+                    "type": "behaviour",
+                    "name": behaviour,
+                    "direction": "decreased",
+                    "change": old_count - new_count,
+                    "message": (
+                        f"'{behaviour}' appears less frequently "
+                        f"in recent entries."
+                    )
+                })
+
+        trends.sort(
+            key=lambda x: abs(x["change"]),
+            reverse=True
+        )
+
+    intelligence_report["trends"] = trends
     
     return intelligence_report
 

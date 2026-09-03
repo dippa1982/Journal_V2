@@ -439,12 +439,18 @@
 
                 {% if intelligence.trends %}
 
-                    {% for trend in intelligence.trends %}
+                    {% for trend in intelligence.trends[:10] %}
 
-                        <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
 
                             <span>
-                                {{ trend }}
+                                {% if trend.direction == "increased" %}
+                                    📈
+                                {% else %}
+                                    📉
+                                {% endif %}
+
+                                {{ trend.message }}
                             </span>
 
                         </div>
