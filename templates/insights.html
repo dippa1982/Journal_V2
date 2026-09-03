@@ -358,15 +358,10 @@
                 {% if intelligence.beliefs %}
 
                     {% for belief in intelligence.beliefs[:10] %}
-
-                        <div class="mb-3">
-
-                            <span>
-                                {{ belief }}
-                            </span>
-
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <span>{{ belief.belief }}</span>
+                            <strong class="ms-3">{{ belief.mentions }}</strong>
                         </div>
-
                     {% endfor %}
 
                 {% else %}

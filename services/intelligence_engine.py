@@ -236,6 +236,39 @@ def build_intelligence(user):
         key=lambda x: x["mentions"],
         reverse=True
     )
+
+    # ---------------------------------------------------------
+    # BELIEFS
+    # ---------------------------------------------------------
+    belief_data = {}
+
+    for analysis in analyses:
+        beliefs = load_json(analysis.beliefs)
+
+        for belief in beliefs:
+            if not isinstance(belief, str):
+                continue
+
+            belief = belief.strip()
+
+            if not belief:
+                continue
+
+            key = belief.lower()
+
+            if key not in belief_data:
+                belief_data[key] = {
+                    "belief": belief,
+                    "mentions": 0
+                }
+
+            belief_data[key]["mentions"] += 1
+
+    intelligence_report["beliefs"] = sorted(
+        belief_data.values(),
+        key=lambda x: x["mentions"],
+        reverse=True
+    )
     
     return intelligence_report
 
