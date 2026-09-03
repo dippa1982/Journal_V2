@@ -85,6 +85,90 @@ def build_intelligence(user):
             emotion_data[name]["intensities"].append(intensity)
 
     for emotion in emotion_data.values():
-        pass
+
+        mentions = emotion["mentions"]
+        average_intensity = emotion["total_intensity"] / mentions if mentions else 0
+        intelligence_report["emotions"].append({
+            "name": emotion["name"],
+            "mentions": mentions,
+            "average_intensity": round(average_intensity, 1)
+        })
+
+    intelligence_report["emotions"].sort(key=lambda x: x["mentions"], reverse=True)
+
+    # ---------------------------------------------------------
+    # TRIGGERS
+    # ---------------------------------------------------------
+
+    trigger_data = {}
+
+    for analysis in analyses:
+
+        triggers = load_json(analysis.triggers)
+
+        for trigger in triggers:
+
+            if not isinstance(trigger, str):
+                continue
+
+            trigger = trigger.strip()
+
+            if not trigger:
+                continue
+
+            key = trigger.lower()
+
+            if key not in trigger_data:
+                trigger_data[key] = {
+                    "trigger": trigger,
+                    "mentions": 0,
+                }
+
+            trigger_data[key]["mentions"] += 1
+
+    intelligence_report["triggers"] = sorted(
+        trigger_data.values(),
+        key=lambda x: x["mentions"],
+        reverse=True
+    )
+
+    # ---------------------------------------------------------
+    # BEHAVIOURS
+    # ---------------------------------------------------------
+
+    behaviour_data = {}
+
+    for analysis in analyses:
+
+        behaviours = load_json(analysis.behaviours)
+
+        for behaviour in behaviours:
+
+            if not isinstance(behaviour, str):
+                continue
+
+            behaviour = behaviour.strip()
+
+            if not behaviour:
+                continue
+
+            key = behaviour.lower()
+
+            if key not in behaviour_data:
+                behaviour_data[key] = {
+                    "behaviour": behaviour,
+                    "mentions": 0,
+                }
+
+            behaviour_data[key]["mentions"] += 1
+
+    intelligence_report["behaviours"] = sorted(
+        behaviour_data.values(),
+        key=lambda x: x["mentions"],
+        reverse=True
+    )
+
+    print(intelligence_report)
+    return intelligence_report
 
     

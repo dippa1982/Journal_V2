@@ -5,8 +5,6 @@ from google import genai
 
 
 MODEL_NAME = "gemini-2.5-flash"
-
-
 def get_client():
 
     api_key = os.getenv("GEMINI_API_KEY")

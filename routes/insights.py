@@ -8,6 +8,8 @@ from flask_login import (
     current_user
 )
 
+from services.intelligence_engine import build_intelligence
+
 from services.insights_helper import get_insights
 
 from constants.moods import MOODS
@@ -22,8 +24,11 @@ def insights():
 
     insights = get_insights(current_user)
 
+    intelligence = build_intelligence(current_user)
+
     return render_template(
         "insights.html",
         moods = MOODS,
+        intelligence = intelligence,
         **insights
     )
