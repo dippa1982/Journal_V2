@@ -15,4 +15,5 @@ MOODS = {
     14: {"name": "Peaceful", "emoji": "😌", "score": 8},
     15: {"name": "Proud", "emoji": "🤩", "score": 10},
     16: {"name": "Reflective", "emoji": "🤔", "score": 7},
+    17: {"name": "Tired", "emoji": "😴", "score": 3}
 }

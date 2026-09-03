@@ -202,6 +202,40 @@ def build_intelligence(user):
         key=lambda x: x["mentions"],
         reverse=True
     )
+
+    # ---------------------------------------------------------
+    # NEEDS
+    # ---------------------------------------------------------
+
+    need_data = {}
+
+    for analysis in analyses:
+        needs = load_json(analysis.needs)
+
+        for need in needs:
+            if not isinstance(need, str):
+                continue
+
+            need = need.strip()
+
+            if not need:
+                continue
+
+            key = need.lower()
+
+            if key not in need_data:
+                need_data[key] = {
+                    "need": need,
+                    "mentions": 0
+                }
+
+            need_data[key]["mentions"] += 1
+
+    intelligence_report["needs"] = sorted(
+        need_data.values(),
+        key=lambda x: x["mentions"],
+        reverse=True
+    )
     
     return intelligence_report
 

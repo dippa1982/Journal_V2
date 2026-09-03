@@ -325,12 +325,9 @@
 
                     {% for need in intelligence.needs[:10] %}
 
-                        <div class="mb-3">
-
-                            <span>
-                                {{ need }}
-                            </span>
-
+                         <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span>{{ need.need }}</span>
+                            <strong>{{ need.mentions }}</strong>
                         </div>
 
                     {% endfor %}
