@@ -558,7 +558,14 @@ def build_intelligence(user):
 
         trigger["mentions"] = len(trigger["entry_ids"])
 
-        del trigger["entry_ids"]
+    print("\nALL TRIGGERS WITH ENTRY IDS:")
+
+    for key, trigger in trigger_data.items():
+        print(
+            trigger["trigger"],
+            "->",
+            trigger["entry_ids"]
+        )
 
     recurring_triggers = [
     trigger
