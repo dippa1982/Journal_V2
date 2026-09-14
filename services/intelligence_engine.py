@@ -554,39 +554,26 @@ def build_intelligence(user):
             trigger_data[key]["entry_ids"].add(
                 analysis.entry_id
             )
+
     for trigger in trigger_data.values():
 
         trigger["mentions"] = len(trigger["entry_ids"])
 
-    print("\nALL TRIGGERS WITH ENTRY IDS:")
+    all_triggers = set()
 
-    for key, trigger in trigger_data.items():
-        print(
-            trigger["trigger"],
-            "->",
-            trigger["entry_ids"]
-        )
+    for analysis in analyses:
+        triggers = load_json(analysis.triggers)
 
-    recurring_triggers = [
-    trigger
-    for trigger in trigger_data.values()
-    if trigger["mentions"] >= 2
-    ]
+        for trigger in triggers:
+            trigger_name = str(trigger).strip()
 
-    recurring_triggers.sort(
-        key=lambda x: x["mentions"],
-        reverse=True
-    )
+            if trigger_name:
+                all_triggers.add(trigger_name.lower())
 
-    print("\nRECURRING TRIGGERS:")
+    print("\nUNIQUE RAW TRIGGERS:", len(all_triggers))
 
-    for trigger in recurring_triggers:
-        print(
-            trigger["trigger"],
-            "->",
-            trigger["mentions"],
-            "entries"
-        )
+    for trigger in sorted(all_triggers):
+        print("-", trigger)
 
     return intelligence_report
 
