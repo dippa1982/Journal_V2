@@ -606,7 +606,9 @@ def build_intelligence(user):
 
     for item in normalised:
         print(
-            f"{item['raw']} -> {item['normalised']}"
+            f"""{item['raw']} 
+            {item['normalised']}
+            {item['confidence']}"""
         )
 
     return intelligence_report
