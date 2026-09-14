@@ -46,6 +46,23 @@ But:
 
 must remain separate.
 
+Confidence must be one of:
+
+"high" - the raw triggers clearly describe the same underlying event
+or situation.
+
+"medium" - the relationship is reasonably clear but there is some
+uncertainty.
+
+"low" - the relationship is questionable or based mainly on similarity.
+
+If a trigger is not being merged with another trigger, use "high"
+for its own normalised form.
+
+Do not use confidence to express psychological certainty.
+It only describes how confident you are that the raw trigger and
+normalised trigger represent the same underlying event or situation.
+
 Return ONLY valid JSON.
 
 Format:
@@ -54,6 +71,7 @@ Format:
     {{
         "raw": "original trigger",
         "normalised": "normalised trigger"
+        "confidence":"high"
     }}
 ]
 
