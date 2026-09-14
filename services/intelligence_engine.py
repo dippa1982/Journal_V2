@@ -6,6 +6,8 @@ from services.trigger_normalisation_service import build_normalised_triggers
 
 from services.trigger_normaliser import normalise_triggers
 
+from services.trigger_recurrence import build_trigger_recurrence
+
 def load_json(value):
 
     
@@ -598,9 +600,13 @@ def build_intelligence(user):
     "topics discussed in therapy session",
     ]
 
-    normalised = normalise_triggers(test_triggers)
-
     normalised_triggers = build_normalised_triggers(analyses)
+
+    recurring_triggers = build_trigger_recurrence(normalised_triggers)
+
+    print("\nRECURRING TRIGGERS:")
+    for trigger in recurring_triggers:
+        print(trigger)
 
     print("\nNORMALISED TRIGGER COUNT:")
     print(len(normalised_triggers))
