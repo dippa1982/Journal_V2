@@ -566,18 +566,38 @@ def build_intelligence(user):
         relationship["mentions"] = len(relationship["entry_ids"])
         del relationship["entry_ids"]
 
-    recurring_trigger_emotions = [
-        relationship
-        for relationship in trigger_emotion_data.values()
-        if relationship["mentions"] >= 2
+    trigger_data = {}
+
+    for relationship in trigger_emotion_data.values():
+
+        trigger = relationship["trigger"]
+        mentions = relationship["mentions"]
+
+        key = trigger.lower()
+
+        if key not in trigger_data:
+            trigger_data[key] = {
+                "trigger": trigger,
+                "mentions": 0,
+                "emotions": []
+            }
+
+        if mentions > 0:
+            trigger_data[key]["mentions"] += mentions
+
+            if relationship["emotion"] not in trigger_data[key]["emotions"]:
+                trigger_data[key]["emotions"].append(
+                    relationship["emotion"]
+                )
+
+    recurring_triggers = [
+    trigger
+    for trigger in trigger_data.values()
+    if trigger["mentions"] >= 2
     ]
 
-    #print("Trigger -> Emotion Relationships:")
-    #print(recurring_trigger_emotions)
-
-    print("\nALL TRIGGERS:")
-    for relationship in trigger_emotion_data.values():
-        print("-", relationship["trigger"])
+    print("\nRECURRING TRIGGERS:")
+    print(recurring_triggers)
 
     return intelligence_report
 
