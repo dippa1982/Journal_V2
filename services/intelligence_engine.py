@@ -2,8 +2,13 @@ import json
 
 from models import Entry, EntryAnalysis
 
+from services.trigger_normalisation_service import build_normalised_triggers
+
+from services.trigger_normaliser import normalise_triggers
+
 def load_json(value):
 
+    
     if not value:
         return []
 
@@ -570,13 +575,6 @@ def build_intelligence(user):
             if trigger_name:
                 all_triggers.add(trigger_name.lower())
 
-    print("\nUNIQUE RAW TRIGGERS:", len(all_triggers))
-
-    for trigger in sorted(all_triggers):
-        print("-", trigger)
-
-    from services.trigger_normaliser import normalise_triggers
-
     test_triggers = [
     "Nicola grabbed my arm",
     "being grabbed",
@@ -602,15 +600,14 @@ def build_intelligence(user):
 
     normalised = normalise_triggers(test_triggers)
 
-    print("\nNORMALISED TRIGGERS:")
+    normalised_triggers = build_normalised_triggers(analyses)
 
-    for item in normalised:
-        print(
-            f"""{item['raw']} 
-            {item['normalised']}
-            {item['confidence']}"""
-        )
+    print("\nNORMALISED TRIGGER COUNT:")
+    print(len(normalised_triggers))
+
+    print("\nNORMALISED TRIGGER RECORDS:")
+
+    for record in normalised_triggers[:20]:
+        print(record)
 
     return intelligence_report
-
-    
