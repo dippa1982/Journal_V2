@@ -520,84 +520,67 @@ def build_intelligence(user):
         # TRIGGER -> EMOTION RELATIONSHIPS
         # -------------------------------------------------
     
-    trigger_emotion_data = {}
+    trigger_data = {}
 
     for analysis in analyses:
 
         triggers = load_json(analysis.triggers)
         emotions = load_json(analysis.emotions)
 
+        if not triggers:
+            continue
+
         for trigger in triggers:
 
-            if not isinstance(trigger, str):
+            trigger_name = str(trigger).strip()
+
+            if not trigger_name:
                 continue
 
-            trigger = trigger.strip()
+            key = trigger_name.lower()
 
-            if not trigger:
-                continue
+            if key not in trigger_data:
+                trigger_data[key] = {
+                    "trigger": trigger_name,
+                    "entry_ids": set(),
+                    "emotions": set()
+                }
+
+            trigger_data[key]["entry_ids"].add(analysis.entry_id)
 
             for emotion in emotions:
 
-                if not isinstance(emotion, dict):
-                    continue
+                if isinstance(emotion, dict):
+                    emotion_name = emotion.get("name")
+                else:
+                    emotion_name = emotion
 
-                emotion_name = emotion.get("name")
+                if emotion_name:
+                    trigger_data[key]["emotions"].add(
+                        str(emotion_name).strip()
+                    )
 
-                if not emotion_name:
-                    continue
+    for trigger in trigger_data.values():
 
-                key = (
-                    trigger.lower(),
-                    emotion_name.lower()
-                )
+        trigger["mentions"] = len(trigger["entry_ids"])
+        trigger["emotions"] = sorted(trigger["emotions"])
 
-                if key not in trigger_emotion_data:
-                    trigger_emotion_data[key] = {
-                        "trigger": trigger,
-                        "emotion": emotion_name,
-                        "mentions": 0,
-                        "entry_ids": set()
-                    }
-
-                trigger_emotion_data[key]["entry_ids"].add(analysis.entry_id)
-
-    for relationship in trigger_emotion_data.values():
-        relationship["mentions"] = len(relationship["entry_ids"])
-        del relationship["entry_ids"]
-
-    trigger_data = {}
-
-    for relationship in trigger_emotion_data.values():
-
-        trigger = relationship["trigger"]
-        mentions = relationship["mentions"]
-
-        key = trigger.lower()
-
-        if key not in trigger_data:
-            trigger_data[key] = {
-                "trigger": trigger,
-                "mentions": 0,
-                "emotions": []
-            }
-
-        if mentions > 0:
-            trigger_data[key]["mentions"] += mentions
-
-            if relationship["emotion"] not in trigger_data[key]["emotions"]:
-                trigger_data[key]["emotions"].append(
-                    relationship["emotion"]
-                )
+        del trigger["entry_ids"]
 
     recurring_triggers = [
     trigger
     for trigger in trigger_data.values()
     if trigger["mentions"] >= 2
-    ]
+]
+
+    recurring_triggers.sort(
+        key=lambda x: x["mentions"],
+        reverse=True
+    )
 
     print("\nRECURRING TRIGGERS:")
-    print(recurring_triggers)
+    for trigger in recurring_triggers:
+        print(trigger)
 
     return intelligence_report
 
