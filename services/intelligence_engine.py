@@ -578,9 +578,19 @@ def build_intelligence(user):
         reverse=True
     )
 
-    print("\nRECURRING TRIGGERS:")
-    for trigger in recurring_triggers:
-        print(trigger)
+    print("\nTRIGGER DATA:")
+    print(trigger_data)
+
+    print("\nNUMBER OF TRIGGERS:")
+    print(len(trigger_data))
+
+    for key, trigger in trigger_data.items():
+        print(
+            trigger["trigger"],
+            "->",
+            len(trigger["entry_ids"]),
+            "entries"
+        )
 
     return intelligence_report
 
