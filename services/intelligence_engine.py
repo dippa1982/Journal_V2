@@ -566,8 +566,14 @@ def build_intelligence(user):
         relationship["mentions"] = len(relationship["entry_ids"])
         del relationship["entry_ids"]
 
+    recurring_trigger_emotions = [
+        relationship
+        for relationship in trigger_emotion_data.values()
+        if relationship["mentions"] >= 2
+    ]
+
     print("Trigger -> Emotion Relationships:")
-    print(trigger_emotion_data)
+    print(recurring_trigger_emotions)
 
     return intelligence_report
 
