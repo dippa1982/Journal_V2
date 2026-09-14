@@ -577,7 +577,28 @@ def build_intelligence(user):
 
     from services.trigger_normaliser import normalise_triggers
 
-    test_triggers = sorted(all_triggers)[:20]
+    test_triggers = [
+    "Nicola grabbed my arm",
+    "being grabbed",
+    "Nicola walking away and threatening to go home",
+    "fear of losing Nic",
+    "Nicola accusing the writer of lying",
+    "Nic accusing the writer of emotional blackmail",
+    "Nicola's accusations during a conversation",
+    "Nicola's disbelief",
+    "taking Max to university",
+    "leaving Max at university",
+    "the journey home alone",
+    "Max growing up",
+    "the house feeling quieter",
+    "discussion about childhood",
+    "discussion about the relationship with mum",
+    "discussion about dad's role in childhood",
+    "homework assignment involving questions for mum",
+    "discussion of issues with Nicola in therapy",
+    "therapy session discussing childhood and relationship with mum",
+    "topics discussed in therapy session",
+    ]
 
     normalised = normalise_triggers(test_triggers)
 
