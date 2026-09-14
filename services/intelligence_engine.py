@@ -524,21 +524,12 @@ def build_intelligence(user):
 
     for analysis in analyses:
 
-        print("\nANALYSES FOUND:", len(analyses))
-
-    for analysis in analyses:
-        print(
-            "Entry ID:",
-            analysis.entry_id,
-            "| Triggers:",
-            load_json(analysis.triggers)
-        )
-
         triggers = load_json(analysis.triggers)
-        emotions = load_json(analysis.emotions)
 
         if not triggers:
             continue
+
+        seen_triggers = set()
 
         for trigger in triggers:
 
@@ -549,31 +540,23 @@ def build_intelligence(user):
 
             key = trigger_name.lower()
 
+            if key in seen_triggers:
+                continue
+
+            seen_triggers.add(key)
+
             if key not in trigger_data:
                 trigger_data[key] = {
                     "trigger": trigger_name,
-                    "entry_ids": set(),
-                    "emotions": set()
+                    "entry_ids": set()
                 }
 
-            trigger_data[key]["entry_ids"].add(analysis.entry_id)
-
-            for emotion in emotions:
-
-                if isinstance(emotion, dict):
-                    emotion_name = emotion.get("name")
-                else:
-                    emotion_name = emotion
-
-                if emotion_name:
-                    trigger_data[key]["emotions"].add(
-                        str(emotion_name).strip()
-                    )
-
+            trigger_data[key]["entry_ids"].add(
+                analysis.entry_id
+            )
     for trigger in trigger_data.values():
 
         trigger["mentions"] = len(trigger["entry_ids"])
-        trigger["emotions"] = sorted(trigger["emotions"])
 
         del trigger["entry_ids"]
 
@@ -581,12 +564,22 @@ def build_intelligence(user):
     trigger
     for trigger in trigger_data.values()
     if trigger["mentions"] >= 2
-]
+    ]
 
     recurring_triggers.sort(
         key=lambda x: x["mentions"],
         reverse=True
     )
+
+    print("\nRECURRING TRIGGERS:")
+
+    for trigger in recurring_triggers:
+        print(
+            trigger["trigger"],
+            "->",
+            trigger["mentions"],
+            "entries"
+        )
 
     return intelligence_report
 
