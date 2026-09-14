@@ -588,7 +588,7 @@ def build_intelligence(user):
         print(
             trigger["trigger"],
             "->",
-            len(trigger["entry_ids"]),
+            len(trigger["mentions"]),
             "entries"
         )
 
