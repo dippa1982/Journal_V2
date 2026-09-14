@@ -575,6 +575,19 @@ def build_intelligence(user):
     for trigger in sorted(all_triggers):
         print("-", trigger)
 
+    from services.trigger_normaliser import normalise_triggers
+
+    test_triggers = sorted(all_triggers)[:20]
+
+    normalised = normalise_triggers(test_triggers)
+
+    print("\nNORMALISED TRIGGERS:")
+
+    for item in normalised:
+        print(
+            f"{item['raw']} -> {item['normalised']}"
+        )
+
     return intelligence_report
 
     
