@@ -12,6 +12,8 @@ from extensions import (
     migrate
 )
 
+from livereload import Server
+
 # Blueprints
 from routes.auth import auth_bp
 from routes.dashboard import dashboard_bp
@@ -106,3 +108,7 @@ with app.app_context():
 if __name__ == "__main__":
 
     app.run(debug=True)
+    server = Server()
+    server.watch('templates/')
+    server.watch('static/')
+    server.serve()

@@ -515,7 +515,54 @@ def build_intelligence(user):
         )
 
     intelligence_report["trends"] = trends
+
+        # -------------------------------------------------
+        # TRIGGER -> EMOTION RELATIONSHIPS
+        # -------------------------------------------------
     
+    trigger_emotion_data = {}
+
+    for analysis in analyses:
+
+        triggers = load_json(analysis.triggers)
+        emotions = load_json(analysis.emotions)
+
+        for trigger in triggers:
+
+            if not isinstance(trigger, str):
+                continue
+
+            trigger = trigger.strip()
+
+            if not trigger:
+                continue
+
+            for emotion in emotions:
+
+                if not isinstance(emotion, dict):
+                    continue
+
+                emotion_name = emotion.get("name")
+
+                if not emotion_name:
+                    continue
+
+                key = (
+                    trigger.lower(),
+                    emotion_name.lower()
+                )
+
+                if key not in trigger_emotion_data:
+                    trigger_emotion_data[key] = {
+                        "trigger": trigger,
+                        "emotion": emotion_name,
+                        "mentions": 0
+                    }
+
+                trigger_emotion_data[key]["mentions"] += 1
+                print("Trigger Emotional data")
+                print(trigger_emotion_data)
+
     return intelligence_report
 
     
