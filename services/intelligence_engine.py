@@ -524,6 +524,16 @@ def build_intelligence(user):
 
     for analysis in analyses:
 
+        print("\nANALYSES FOUND:", len(analyses))
+
+    for analysis in analyses:
+        print(
+            "Entry ID:",
+            analysis.entry_id,
+            "| Triggers:",
+            load_json(analysis.triggers)
+        )
+
         triggers = load_json(analysis.triggers)
         emotions = load_json(analysis.emotions)
 
@@ -577,20 +587,6 @@ def build_intelligence(user):
         key=lambda x: x["mentions"],
         reverse=True
     )
-
-    print("\nTRIGGER DATA:")
-    print(trigger_data)
-
-    print("\nNUMBER OF TRIGGERS:")
-    print(len(trigger_data))
-
-    for key, trigger in trigger_data.items():
-        print(
-            trigger["trigger"],
-            "->",
-            trigger["mentions"],
-            "entries"
-        )
 
     return intelligence_report
 
