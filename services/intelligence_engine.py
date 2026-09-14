@@ -556,12 +556,18 @@ def build_intelligence(user):
                     trigger_emotion_data[key] = {
                         "trigger": trigger,
                         "emotion": emotion_name,
-                        "mentions": 0
+                        "mentions": 0,
+                        "entry_ids": set()
                     }
 
-                trigger_emotion_data[key]["mentions"] += 1
+                trigger_emotion_data[key]["entry_ids"].add(analysis.entry_id)
                 print("Trigger Emotional data")
                 print(trigger_emotion_data)
+
+    for relationship in trigger_emotion_data.values():
+        relationship["mentions"] = len(relationship["entry_ids"])
+        del relationship["entry_ids"]
+    
 
     return intelligence_report
 
