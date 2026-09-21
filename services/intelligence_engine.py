@@ -8,6 +8,10 @@ from services.trigger_normaliser import normalise_triggers
 
 from services.trigger_recurrence import build_trigger_recurrence
 
+from services.trigger_emotion_recurrance import (
+    build_trigger_emotion_recurrence
+)
+
 def load_json(value):
 
     
@@ -602,18 +606,16 @@ def build_intelligence(user):
 
     normalised_triggers = build_normalised_triggers(analyses)
 
-    recurring_triggers = build_trigger_recurrence(normalised_triggers)
+    recurrence = build_trigger_recurrence(normalised_triggers)
 
-    print("\nRECURRING TRIGGERS:")
-    for trigger in recurring_triggers:
-        print(trigger)
+    trigger_emotions = build_trigger_emotion_recurrence(
+    normalised_triggers,
+    analyses
+    )
 
-    print("\nNORMALISED TRIGGER COUNT:")
-    print(len(normalised_triggers))
+    print("\nRECURRING TRIGGER → EMOTION RELATIONSHIPS:")
 
-    print("\nNORMALISED TRIGGER RECORDS:")
-
-    for record in normalised_triggers[:20]:
-        print(record)
+    for relationship in trigger_emotions:
+        print(relationship)
 
     return intelligence_report

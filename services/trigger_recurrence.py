@@ -27,21 +27,31 @@ def build_trigger_recurrence(normalised_records):
         if raw:
             trigger_data[key]["raw_triggers"].add(raw)
 
-    recurring_triggers = []
+    all_triggers = []
 
     for key, data in trigger_data.items():
 
         entry_count = len(data["entries"])
 
-        recurring_triggers.append({
+        all_triggers.append({
             "trigger": key,
             "mentions": entry_count,
+            "entry_ids": sorted(data["entries"]),
             "raw_triggers": sorted(data["raw_triggers"])
         })
 
-    recurring_triggers.sort(
+    all_triggers.sort(
         key=lambda item: item["mentions"],
         reverse=True
     )
 
-    return recurring_triggers
+    recurring_triggers = [
+        trigger
+        for trigger in all_triggers
+        if trigger["mentions"] >= 2
+    ]
+
+    return {
+        "all": all_triggers,
+        "recurring": recurring_triggers
+    }
