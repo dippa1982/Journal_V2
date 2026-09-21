@@ -12,6 +12,8 @@ from services.trigger_emotion_recurrance import (
     build_trigger_emotion_recurrence
 )
 
+from services.pattern_evidence import build_pattern_evidence
+
 def load_json(value):
 
     
@@ -540,9 +542,13 @@ def build_intelligence(user):
     analyses
     )
 
-    print("\nRECURRING TRIGGER → EMOTION RELATIONSHIPS:")
+    pattern_evidence = build_pattern_evidence(
+    trigger_emotions
+)
 
-    for relationship in trigger_emotions:
-        print(relationship)
+    print("\nPATTERN EVIDENCE:")
+
+    for pattern in pattern_evidence:
+        print(pattern)
 
     return intelligence_report
