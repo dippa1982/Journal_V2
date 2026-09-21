@@ -26,13 +26,13 @@ def build_trigger_emotion_recurrence(
 
     # ---------------------------------------------------------
     # STEP 1
-    # Identify which triggers are actually recurring
-    # across different journal entries.
+    # Find triggers that occur across multiple entries.
     # ---------------------------------------------------------
 
     trigger_entries = defaultdict(set)
 
     for record in normalised_records:
+
         trigger = record.get("normalised")
         entry_id = record.get("entry_id")
 
@@ -40,6 +40,7 @@ def build_trigger_emotion_recurrence(
             continue
 
         trigger_key = trigger.strip().lower()
+
         trigger_entries[trigger_key].add(entry_id)
 
     recurring_triggers = {
@@ -50,12 +51,13 @@ def build_trigger_emotion_recurrence(
 
     # ---------------------------------------------------------
     # STEP 2
-    # Build a lookup of emotions for each journal entry.
+    # Build emotion lookup by entry.
     # ---------------------------------------------------------
 
     emotions_by_entry = {}
 
     for analysis in analyses:
+
         emotions = load_json(analysis.emotions)
 
         emotion_names = []
@@ -64,7 +66,6 @@ def build_trigger_emotion_recurrence(
 
             if isinstance(emotion, dict):
                 name = emotion.get("name")
-
             else:
                 name = emotion
 
@@ -80,11 +81,10 @@ def build_trigger_emotion_recurrence(
 
     # ---------------------------------------------------------
     # STEP 3
-    # Connect recurring triggers to emotions
-    # found in the same entries.
+    # Build trigger → emotion relationships.
     # ---------------------------------------------------------
 
-    relationships = defaultdict(lambda: {
+    relationship_data = defaultdict(lambda: {
         "entries": set()
     })
 
@@ -103,33 +103,66 @@ def build_trigger_emotion_recurrence(
 
         emotions = emotions_by_entry.get(entry_id, [])
 
+        # Prevent duplicate emotion names within one entry
+        seen_emotions = set()
+
         for emotion in emotions:
 
-            emotion_key = emotion.lower()
+            emotion_key = emotion.strip().lower()
 
-            relationship_key = (
-                trigger_key,
-                emotion_key
-            )
+            if not emotion_key:
+                continue
 
-            relationships[relationship_key]["entries"].add(
-                entry_id
-            )
+            if emotion_key in seen_emotions:
+                continue
 
-    results = []
+            seen_emotions.add(emotion_key)
 
-    for (trigger, emotion), data in relationships.items():
+            relationship_data[
+                (trigger_key, emotion_key)
+            ]["entries"].add(entry_id)
 
-        results.append({
-            "trigger": trigger,
+    # ---------------------------------------------------------
+    # STEP 4
+    # Group emotions underneath each trigger.
+    # ---------------------------------------------------------
+
+    grouped = defaultdict(list)
+
+    for (trigger, emotion), data in relationship_data.items():
+
+        grouped[trigger].append({
             "emotion": emotion,
             "mentions": len(data["entries"]),
             "entry_ids": sorted(data["entries"])
         })
 
-    # Most frequently recurring relationships first.
+    # ---------------------------------------------------------
+    # STEP 5
+    # Build final structure.
+    # ---------------------------------------------------------
+
+    results = []
+
+    for trigger in recurring_triggers:
+
+        emotions = grouped.get(trigger, [])
+
+        emotions.sort(
+            key=lambda item: item["mentions"],
+            reverse=True
+        )
+
+        results.append({
+            "trigger": trigger,
+            "trigger_mentions": len(
+                trigger_entries[trigger]
+            ),
+            "emotions": emotions
+        })
+
     results.sort(
-        key=lambda item: item["mentions"],
+        key=lambda item: item["trigger_mentions"],
         reverse=True
     )
 
