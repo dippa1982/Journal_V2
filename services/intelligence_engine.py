@@ -542,6 +542,10 @@ def build_intelligence(user):
     analyses
     )
 
+    print("\nRECURRING TRIGGERS:")
+    for trigger in recurrence["recurring"]:
+        print(trigger)
+
     pattern_evidence = build_pattern_evidence(
     trigger_emotions
 )
