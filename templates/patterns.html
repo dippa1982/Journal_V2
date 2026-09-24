@@ -163,6 +163,46 @@
                     >
                 </div>
 
+                <div class="emotion-summary">
+
+                    <h4>📊 Most Frequent Emotions</h4>
+
+                    <div class="emotion-summary-list">
+
+                        {% for item in emotion_history.summary %}
+
+                            <div class="emotion-summary-item">
+
+                                <div class="emotion-summary-name">
+                                    {{ item.emotion|title }}
+                                </div>
+
+                                <div class="emotion-summary-bar-container">
+
+                                    <div
+                                        class="emotion-summary-bar"
+                                        style="width: {{ (item.count / emotion_history.summary[0].count * 100)|round(0) }}%;"
+                                    ></div>
+
+                                </div>
+
+                                <div class="emotion-summary-count">
+                                    {{ item.count }}
+                                    {% if item.count == 1 %}
+                                        entry
+                                    {% else %}
+                                        entries
+                                    {% endif %}
+                                </div>
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
             {% else %}
 
                 <p class="text-muted">
