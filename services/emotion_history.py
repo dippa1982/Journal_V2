@@ -97,12 +97,34 @@ def build_emotion_history():
         df["emotion"].isin(top_emotions)
     ]
 
+        # ---------------------------------------------------------
+    # Build daily emotion counts
+    # ---------------------------------------------------------
+
     history = (
         df.groupby(["date", "emotion"])
         .size()
         .unstack(fill_value=0)
         .sort_index()
     )
+
+    # ---------------------------------------------------------
+    # Calculate a 7-day rolling frequency
+    # ---------------------------------------------------------
+
+    history.index = pd.to_datetime(history.index)
+
+    history = history.asfreq("D", fill_value=0)
+
+    rolling_history = (
+        history
+        .rolling("7D")
+        .sum()
+    )
+
+    # ---------------------------------------------------------
+    # Create output directory
+    # ---------------------------------------------------------
 
     output_dir = os.path.join(
         current_app.static_folder,
@@ -123,27 +145,46 @@ def build_emotion_history():
         filename
     )
 
+    # ---------------------------------------------------------
+    # Create chart
+    # ---------------------------------------------------------
+
     plt.figure(figsize=(12, 5))
 
-    for emotion in history.columns:
+    for emotion in rolling_history.columns:
+
         plt.plot(
-            history.index,
-            history[emotion],
-            marker="o",
+            rolling_history.index,
+            rolling_history[emotion],
             linewidth=2,
             label=emotion.title()
         )
 
-    plt.title("Emotion History")
+    plt.title(
+        "Emotion History — 7 Day Rolling Frequency",
+        fontsize=16,
+        pad=15
+    )
+
     plt.xlabel("Date")
-    plt.ylabel("Entries")
+
+    plt.ylabel(
+        "Occurrences in Previous 7 Days"
+    )
+
+    plt.grid(
+        alpha=0.15
+    )
 
     plt.legend(
         loc="upper left",
-        bbox_to_anchor=(1, 1)
+        bbox_to_anchor=(1, 1),
+        frameon=True
     )
 
-    plt.xticks(rotation=45)
+    plt.xticks(
+        rotation=45
+    )
 
     plt.tight_layout()
 
