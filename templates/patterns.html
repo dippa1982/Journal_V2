@@ -24,6 +24,115 @@
 
     </div>
 
+    <!-- ========================= -->
+    <!-- Detected Patterns -->
+    <!-- ========================= -->
+
+    <div class="pattern-card">
+
+        <div class="pattern-card-header">
+
+            <h3>🔁 Detected Patterns</h3>
+
+        </div>
+
+        <div class="pattern-card-body">
+
+            {% if patterns %}
+
+                {% for pattern in patterns %}
+
+                    <div class="detected-pattern">
+
+                        <!-- Pattern type -->
+
+                        <div class="detected-pattern-type">
+
+                            Repeated emotional association
+
+                        </div>
+
+
+                        <!-- Trigger -->
+
+                        <div class="detected-pattern-trigger">
+
+                            <strong>
+                                {{ pattern.trigger }}
+                            </strong>
+
+                        </div>
+
+
+                        <!-- Emotions -->
+
+                        <div class="detected-pattern-emotions">
+
+                            <div class="detected-emotion">
+
+                                <strong>
+                                    {{ pattern.emotion }}
+                                </strong>
+
+                                <span class="text-muted">
+                                    {{ pattern.entry_count }}
+                                    entries
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Evidence -->
+
+                        <div class="detected-pattern-evidence">
+
+                            <span class="text-muted">
+                                Evidence:
+                            </span>
+
+                            {% for entry_id in pattern.entry_ids %}
+
+                                <span class="pattern-evidence-entry">
+                                    Entry {{ entry_id }}
+                                </span>
+
+                            {% endfor %}
+
+                        </div>
+
+
+                        <!-- Explanation -->
+
+                        <div class="detected-pattern-note">
+
+                            <span>ℹ️</span>
+
+                            This pattern is based on the same
+                            emotional association appearing across
+                            separate journal entries.
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p class="text-muted">
+
+                    No evidence-based patterns detected yet.
+
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
 
     <!-- ========================= -->
     <!-- Recurring Tags -->
