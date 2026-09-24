@@ -100,9 +100,12 @@
 
                                 {% for entry_id in pattern.entry_ids %}
 
-                                    <span class="pattern-evidence-entry">
-                                        Entry {{ entry_id }}
-                                    </span>
+                                    <a
+                                        href="{{ url_for('journal.view_entry', entry_id=entry_id) }}"
+                                        class="pattern-evidence-entry"
+                                    >
+                                        Entry {{ entry_id }} ↗
+                                    </a>
 
                                 {% endfor %}
 
