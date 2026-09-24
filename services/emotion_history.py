@@ -4,6 +4,8 @@ import os
 import pandas as pd
 import matplotlib.pyplot as plt
 
+from extensions import db
+
 from flask import current_app
 from flask_login import current_user
 
@@ -29,11 +31,11 @@ def build_emotion_history():
     """
 
     analyses = (
-        EntryAnalysis.query
-        .join(Entry, Entry.id == EntryAnalysis.entry_id)
-        .filter(Entry.user_id == current_user.id)
-        .order_by(Entry.created_at.asc())
-        .all()
+    db.session.query(EntryAnalysis, Entry)
+    .join(Entry, Entry.id == EntryAnalysis.entry_id)
+    .filter(Entry.user_id == current_user.id)
+    .order_by(Entry.created_at.asc())
+    .all()
     )
 
     rows = []
@@ -44,8 +46,6 @@ def build_emotion_history():
 
         if not emotions:
             continue
-
-        entry = analysis.entry
 
         for emotion in emotions:
 
