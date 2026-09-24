@@ -27,20 +27,27 @@ def load_json(value):
 def build_emotion_history():
     """
     Build the user's emotional history,
-    create a chart, and return the chart URL.
+    create a chart, and return the chart path.
     """
 
     analyses = (
-    db.session.query(EntryAnalysis, Entry)
-    .join(Entry, Entry.id == EntryAnalysis.entry_id)
-    .filter(Entry.user_id == current_user.id)
-    .order_by(Entry.created_at.asc())
-    .all()
+        db.session.query(EntryAnalysis, Entry)
+        .join(
+            Entry,
+            Entry.id == EntryAnalysis.entry_id
+        )
+        .filter(
+            Entry.user_id == current_user.id
+        )
+        .order_by(
+            Entry.created_at.asc()
+        )
+        .all()
     )
 
     rows = []
 
-    for analysis in analyses:
+    for analysis, entry in analyses:
 
         emotions = load_json(analysis.emotions)
 
@@ -74,12 +81,10 @@ def build_emotion_history():
 
     df = pd.DataFrame(rows)
 
-    # Don't count the same emotion twice in one entry.
     df = df.drop_duplicates(
         subset=["entry_id", "emotion"]
     )
 
-    # Find the most common emotions.
     top_emotions = (
         df["emotion"]
         .value_counts()
@@ -88,9 +93,10 @@ def build_emotion_history():
         .tolist()
     )
 
-    df = df[df["emotion"].isin(top_emotions)]
+    df = df[
+        df["emotion"].isin(top_emotions)
+    ]
 
-    # Count emotion occurrences per day.
     history = (
         df.groupby(["date", "emotion"])
         .size()
@@ -98,7 +104,6 @@ def build_emotion_history():
         .sort_index()
     )
 
-    # Make sure the output directory exists.
     output_dir = os.path.join(
         current_app.static_folder,
         "generated"
@@ -118,7 +123,6 @@ def build_emotion_history():
         filename
     )
 
-    # Create chart.
     plt.figure(figsize=(12, 5))
 
     for emotion in history.columns:
@@ -133,12 +137,14 @@ def build_emotion_history():
     plt.title("Emotion History")
     plt.xlabel("Date")
     plt.ylabel("Entries")
+
     plt.legend(
         loc="upper left",
         bbox_to_anchor=(1, 1)
     )
 
     plt.xticks(rotation=45)
+
     plt.tight_layout()
 
     plt.savefig(
