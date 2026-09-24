@@ -626,3 +626,16 @@
     font-size: 0.85rem;
     color: var(--text-muted);
 }
+
+.emotion-history-chart {
+    width: 100%;
+    overflow-x: auto;
+    padding: 10px 0;
+}
+
+.emotion-history-chart img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}

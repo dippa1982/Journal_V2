@@ -143,6 +143,38 @@
 
     </div>
 
+    <!-- ========================= -->
+    <!-- Emotion History -->
+    <!-- ========================= -->
+
+    <div class="pattern-card">
+        <div class="pattern-card-header">
+            <h3>📈 Emotion History</h3>
+        </div>
+
+        <div class="pattern-card-body">
+
+            {% if emotion_history %}
+
+                <div class="emotion-history-chart">
+                    <img
+                        src="{{ url_for('static', filename=emotion_history) }}"
+                        alt="Emotion history over time"
+                    >
+                </div>
+
+            {% else %}
+
+                <p class="text-muted">
+                    There isn't enough analysed journal data
+                    to build an emotion history yet.
+                </p>
+
+            {% endif %}
+
+        </div>
+    </div>
+
 
     <!-- ========================= -->
     <!-- Recurring Tags -->

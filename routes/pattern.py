@@ -5,6 +5,8 @@ from services.pattern_detector import detect_patterns
 
 from services.intelligence_engine import build_intelligence
 
+from services.emotion_history import build_emotion_history
+
 patterns_bp = Blueprint(
     "patterns",
     __name__
@@ -15,6 +17,8 @@ patterns_bp = Blueprint(
 def patterns():
 
     report = detect_patterns(current_user)
+
+    emotion_history = build_emotion_history()
 
     #intelligence = build_intelligence(current_user)
 
@@ -40,5 +44,6 @@ def patterns():
     return render_template(
         "patterns.html",
         report = report,
-        intelligence = intelligence
+        intelligence = intelligence,
+        emotion_history = emotion_history
     )
