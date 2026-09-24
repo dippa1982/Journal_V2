@@ -260,4 +260,25 @@ def build_emotion_history():
 
     plt.close()
 
-    return f"generated/{filename}"
+        # ---------------------------------------------------------
+    # Most frequent emotions
+    # ---------------------------------------------------------
+
+    emotion_counts = (
+        df.groupby("emotion")["entry_id"]
+        .nunique()
+        .sort_values(ascending=False)
+    )
+
+    summary = [
+        {
+            "emotion": emotion,
+            "count": int(count)
+        }
+        for emotion, count in emotion_counts.items()
+    ]
+
+    return {
+    "chart": f"generated/{filename}",
+    "summary": summary
+    }
