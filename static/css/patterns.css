@@ -616,3 +616,13 @@
 
     color: var(--text-muted);
 }
+
+.pattern-evidence-entry {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.06);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
