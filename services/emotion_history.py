@@ -98,29 +98,22 @@ def build_emotion_history():
     ]
 
         # ---------------------------------------------------------
-    # Build daily emotion counts
+    # Build weekly emotion counts
     # ---------------------------------------------------------
 
-    history = (
-        df.groupby(["date", "emotion"])
+    df["date"] = pd.to_datetime(df["date"])
+
+    weekly = (
+        df
+        .set_index("date")
+        .groupby("emotion")
+        .resample("W-MON")
         .size()
-        .unstack(fill_value=0)
-        .sort_index()
+        .unstack(level=0, fill_value=0)
     )
 
-    # ---------------------------------------------------------
-    # Calculate a 7-day rolling frequency
-    # ---------------------------------------------------------
-
-    history.index = pd.to_datetime(history.index)
-
-    history = history.asfreq("D", fill_value=0)
-
-    rolling_history = (
-        history
-        .rolling("7D")
-        .sum()
-    )
+    # Keep the emotions as rows and weeks as columns.
+    weekly = weekly.T
 
     # ---------------------------------------------------------
     # Create output directory
@@ -146,52 +139,123 @@ def build_emotion_history():
     )
 
     # ---------------------------------------------------------
-    # Create chart
+    # Create dark heatmap
     # ---------------------------------------------------------
 
-    plt.figure(figsize=(12, 5))
+    plt.style.use("dark_background")
 
-    for emotion in rolling_history.columns:
+    fig, ax = plt.subplots(
+        figsize=(12, 5.5)
+    )
 
-        plt.plot(
-            rolling_history.index,
-            rolling_history[emotion],
-            linewidth=2,
-            label=emotion.title()
-        )
+    fig.patch.set_facecolor("#1f2937")
+    ax.set_facecolor("#1f2937")
 
-    plt.title(
-        "Emotion History — 7 Day Rolling Frequency",
+    # Heatmap values
+    values = weekly.values
+
+    image = ax.imshow(
+        values,
+        aspect="auto",
+        cmap="viridis",
+        interpolation="nearest"
+    )
+
+    # ---------------------------------------------------------
+    # Axis labels
+    # ---------------------------------------------------------
+
+    ax.set_yticks(
+        range(len(weekly.index))
+    )
+
+    ax.set_yticklabels(
+        [emotion.title() for emotion in weekly.index]
+    )
+
+    ax.set_xticks(
+        range(len(weekly.columns))
+    )
+
+    ax.set_xticklabels(
+        [
+            date.strftime("%d %b")
+            for date in weekly.columns
+        ],
+        rotation=45,
+        ha="right"
+    )
+
+    ax.set_title(
+        "Emotion History — Weekly Frequency",
         fontsize=16,
-        pad=15
+        fontweight="bold",
+        pad=20
     )
 
-    plt.xlabel("Date")
-
-    plt.ylabel(
-        "Occurrences in Previous 7 Days"
+    ax.set_xlabel(
+        "Week"
     )
 
-    plt.grid(
-        alpha=0.15
+    ax.set_ylabel(
+        "Emotion"
     )
 
-    plt.legend(
-        loc="upper left",
-        bbox_to_anchor=(1, 1),
-        frameon=True
+    # ---------------------------------------------------------
+    # Add values inside cells
+    # ---------------------------------------------------------
+
+    for row in range(values.shape[0]):
+
+        for column in range(values.shape[1]):
+
+            value = values[row, column]
+
+            if value > 0:
+
+                ax.text(
+                    column,
+                    row,
+                    int(value),
+                    ha="center",
+                    va="center",
+                    fontsize=9,
+                    color="white",
+                    fontweight="bold"
+                )
+
+    # ---------------------------------------------------------
+    # Colour scale
+    # ---------------------------------------------------------
+
+    colorbar = fig.colorbar(
+        image,
+        ax=ax,
+        pad=0.02
     )
 
-    plt.xticks(
-        rotation=45
+    colorbar.set_label(
+        "Occurrences"
     )
+
+    # ---------------------------------------------------------
+    # Clean up chart
+    # ---------------------------------------------------------
+
+    ax.grid(
+        False
+    )
+
+    for spine in ax.spines.values():
+        spine.set_visible(False)
 
     plt.tight_layout()
 
     plt.savefig(
         output_path,
         dpi=150,
-        bbox_inches="tight"
+        bbox_inches="tight",
+        facecolor=fig.get_facecolor()
     )
 
     plt.close()

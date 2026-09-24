@@ -7,4 +7,6 @@ TOPIC_KEYWORDS = {
     "Social Life": {"friend", "friends", "social", "party","pub", "drinks", "night", "mates"},
     "Travel & Experiences": {"holiday", "travel", "trip", "hotel", "flight","airport", "abroad", "concert", "races"},
     "Personal Growth": {"growth", "learn", "learning", "improve","change", "goal", "progress", "future","motivation", "confidence"},
+    "Spirituality": {"religion", "spiritual", "god", "bible", "church", "pray", "pray", "pray", "pray", "pray", "pray"},
+    "Hobbies": {"hobby", "sport", "airsoft", "boardgame", "computer", "game",}
 }
