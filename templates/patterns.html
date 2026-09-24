@@ -68,15 +68,19 @@
 
                         <div class="detected-pattern-emotions">
 
-                            <div class="detected-emotion">
+                            <div class="emotion-badge emotion-{{ pattern.emotion|lower|replace(' ', '-') }}">
 
-                                <strong>
-                                    {{ pattern.emotion }}
-                                </strong>
+                                <span class="emotion-name">
+                                    {{ pattern.emotion|title }}
+                                </span>
 
-                                <span class="text-muted">
+                                <span class="emotion-count">
                                     {{ pattern.entry_count }}
-                                    entries
+                                    {% if pattern.entry_count == 1 %}
+                                        entry
+                                    {% else %}
+                                        entries
+                                    {% endif %}
                                 </span>
 
                             </div>
@@ -88,20 +92,23 @@
 
                         <div class="detected-pattern-evidence">
 
-                            <span class="text-muted">
-                                Evidence:
-                            </span>
+                            <div class="evidence-label">
+                                Evidence
+                            </div>
 
-                            {% for entry_id in pattern.entry_ids %}
+                            <div class="evidence-entries">
 
-                                <span class="pattern-evidence-entry">
-                                    Entry {{ entry_id }}
-                                </span>
+                                {% for entry_id in pattern.entry_ids %}
 
-                            {% endfor %}
+                                    <span class="pattern-evidence-entry">
+                                        Entry {{ entry_id }}
+                                    </span>
+
+                                {% endfor %}
+
+                            </div>
 
                         </div>
-
 
                         <!-- Explanation -->
 

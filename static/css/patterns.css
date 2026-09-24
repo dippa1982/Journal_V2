@@ -431,3 +431,188 @@
     font-size: 0.75rem;
     background: rgba(128, 128, 128, 0.15);
 }
+
+/* =========================================================
+   DETECTED PATTERNS
+   ========================================================= */
+
+.detected-pattern {
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.detected-pattern:first-child {
+    padding-top: 8px;
+}
+
+.detected-pattern:last-child {
+    border-bottom: none;
+    padding-bottom: 8px;
+}
+
+
+/* Pattern type */
+
+.detected-pattern-type {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.65;
+    margin-bottom: 10px;
+}
+
+
+/* Trigger */
+
+.detected-pattern-trigger {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin-bottom: 18px;
+}
+
+
+/* Emotion */
+
+.detected-pattern-emotions {
+    margin-bottom: 20px;
+}
+
+.emotion-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 10px 16px;
+
+    border-radius: 12px;
+
+    font-weight: 600;
+
+    border: 1px solid transparent;
+}
+
+.emotion-name {
+    font-size: 1rem;
+}
+
+.emotion-count {
+    font-size: 0.85rem;
+    opacity: 0.75;
+}
+
+
+/* Emotion colours */
+
+.emotion-anger {
+    background: rgba(220, 53, 69, 0.18);
+    border-color: rgba(220, 53, 69, 0.45);
+    color: #ff6b7a;
+}
+
+.emotion-distress {
+    background: rgba(111, 78, 181, 0.18);
+    border-color: rgba(111, 78, 181, 0.45);
+    color: #b69cff;
+}
+
+.emotion-sadness {
+    background: rgba(52, 152, 219, 0.18);
+    border-color: rgba(52, 152, 219, 0.45);
+    color: #6fc3ff;
+}
+
+.emotion-fear {
+    background: rgba(155, 89, 182, 0.18);
+    border-color: rgba(155, 89, 182, 0.45);
+    color: #d19cff;
+}
+
+.emotion-worry {
+    background: rgba(241, 196, 15, 0.18);
+    border-color: rgba(241, 196, 15, 0.45);
+    color: #f5d76e;
+}
+
+.emotion-joy {
+    background: rgba(255, 193, 7, 0.18);
+    border-color: rgba(255, 193, 7, 0.45);
+    color: #ffd65a;
+}
+
+.emotion-contentment {
+    background: rgba(46, 204, 113, 0.18);
+    border-color: rgba(46, 204, 113, 0.45);
+    color: #62e697;
+}
+
+.emotion-hope {
+    background: rgba(26, 188, 156, 0.18);
+    border-color: rgba(26, 188, 156, 0.45);
+    color: #5ce0c4;
+}
+
+.emotion-hurt {
+    background: rgba(231, 76, 60, 0.18);
+    border-color: rgba(231, 76, 60, 0.45);
+    color: #ff8175;
+}
+
+.emotion-resentment {
+    background: rgba(192, 57, 43, 0.18);
+    border-color: rgba(192, 57, 43, 0.45);
+    color: #ff7669;
+}
+
+
+/* Evidence */
+
+.detected-pattern-evidence {
+    margin-top: 8px;
+}
+
+.evidence-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    opacity: 0.55;
+    margin-bottom: 8px;
+}
+
+.evidence-entries {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.pattern-evidence-entry {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 6px 10px;
+
+    border-radius: 8px;
+
+    background: rgba(255, 255, 255, 0.06);
+
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+
+/* Explanation */
+
+.detected-pattern-note {
+    margin-top: 18px;
+    padding: 12px 14px;
+
+    border-radius: 10px;
+
+    background: rgba(255, 255, 255, 0.035);
+
+    font-size: 0.85rem;
+    line-height: 1.5;
+
+    color: var(--text-muted);
+}
