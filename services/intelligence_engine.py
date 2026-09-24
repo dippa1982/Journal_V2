@@ -562,11 +562,11 @@ def build_intelligence(user):
     pattern_evidence
 )
 
-    intelligence_report["patterns"] = patterns
-
     print("\nDETECTED PATTERNS:")
 
     for pattern in patterns:
         print(pattern)
+
+    intelligence_report["patterns"] = patterns
 
     return intelligence_report
