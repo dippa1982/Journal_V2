@@ -457,35 +457,32 @@ def detect_repeated_emotional_associations(pattern_evidence):
     for evidence in pattern_evidence:
 
         trigger = evidence.get("trigger")
-        trigger_mentions = evidence.get("trigger_mentions", 0)
+
+        if not trigger:
+            continue
 
         repeated_emotions = evidence.get(
             "repeated_emotions",
             []
         )
 
-        if not trigger:
-            continue
-
         for emotion in repeated_emotions:
 
             emotion_name = emotion.get("emotion")
-            mentions = emotion.get("mentions", 0)
             entry_ids = emotion.get("entry_ids", [])
 
             if not emotion_name:
                 continue
 
-            if mentions < 2:
+            if len(entry_ids) < 2:
                 continue
 
             patterns.append({
                 "type": "repeated_emotional_association",
                 "trigger": trigger,
                 "emotion": emotion_name,
-                "trigger_mentions": trigger_mentions,
-                "emotion_mentions": mentions,
-                "entry_ids": entry_ids
+                "entry_ids": sorted(entry_ids),
+                "entry_count": len(entry_ids)
             })
 
     return patterns
