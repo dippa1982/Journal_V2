@@ -442,3 +442,50 @@ def detect_patterns(user):
             pattern["mood_difference"] = None
 
     return report
+
+def detect_repeated_emotional_associations(pattern_evidence):
+    """
+    Detect recurring triggers that are associated with
+    the same emotion across multiple entries.
+
+    This is evidence-based detection only.
+    It does not infer causation or psychological meaning.
+    """
+
+    patterns = []
+
+    for evidence in pattern_evidence:
+
+        trigger = evidence.get("trigger")
+        trigger_mentions = evidence.get("trigger_mentions", 0)
+
+        repeated_emotions = evidence.get(
+            "repeated_emotions",
+            []
+        )
+
+        if not trigger:
+            continue
+
+        for emotion in repeated_emotions:
+
+            emotion_name = emotion.get("emotion")
+            mentions = emotion.get("mentions", 0)
+            entry_ids = emotion.get("entry_ids", [])
+
+            if not emotion_name:
+                continue
+
+            if mentions < 2:
+                continue
+
+            patterns.append({
+                "type": "repeated_emotional_association",
+                "trigger": trigger,
+                "emotion": emotion_name,
+                "trigger_mentions": trigger_mentions,
+                "emotion_mentions": mentions,
+                "entry_ids": entry_ids
+            })
+
+    return patterns

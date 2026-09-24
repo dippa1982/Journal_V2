@@ -14,6 +14,8 @@ from services.trigger_emotion_recurrance import (
 
 from services.pattern_evidence import build_pattern_evidence
 
+from services.pattern_detector import (detect_repeated_emotional_associations)
+
 def load_json(value):
 
     
@@ -553,6 +555,15 @@ def build_intelligence(user):
     print("\nPATTERN EVIDENCE:")
 
     for pattern in pattern_evidence:
+        print(pattern)
+
+    patterns = detect_repeated_emotional_associations(
+    pattern_evidence
+)
+
+    print("\nDETECTED PATTERNS:")
+
+    for pattern in patterns:
         print(pattern)
 
     return intelligence_report
