@@ -52,6 +52,7 @@ def build_intelligence(user):
     "beliefs": [],
     "positive_changes": [],
     "trends": [],
+    "patterns":[],
     }
 
     if not analyses:
@@ -560,6 +561,8 @@ def build_intelligence(user):
     patterns = detect_repeated_emotional_associations(
     pattern_evidence
 )
+
+    intelligence_report["patterns"] = patterns
 
     print("\nDETECTED PATTERNS:")
 

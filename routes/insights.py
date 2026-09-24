@@ -12,6 +12,8 @@ from services.intelligence_engine import build_intelligence
 
 from services.insights_helper import get_insights
 
+from services.pattern_detector import detect_patterns
+
 from constants.moods import MOODS
 
 insights_bp = Blueprint(
@@ -26,9 +28,12 @@ def insights():
 
     intelligence = build_intelligence(current_user)
 
+    report = detect_patterns(current_user)
+
     return render_template(
         "insights.html",
         moods = MOODS,
         intelligence = intelligence,
+        report = report,
         **insights
     )

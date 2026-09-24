@@ -39,6 +39,7 @@ def detect_patterns(user):
         "relationship_patterns":patterns,
         "mood_patterns": mood_patterns,
         "recurring_tags": [],
+        "detected_patterns": [],
     }
 
     if not entries:
