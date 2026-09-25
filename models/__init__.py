@@ -5,3 +5,4 @@ from .daily_compass import DailyCompass
 from .therapy_questions import TherapyQuestion
 from .analyse import EntryAnalysis
 from .trigger_normalisation import TriggerNormalisation
+from .emotion_normalisation import EmotionNormalisation
