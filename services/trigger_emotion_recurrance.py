@@ -15,6 +15,7 @@ def load_json(value):
 def build_trigger_emotion_recurrence(
     normalised_records,
     analyses,
+    normalised_emotions=None,
     minimum_trigger_mentions=2
 ):
     """
@@ -74,10 +75,23 @@ def build_trigger_emotion_recurrence(
 
             name = str(name).strip()
 
-            if name:
-                emotion_names.append(name)
+            if not name:
+                continue
 
-        emotions_by_entry[analysis.entry_id] = emotion_names
+            if normalised_emotions:
+
+                normalised = normalised_emotions.get(
+                    name.lower()
+                )
+
+                if normalised:
+                    name = normalised["normalised"]
+
+            emotion_names.append(name)
+
+        emotions_by_entry[
+            analysis.entry_id
+        ] = emotion_names
 
     # ---------------------------------------------------------
     # STEP 3

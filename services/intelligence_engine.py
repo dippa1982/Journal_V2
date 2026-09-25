@@ -16,6 +16,10 @@ from services.pattern_evidence import build_pattern_evidence
 
 from services.pattern_detector import (detect_repeated_emotional_associations)
 
+from services.emotion_normalisation_service import (
+    build_normalised_emotions
+)
+
 def load_json(value):
 
     
@@ -538,11 +542,14 @@ def build_intelligence(user):
 
     normalised_triggers = build_normalised_triggers(analyses)
 
+    normalised_emotions = build_normalised_emotions(analyses)
+
     recurrence = build_trigger_recurrence(normalised_triggers)
 
     trigger_emotions = build_trigger_emotion_recurrence(
     normalised_triggers,
-    analyses
+    analyses,
+    normalised_emotions
     )
 
     print("\nRECURRING TRIGGERS:")
