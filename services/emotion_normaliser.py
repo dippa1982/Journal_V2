@@ -1,5 +1,7 @@
 from services.ai_helper import ask_ai
 
+import json
+
 
 def normalise_emotions(raw_emotions):
     """
@@ -64,5 +66,16 @@ Use only:
 """
 
     result = ask_ai(prompt)
+
+    if isinstance(result, str):
+
+        try:
+            result = json.loads(result)
+
+        except json.JSONDecodeError:
+            return []
+
+    if not isinstance(result, list):
+        return []
 
     return result
