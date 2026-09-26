@@ -12,7 +12,9 @@ from flask_login import (
     current_user
 )
 
-from services.calendar_helper import get_calendar_data
+from services.populate_emotion_normalisations import (
+    populate_emotion_normalisations
+)
 
 settings_bp = Blueprint(
     "settings",
@@ -50,3 +52,22 @@ def settings():
     return render_template(
         "settings.html"
     )
+
+@settings_bp.route(
+    "/admin/populate-emotion-normalisations"
+)
+@login_required
+def populate_emotion_normalisations_route():
+
+    result = populate_emotion_normalisations(
+        current_user.id
+    )
+
+    print("Batch Completed")
+
+    return {
+        "status": result["status"],
+        "message": result["message"],
+        "saved": result["saved"],
+        "remaining": result["remaining"],
+    }
