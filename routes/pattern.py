@@ -20,11 +20,11 @@ def patterns():
 
     emotion_history = build_emotion_history()
 
-    #intelligence = build_intelligence(current_user)
+    intelligence = build_intelligence(current_user)
 
     return render_template(
         "patterns.html",
         report = report,
-        #intelligence = intelligence,
+        intelligence = intelligence,
         emotion_history = emotion_history
     )
