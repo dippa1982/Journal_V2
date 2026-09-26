@@ -536,13 +536,13 @@ def build_intelligence(user):
 
     intelligence_report["trends"] = trends
 
-        # -------------------------------------------------
-        # TRIGGER -> EMOTION RELATIONSHIPS
-        # -------------------------------------------------
+    # -------------------------------------------------
+    # TRIGGER -> EMOTION RELATIONSHIPS
+    # -------------------------------------------------
 
     normalised_triggers = build_normalised_triggers(analyses)
 
-    normalised_emotions = build_normalised_emotions(analyses)
+    normalised_emotions = build_normalised_emotions(analyses,use_ai=False)
 
     recurrence = build_trigger_recurrence(normalised_triggers)
 

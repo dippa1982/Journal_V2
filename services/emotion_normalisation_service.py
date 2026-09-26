@@ -16,7 +16,7 @@ def load_json(value):
         return []
 
 
-def build_normalised_emotions(analyses, batch_size=20):
+def build_normalised_emotions(analyses, batch_size=20, use_ai=True):
     """
     Normalise emotions while using the database as a cache.
 
@@ -85,79 +85,86 @@ def build_normalised_emotions(analyses, batch_size=20):
     # Normalise new emotions with Gemini
     # ---------------------------------------------------------
 
-    for start in range(
-        0,
-        len(new_emotions),
-        batch_size
-    ):
+    if use_ai:
 
-        batch = new_emotions[
-            start:start + batch_size
-        ]
+        for start in range(
+            0,
+            len(new_emotions),
+            batch_size
+        ):
 
-        if not batch:
-            continue
+            batch = new_emotions[
+                start:start + batch_size
+            ]
 
-        results = normalise_emotions(batch)
-
-        for result in results:
-
-            raw = result.get(
-                "raw",
-                ""
-            ).strip()
-
-            normalised = result.get(
-                "normalised"
-            )
-
-            confidence = result.get(
-                "confidence"
-            )
-
-            if not raw or not normalised:
+            if not batch:
                 continue
 
-            # Find the original emotion.
-            original = next(
-                (
-                    emotion
-                    for emotion in batch
-                    if emotion.lower() == raw.lower()
-                ),
-                None
-            )
+            results = normalise_emotions(batch)
 
-            if not original:
+            if not isinstance(results, list):
                 continue
 
-            existing = (
-                EmotionNormalisation.query
-                .filter(
-                    db.func.lower(
-                        EmotionNormalisation.raw_emotion
-                    ) == raw.lower()
-                )
-                .first()
-            )
+            for result in results:
 
-            if not existing:
+                if not isinstance(result, dict):
+                    continue
 
-                existing = EmotionNormalisation(
-                    raw_emotion=raw,
-                    normalised_emotion=normalised,
-                    confidence=confidence
+                raw = result.get(
+                    "raw",
+                    ""
+                ).strip()
+
+                normalised = result.get(
+                    "normalised"
                 )
 
-                db.session.add(existing)
+                confidence = result.get(
+                    "confidence"
+                )
 
-            normalised_lookup[
-                original.lower()
-            ] = {
-                "normalised": normalised,
-                "confidence": confidence
-            }
+                if not raw or not normalised:
+                    continue
 
-    db.session.commit()
+                original = next(
+                    (
+                        emotion
+                        for emotion in batch
+                        if emotion.lower() == raw.lower()
+                    ),
+                    None
+                )
+
+                if not original:
+                    continue
+
+                existing = (
+                    EmotionNormalisation.query
+                    .filter(
+                        db.func.lower(
+                            EmotionNormalisation.raw_emotion
+                        ) == raw.lower()
+                    )
+                    .first()
+                )
+
+                if not existing:
+
+                    existing = EmotionNormalisation(
+                        raw_emotion=raw,
+                        normalised_emotion=normalised,
+                        confidence=confidence
+                    )
+
+                    db.session.add(existing)
+
+                normalised_lookup[
+                    original.lower()
+                ] = {
+                    "normalised": normalised,
+                    "confidence": confidence
+                }
+
+            db.session.commit()
 
     return normalised_lookup
