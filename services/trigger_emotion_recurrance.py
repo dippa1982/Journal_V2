@@ -19,16 +19,18 @@ def build_trigger_emotion_recurrence(
     minimum_trigger_mentions=2
 ):
     """
-    Connect recurring triggers with emotions recorded
-    in the same journal entries.
+    Build recurring trigger → emotion relationships.
 
-    This identifies co-occurrence, not causation.
+    Emotion labels are normalised using the database cache
+    when available.
+
+    This is evidence gathering only.
+    It does not infer causation.
     """
 
-    # ---------------------------------------------------------
-    # STEP 1
-    # Find triggers that occur across multiple entries.
-    # ---------------------------------------------------------
+    # --------------------------------------------------
+    # Build recurring trigger data
+    # --------------------------------------------------
 
     trigger_entries = defaultdict(set)
 
@@ -42,24 +44,28 @@ def build_trigger_emotion_recurrence(
 
         trigger_key = trigger.strip().lower()
 
-        trigger_entries[trigger_key].add(entry_id)
+        trigger_entries[trigger_key].add(
+            entry_id
+        )
 
     recurring_triggers = {
         trigger
-        for trigger, entry_ids in trigger_entries.items()
+        for trigger, entry_ids
+        in trigger_entries.items()
         if len(entry_ids) >= minimum_trigger_mentions
     }
 
-    # ---------------------------------------------------------
-    # STEP 2
-    # Build emotion lookup by entry.
-    # ---------------------------------------------------------
+    # --------------------------------------------------
+    # Build emotions by entry
+    # --------------------------------------------------
 
     emotions_by_entry = {}
 
     for analysis in analyses:
 
-        emotions = load_json(analysis.emotions)
+        emotions = load_json(
+            analysis.emotions
+        )
 
         emotion_names = []
 
@@ -73,34 +79,46 @@ def build_trigger_emotion_recurrence(
             if not name:
                 continue
 
-            name = str(name).strip()
+            raw_name = str(name).strip()
 
-            if not name:
+            if not raw_name:
                 continue
+
+            # ------------------------------------------
+            # Apply cached normalisation
+            # ------------------------------------------
+
+            normalised_name = raw_name
 
             if normalised_emotions:
 
-                normalised = normalised_emotions.get(
-                    name.lower()
+                cached = normalised_emotions.get(
+                    raw_name.lower()
                 )
 
-                if normalised:
-                    name = normalised["normalised"]
+                if cached:
+                    normalised_name = (
+                        cached.get("normalised")
+                        or raw_name
+                    )
 
-            emotion_names.append(name)
+            emotion_names.append(
+                normalised_name
+            )
 
         emotions_by_entry[
             analysis.entry_id
         ] = emotion_names
 
-    # ---------------------------------------------------------
-    # STEP 3
-    # Build trigger → emotion relationships.
-    # ---------------------------------------------------------
+    # --------------------------------------------------
+    # Build trigger → emotion relationships
+    # --------------------------------------------------
 
-    relationship_data = defaultdict(lambda: {
-        "entries": set()
-    })
+    relationship_data = defaultdict(
+        lambda: {
+            "entries": set()
+        }
+    )
 
     for record in normalised_records:
 
@@ -115,9 +133,11 @@ def build_trigger_emotion_recurrence(
         if trigger_key not in recurring_triggers:
             continue
 
-        emotions = emotions_by_entry.get(entry_id, [])
+        emotions = emotions_by_entry.get(
+            entry_id,
+            []
+        )
 
-        # Prevent duplicate emotion names within one entry
         seen_emotions = set()
 
         for emotion in emotions:
@@ -130,37 +150,49 @@ def build_trigger_emotion_recurrence(
             if emotion_key in seen_emotions:
                 continue
 
-            seen_emotions.add(emotion_key)
+            seen_emotions.add(
+                emotion_key
+            )
 
             relationship_data[
                 (trigger_key, emotion_key)
-            ]["entries"].add(entry_id)
+            ]["entries"].add(
+                entry_id
+            )
 
-    # ---------------------------------------------------------
-    # STEP 4
-    # Group emotions underneath each trigger.
-    # ---------------------------------------------------------
+    # --------------------------------------------------
+    # Group relationships by trigger
+    # --------------------------------------------------
 
     grouped = defaultdict(list)
 
-    for (trigger, emotion), data in relationship_data.items():
+    for (
+        trigger,
+        emotion
+    ), data in relationship_data.items():
 
         grouped[trigger].append({
             "emotion": emotion,
-            "mentions": len(data["entries"]),
-            "entry_ids": sorted(data["entries"])
+            "mentions": len(
+                data["entries"]
+            ),
+            "entry_ids": sorted(
+                data["entries"]
+            )
         })
 
-    # ---------------------------------------------------------
-    # STEP 5
-    # Build final structure.
-    # ---------------------------------------------------------
+    # --------------------------------------------------
+    # Build final results
+    # --------------------------------------------------
 
     results = []
 
     for trigger in recurring_triggers:
 
-        emotions = grouped.get(trigger, [])
+        emotions = grouped.get(
+            trigger,
+            []
+        )
 
         emotions.sort(
             key=lambda item: item["mentions"],
